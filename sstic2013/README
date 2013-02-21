@@ -1,0 +1,119 @@
+                      Template LaTeX pour SSTIC
+
+
+Utilisation
+===========
+
+Pour compiler les sources, c'est aussi simple que :
+    $ make
+
+Le résultat est dans sstic-actes.pdf
+
+Ce modèle doit être la base commune à tous les articles LaTeX pour
+SSTIC.
+
+Un exemple d'article est disponible dans le répertoire MonNom/ En
+tant qu'auteur, vous devez copier ce répertoire et l'adapter.
+
+Important : Vous ne devez pas pas toucher aux fichiers préfixés par _
+
+Nous avons déjà sélectionné quelques packages, si vous avez besoin
+d'ajouter un nouveau package, veuillez contacter l'équipe (actes
+(AT) lists.sstic.org) car nous devons vérifier la compatibilité des
+modules entre eux.
+
+Publication
+===========
+
+Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
+la date butoir.
+
+L'auteur consciencieux prendre soin de corriger tous les warnings
+avant de nous envoyer ses sources :)
+Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
+un lien vers votre repository, etc.
+
+Découpage en sections
+=====================
+
+La classe llcns ne définit que 4 niveaux de sections :
+
+* section
+* subsection
+* subsubsection
+* paragraph
+
+Images, figures
+===============
+
+Les images doivent être placées dans un environnement figure de
+façon à pouvoir y associer facilement une légende et un label.
+
+Quelques notes:
+
+* La légende doit être en dessous de l'image
+
+* Le placement de l'image par LaTeX ne garantit pas que votre
+  image sera exactement où vous souhaitiez. Remplacez donc les
+  formules "l'image ci-dessous" mais plutôt par sa référence
+  ("l'image~\ref{fig:monnom:archi}")
+
+* Format de l'image
+  - Compatible pdflatex : PNG, PDF
+  - Les formats vectoriels (comme PDF) sont recommandés car il
+    arrive de devoir redimensionner les images à l'édition
+    finale
+
+* Il est demandé de créér un répertoire img/ dédié à toutes les
+  images
+
+* La référence doit être préfixée par votre fig:monnom pour éviter
+  les collisions entre auteurs
+
+* Prenez soin de vos couleurs, SSTIC n'imprime qu'en dégradé de
+  gris, votre choix de couleurs doit donc respecter cette
+  contrainte.
+
+  Votre article sera publié sur papier et sur notre site Web. Vous
+  pouvez donc fournir les images dans les deux "formats". Nommez
+  explicitement vos images avec le préfixe bw- (exemple: bw-archi.pdf)
+
+  À défaut d'avoir une version papier, nous la convertirons à
+  l'aide la commande suivante:
+      $ convert archi.pdf -colorspace Gray bw-archi.pdf
+
+Citations
+=========
+
+* Les références de citation doivent être préfixées par votre nom
+  afin d'empêcher les collisions entre auteurs.
+
+* La bibliographie doit être dans contenue dans le fichier
+  biblio.bib au format BibTeX
+  Référence des types : http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node6.html
+  Référence des champs: http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node7.html
+
+* Faîtes attention aux warning indiquant les références manquantes
+* Attention à la syntaxe lorsque vous citez plusieurs références:
+  MAUVAIS: \cite{foo, bar}
+  MAUVAIS: \cite{foo}\cite{bar}
+  CORRECT: \cite{foo,bar}
+
+Texte verbatim
+==============
+
+lstlisting
+----------
+
+Documentation complète :  http://mirrors.ctan.org/macros/latex/contrib/listings/listings.pdf
+
+Options utiles :
+
+* ``language'' peut prendre les valeurs suivantes:
+   Python	Java		PHP		[x86masm]Assembler
+   C		Perl		HTML		[Sharp]C
+
+* ``numbers'' pour numéroter les ligne (``stepnumbers'' pour  contrôler l'incrément)
+
+* ``basicstyle'' pour modifier la police utilisée (exemple: basicstyle=\tiny)
+

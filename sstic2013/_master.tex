@@ -1,0 +1,150 @@
+%%                       Template LaTeX pour SSTIC
+%% 
+%% 
+%% Utilisation
+%% ===========
+%% 
+%% Pour compiler les sources, c'est aussi simple que :
+%%     $ make
+%% 
+%% Le résultat est dans sstic-actes.pdf
+%% 
+%% Ce modèle doit être la base commune à tous les articles LaTeX pour
+%% SSTIC.
+%% 
+%% Un exemple d'article est disponible dans le répertoire MonNom/ En
+%% tant qu'auteur, vous devez copier ce répertoire et l'adapter.
+%% 
+%% Important : Vous ne devez pas pas toucher aux fichiers préfixés par _
+%% 
+
+\documentclass[b5paper,11pt]{llncs}
+
+%% Nous avons déjà sélectionné quelques packages, si vous avez besoin
+%% d'ajouter un nouveau package, veuillez contacter l'équipe (actes
+%% (AT) lists.sstic.org) car nous devons vérifier la compatibilité des
+%% modules entre eux.
+%% 
+
+\usepackage[french]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[fit]{truncate}
+\usepackage{xspace}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage{ifthen}
+\usepackage{url}
+
+\usepackage{makeidx}
+\makeindex
+
+\usepackage[T1]{fontenc}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{lscape}
+
+\renewcommand\andname{et}
+\renewcommand\lastandname{ et}
+
+\newcommand{\xxx}{{\bf \LARGE \textcolor{red}{XXX}}\xspace}
+\newcommand{\XXX}{\xxx}
+\newtheorem{exx}{Exemple}
+
+\def\keywordname{{\bf Mots-cl\'es:}}
+\def\ackname{Remerciements.}
+\def\andname{et}
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+
+
+\definecolor{grigri}{RGB}{233,232,234}
+\lstset{breaklines=true,
+        tabsize=4,
+        boxpos=c,
+        showstringspaces=false,
+        basicstyle=\ttfamily\scriptsize,
+        aboveskip=\bigskipamount,
+        belowskip=\bigskipamount,
+        captionpos=b,
+        language=C,
+        extendedchars=false
+        basicstyle=\scriptsize\sffamily\color{darkgray},
+        keywordstyle=\bfseries\color{purple},
+        identifierstyle=\bfseries\color{black},
+        commentstyle=\ttfamily\itshape\color{purple},
+        stringstyle=\ttfamily\color{brown},
+        showstringspaces=false,
+        frame=leftline,
+        backgroundcolor=\color{grigri},
+        fillcolor=\color{grigri}}
+
+\lstloadlanguages{[Sharp]C,[x86masm]Assembler,java,PHP,C,Python}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% example d'usage:
+%     \settitle[Mon titre court]{Mon titre super mégalong de la mort}
+\newcommand{\theshorttitle}{}
+\newcommand\settitle[2][]{%
+ \title{#2}%
+ \ifthenelse{\equal{#1}{}}%
+  {\renewcommand{\theshorttitle}{#2}\toctitle{#2}\titlerunning{#2}}%
+  {\renewcommand{\theshorttitle}{#1}\toctitle{#1}\titlerunning{#1}}%
+}
+
+\newcommand{\theshortauthor}{}
+\newcommand\setauthor[2][]{%
+ \author{#2}%
+ \ifthenelse{\equal{#1}{}}%
+  {\renewcommand{\theshortauthor}{#2}\tocauthor{#2}\authorrunning{#2}}%
+  {\renewcommand{\theshortauthor}{#1}\tocauthor{#1}\authorrunning{#1}}%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{16pt}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{\truncate{.90\headwidth}{\theshorttitle}}
+\fancyhead[LO]{\theshortauthor}
+
+\newcommand\myclearpage{\thispagestyle{empty}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{plain}
+
+\sloppy
+
+\begin{document}
+
+%\frontmatter
+
+%\input{_frontmatter/master}
+
+%\tableofcontents
+\mainmatter
+
+
+\input{_mainmatter/master}
+
+\input{_backmatter/master}
+\end{document}
+
+%% Publication
+%% ===========
+%% 
+%% Vous devez envoyer les *sources* à actes (AT) lists.sstic.org avant
+%% la date butoir.
+%% 
+%% L'auteur consciencieux prendre soin de corriger tous les warnings
+%% avant de nous envoyer ses sources :)
+%%
+%% Vous pouvez envoyer une archive complète (.tar.gz), ou un patch, ou
+%% un lien vers votre repository, etc.
+%% 
+%%% Local Variables:
+%%% mode: TeX-PDF
+%%% TeX-master: "master"
+%%% End:

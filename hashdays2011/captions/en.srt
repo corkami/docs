@@ -1,0 +1,2507 @@
+1
+00:00:05,007 --> 00:00:10,009
+Such a weird processor - messing with x86 opcodes... and a little bit of PE [Portable Executable]
+
+2
+00:00:10,051 --> 00:00:19,004
+So welcome.  ...And especially let me know if I speak too quickly.  Um, so -- who I am -- oh, yes so
+
+3
+00:00:19,004 --> 00:00:28,002
+I will talk about opcodes and a little bit about the PE [portable executable] file format and their oddities.  So, I've been
+
+4
+00:00:28,002 --> 00:00:35,000
+a reverse engineer for some years, for some time.  I created a project called Corkami.
+
+5
+00:00:35,000 --> 00:00:42,003
+Also in the past I worked on the MAME arcade emulator, and professionally I am a malware analyst, but
+
+6
+00:00:42,003 --> 00:00:48,054
+this is only on the behalf of my hobbies, this is my own experiments and research at home.
+
+7
+00:00:48,054 --> 00:00:57,000
+So, I introduced Corkami.  Corkami is just the name of the project I created for RCE project.
+
+8
+00:00:57,000 --> 00:01:04,007
+I tried to keep it just to the technical stuff, no ads, no login required.
+
+9
+00:01:04,007 --> 00:01:06,005
+Really direct to the good stuff.
+
+10
+00:01:06,005 --> 00:01:12,004
+I try to update it and make it useful, so I also created cheat sheets and the kind of easy documents
+
+11
+00:01:12,004 --> 00:01:15,008
+that I would use for work on a daily basis,
+
+12
+00:01:15,008 --> 00:01:18,032
+but it's only a hobby; I do that once the kids are asleep
+
+13
+00:01:18,032 --> 00:01:23,001
+and late at night so it's probably doesn't look professional
+
+14
+00:01:23,001 --> 00:01:24,078
+and as good as I would like it to be.
+
+15
+00:01:24,078 --> 00:01:30,096
+So right now, Corkami, the form of Corkami, is wiki pages and cheat sheets
+
+16
+00:01:30,096 --> 00:01:37,098
+and I focus on creating as many as possible relevant proof of concepts [Hi Bob!]
+
+17
+00:01:37,098 --> 00:01:43,008
+so the binaries are hand-written, usually I don't use a compiler, I create the PE (structure) myself
+
+18
+00:01:43,008 --> 00:01:46,004
+so that it's only focusing on the exact interesting point
+
+19
+00:01:46,004 --> 00:01:49,000
+and you don't have a lot of noise even -- you don't probably
+
+20
+00:01:49,000 --> 00:01:51,004
+need IDA to actually understand what's going on
+
+21
+00:01:51,004 --> 00:01:54,079
+because I try to focus only on what's important.
+
+22
+00:01:54,079 --> 00:01:58,028
+The binaries are all directly available to download so you can
+
+23
+00:01:58,045 --> 00:02:01,003
+really test your debugger, your tools, your knowledge
+
+24
+00:02:01,003 --> 00:02:03,089
+and just get them directly from that.
+
+25
+00:02:03,089 --> 00:02:07,006
+So far, I've focused on the PDF, assembly and the PE..
+
+26
+00:02:07,006 --> 00:02:11,002
+...file format.  A few other stuff, but that's mainly the most
+
+27
+00:02:11,002 --> 00:02:15,000
+covered subject of my website.  And I share that with a
+
+28
+00:02:15,000 --> 00:02:19,008
+very permissive license so BSD you can reuse them commercially
+
+29
+00:02:19,008 --> 00:02:24,078
+whatever.  Even the images are done in open-source format.
+
+30
+00:02:25,039 --> 00:02:29,051
+So the story behind this presentation is that some time ago
+
+31
+00:02:29,051 --> 00:02:32,033
+I was young and innocent and I thought that CPUs, being
+
+32
+00:02:32,033 --> 00:02:38,004
+electronic - whatever - they had to be perfectly logical and no problems
+
+33
+00:02:38,004 --> 00:02:41,083
+and then I was tricked by malware.  And basically
+
+34
+00:02:41,083 --> 00:02:46,005
+IDA wasn't able to work on it, so I decided to go back
+
+35
+00:02:46,005 --> 00:02:49,077
+to the basics and study assembly and PE files from scratch.
+
+36
+00:02:49,077 --> 00:02:52,073
+I created in the meantime documents on Corkami
+
+37
+00:02:53,073 --> 00:02:57,006
+and now I'm presenting you more or less the final results.
+
+38
+00:02:57,006 --> 00:03:01,006
+or the good programs results.  If I wasn't -- if I was just a
+
+39
+00:03:01,006 --> 00:03:05,067
+guy who learned assembly I probably wouldn't be in HashDays
+
+40
+00:03:05,067 --> 00:03:10,005
+to talk about it, if I didn't get a few achievements from
+
+41
+00:03:10,005 --> 00:03:14,007
+various tools.  So basically I failed all the disassemblers that I tried
+
+42
+00:03:14,007 --> 00:03:21,000
+and I also created a few crashes - in IDA.  I insist that all
+
+43
+00:03:21,000 --> 00:03:26,000
+the authors were notified and most of the bugs are already fixed, but
+
+44
+00:03:26,000 --> 00:03:30,069
+basically it was like this in 6.1 -- you get a direct crash -- but
+
+45
+00:03:30,069 --> 00:03:33,003
+now it's fixed in 6.2, and everything.
+
+46
+00:03:33,003 --> 00:03:37,004
+And Hiew [Hacker's view] - that's the latest version - but the newest and released,
+
+47
+00:03:37,004 --> 00:03:40,036
+- well, the newest beta - fixed that and so on.
+
+48
+00:03:40,039 --> 00:03:45,008
+So the agenda for the presentation is that I first try with
+
+49
+00:03:45,008 --> 00:03:50,063
+an easy introduction, but I assume that most of you already know or are familiar with disassembly, right?
+
+50
+00:03:52,008 --> 00:03:57,003
+Yes.  And another question: are you all familiar with
+
+51
+00:03:57,055 --> 00:04:02,058
+or you already had an event of undocumented disassembly in your ...  or never?
+
+52
+00:04:02,058 --> 00:04:05,080
+Like, you trust IDA and that's all.
+
+53
+00:04:06,060 --> 00:04:10,054
+Like, is it a common thing to have an undocumented disassembly in IDA?
+
+54
+00:04:11,030 --> 00:04:14,003
+Raise you arms -- okay, not so much.
+
+55
+00:04:14,003 --> 00:04:19,062
+Okay.  So then after the introduction (that will go quickly),
+
+56
+00:04:19,062 --> 00:04:25,003
+I will mention a few tricks, then introduce CoST, the program that I created.
+
+57
+00:04:25,003 --> 00:04:29,003
+And I will also talk a little bit more about the PE file format.
+
+58
+00:04:29,063 --> 00:04:34,000
+So as you all have assembly knowledge I will go quickly on that.
+
+59
+00:04:34,000 --> 00:04:37,049
+So basically, you compile a binary, there is assembly, there is
+
+60
+00:04:37,055 --> 00:04:44,002
+some relevance, some common points between the [source] code and the assembled [generated] code.
+
+61
+00:04:44,002 --> 00:04:48,049
+Then of course there is a relation between the opcode and the [assembly] code, you all know that.
+
+62
+00:04:49,006 --> 00:04:53,006
+What is important is that the assembly is generated by the compiler, but actually what is
+
+63
+00:04:53,099 --> 00:04:59,069
+then from the assembly what is -- what's only kept in the binary are the opcodes itself which are understood
+
+64
+00:04:59,069 --> 00:05:03,028
+directly by the CPU, which means the CPU just knows
+
+65
+00:05:03,028 --> 00:05:07,003
+what to do with the bytes, it doesn't care if you or the
+
+66
+00:05:07,003 --> 00:05:10,057
+tool you're using know what it will do, because it just does it.
+
+67
+00:05:10,057 --> 00:05:16,033
+And the problem is that what we read is not usually the opcodes for most people but actually the disassembly
+
+68
+00:05:16,033 --> 00:05:20,064
+and if the disassembler doesn't give you any result, well,
+
+69
+00:05:20,064 --> 00:05:25,041
+we're stuck, we're blind, we don't know what execution will do.
+
+70
+00:05:25,041 --> 00:05:28,000
+And the other problem is because of the opcode length you
+
+71
+00:05:28,000 --> 00:05:30,030
+don't know what the next instruction will be because you
+
+72
+00:05:30,030 --> 00:05:32,003
+don't know how to disassemble it.
+
+73
+00:05:32,003 --> 00:05:40,001
+So, here I just create one undocumented opcode in a simple program.
+
+74
+00:05:40,001 --> 00:05:48,021
+So basically we just '_emit' -- [it's] a keyword in -- that's Visual Studio 2010 ultimate --
+
+75
+00:05:48,021 --> 00:05:52,002
+you will get a byte that is unidentified at disassembly
+
+76
+00:05:52,002 --> 00:05:58,099
+so you get question marks, so basically this program
+
+77
+00:05:58,099 --> 00:06:01,007
+even though it costs several thousand dollars is not able
+
+78
+00:06:01,007 --> 00:06:05,000
+to -- it doesn't know what will happen.
+
+79
+00:06:05,000 --> 00:06:09,000
+So usually if you do that...  Oh, yeah, if you check the Intel documentation
+
+80
+00:06:09,000 --> 00:06:14,047
+there is nothing to see at the D6 opcode, there is nothing to see there.
+
+81
+00:06:14,047 --> 00:06:17,064
+Microsoft doesn't say anything, Intel doesn't say anything,
+
+82
+00:06:17,064 --> 00:06:21,001
+so usually if you try that you could expect bad results.
+
+83
+00:06:21,001 --> 00:06:26,050
+So, not documented, directly: usually it is a crash or not the expected result.
+
+84
+00:06:26,050 --> 00:06:29,050
+But here, in this case, this specific case, no problem.
+
+85
+00:06:29,090 --> 00:06:35,027
+We don't know what is was, if we follow Intel or Microsoft documentation, we don't know what happened.
+
+86
+00:06:35,027 --> 00:06:41,048
+But if we -- the CPU just does its stuff.  So what happened is that actually
+
+87
+00:06:41,048 --> 00:06:49,001
+D6 is a very simple opcode, that doesn't do much, but somehow it's not documented by Intel
+
+88
+00:06:49,001 --> 00:06:53,057
+[but] it's documented by AMD, and most of the opcodes are actually documented by AMD
+
+89
+00:06:53,057 --> 00:06:58,001
+but not Intel.  I don't know why, if anyone has any idea why...
+
+90
+00:06:58,001 --> 00:07:04,001
+It's quite a trivial opcode, but it's not -- Intel still says there's nothing there.  Okay.
+
+91
+00:07:04,001 --> 00:07:08,003
+So it's commonly used, the common use for those undocumented opcodes are malware
+
+92
+00:07:08,003 --> 00:07:13,038
+and packers, just to prevent automated analysis or easy reverse-engineering.
+
+93
+00:07:14,032 --> 00:07:22,036
+What's funny is that, Intel, if you follow the documentation you will have many holes, but Intel's own disassembler,
+
+94
+00:07:22,036 --> 00:07:26,037
+Xed, which is free of use, it is not open source, but just handles
+
+95
+00:07:26,037 --> 00:07:35,068
+all these opcodes correctly, while Microsoft, and Visual Studio, and WinDBG, they follow blindly the documentation.
+
+96
+00:07:35,068 --> 00:07:42,065
+So you will get question marks even though Intel knows perfectly what it does.
+
+97
+00:07:43,000 --> 00:07:51,052
+So it's like "[...] do as I disassemble and don't read my documentation."
+
+98
+00:07:52,003 --> 00:08:00,069
+So - of course - you could argue that WinDBG is only made to debug what the compiler,
+
+99
+00:08:00,069 --> 00:08:07,043
+Microsoft compiler created, but then it kind of rules out WinDBG as a malware debugging tool,
+
+100
+00:08:08,000 --> 00:08:17,045
+because you just inserted D6, it's trivial, and WinDBG is just not able to tell you what the instructions
+
+101
+00:08:17,045 --> 00:08:24,081
+are.  So it's not very useful for malware analysis -- for a malware analysis debugger
+
+102
+00:08:25,005 --> 00:08:32,096
+So, another problem that happens is that of course each of the
+
+103
+00:08:32,096 --> 00:08:37,030
+undocumented things, facts, are available, maybe one
+
+104
+00:08:37,030 --> 00:08:42,034
+you will have in a trojan, one in a packer, and everything, but it's not so easy
+
+105
+00:08:42,034 --> 00:08:46,058
+to find a good, exhaustive, clean test set to actually
+
+106
+00:08:46,058 --> 00:08:48,097
+gather all these undocumented facts, so for example if you
+
+107
+00:08:49,024 --> 00:08:53,023
+so, for example, someone says - a colleague - mentions an undocumented
+
+108
+00:08:53,023 --> 00:08:55,071
+opcode or behaviour, and then you say "oh yeah, it's
+
+109
+00:08:55,071 --> 00:08:58,094
+in MebRoot [MBR infector], or you skip this part of the file or whatever",
+
+110
+00:08:58,094 --> 00:09:03,046
+and then you are actually, you know first it's a malware so you have -- you cannot
+
+111
+00:09:03,046 --> 00:09:08,006
+really spread that, and then there is a lot of noise -- the malware payload or something before and
+
+112
+00:09:08,006 --> 00:09:15,001
+after -- so it's not so easy to analyse.  So that's why I focused on creating a small and clean test
+
+113
+00:09:15,001 --> 00:09:21,001
+set that would actually provide --- insists just on one particular instruction or fact.
+
+114
+00:09:22,020 --> 00:09:27,055
+So, now let's start, at last, the real stuff, and a few of the undocumented opcodes.
+
+115
+00:09:28,003 --> 00:09:36,085
+But before I actually started [studying], [I was] wondering what the actual possibilities of the CPUs, I didn't even know
+
+116
+00:09:36,085 --> 00:09:44,045
+what are the possibilities, what are the opcodes that are still supported or not by the -- by the CPU.
+
+117
+00:09:44,045 --> 00:09:52,002
+And I think it's a bit like English, everybody, or most people in the world, would be able to read and
+
+118
+00:09:52,002 --> 00:09:57,041
+understand these words, and if you['ve] see[n] some disassembly [before] then well you are used to seeing these opcodes,
+
+119
+00:09:57,041 --> 00:10:03,057
+they are made by all the compilers and they are so common that if they are not here then we are a bit
+
+120
+00:10:03,057 --> 00:10:08,006
+ill-at-ease, and if it's something different then we probably would be surprised.
+
+121
+00:10:08,062 --> 00:10:19,053
+So this is standard English, but the Intel CPUs were made in the 70s, so it'd be the same as if you take
+
+122
+00:10:19,053 --> 00:10:27,007
+Shakespearean English, so you could say that it's still English, but mmm... You know, I don't know what that means actually...
+
+123
+00:10:27,007 --> 00:10:30,005
+or maybe I forgot, I quickly forgot at least, and it's a bit the same
+
+124
+00:10:30,005 --> 00:10:36,003
+for those opcodes which are still supported by all the CPUs that we have -- all the Intel CPUs -- but
+
+125
+00:10:36,003 --> 00:10:41,009
+we probably don't know what they actually do, and that's a problem.
+
+126
+00:10:41,009 --> 00:10:46,008
+I actually made, one of the proof of concepts that I made was only using these old opcodes, and these
+
+127
+00:10:46,008 --> 00:10:53,001
+old opcodes are actually doing something, so if someone is familiar with reading that, maybe I should
+
+128
+00:10:53,001 --> 00:10:59,007
+ask "how old are you?", because myself I am used to the PUSH/JUMP/CALLs, but when it's about this,
+
+129
+00:10:59,007 --> 00:11:05,099
+mmm... what is exactly being done.  And it's still working on an i7, and it's still usable by malware,
+
+130
+00:11:05,099 --> 00:11:13,080
+packers or anything, and yet some of them are -- totally unused now and they are still fully working on
+
+131
+00:11:13,080 --> 00:11:15,088
+modern CPUs.
+
+132
+00:11:15,088 --> 00:11:21,042
+And of course, it's a bit like English, it's an evolving language, and a bit like maybe the oldest generations
+
+133
+00:11:21,042 --> 00:11:27,048
+of people -- of humans wouldn't be used to the buzzwords - the latest buzzwords.
+
+134
+00:11:27,048 --> 00:11:35,001
+These opcodes are sometimes present in the most recent CPUs, so, and you have direct opcodes for
+
+135
+00:11:35,001 --> 00:11:41,026
+CRC32 or AES decryption, string matching, and then some complex operation, in just one opcode.
+
+136
+00:11:41,026 --> 00:11:47,065
+So this, this is possible, this exists in modern CPUs.  Not all of them, of course.
+
+137
+00:11:47,065 --> 00:11:54,040
+One thing that I like is the MOVBE -- move big endian -- opcode, because move big endian is the rejected
+
+138
+00:11:54,040 --> 00:12:01,091
+offspring, it's only implemented in the Atom CPU, which means this netbook has -- supports this opcode
+
+139
+00:12:01,091 --> 00:12:09,003
+and the i7 64-bit doesn't have this opcode, even though it will have CRC32 or maybe AES [op]code, so...
+
+140
+00:12:09,003 --> 00:12:12,005
+so much for complete backward compatibility.
+
+141
+00:12:12,005 --> 00:12:20,002
+There is no physical CPU as far as I know that can emulate -- execute CRC32 and MOVBE.
+
+142
+00:12:20,002 --> 00:12:24,008
+And of course, MOVBE is quite meaningless itself because you already have an opcode for the big --
+
+143
+00:12:24,008 --> 00:12:32,000
+endian-ness swapping.  So I don't know, this small computer has an opcode that most PC's don't.
+
+144
+00:12:32,000 --> 00:12:35,002
+Okay.  Why?  I don't know.  If you know...
+
+145
+00:12:35,002 --> 00:12:37,059
+[Audience member:] "Is this opcode documented in the CPU feature set?"
+
+146
+00:12:37,059 --> 00:12:38,009
+Yeah.
+
+147
+00:12:38,009 --> 00:12:42,042
+Yeah, it's totally -- this MOVBE -- it's totally documented, it's official.
+
+148
+00:12:42,042 --> 00:12:47,038
+[Audience member:] "But, no; is it like a CPU flag just for this instruction or is it implicit by 'this
+
+149
+00:12:47,038 --> 00:12:50,023
+is an Atom CPU'?"
+
+150
+00:12:51,003 --> 00:12:58,003
+Uh...  Yeah, I don't know.  I check the value by CPUID but I don't know if it's relevant to the... but
+
+151
+00:12:58,003 --> 00:13:07,005
+I think it's by itself.  ...but the CPUID result is so big that I don't remember it all.
+
+152
+00:13:07,094 --> 00:13:13,006
+Uh, another thing, a bit specific to Windows in my case, because I focus on malware, is that before you do
+
+153
+00:13:13,006 --> 00:13:22,005
+actually any opcode, I was focusing on what are the register values when you start a program, and I found
+
+154
+00:13:22,005 --> 00:13:28,007
+out that the register values by default when you start a program and you haven't executed, theoretically, any opcode,
+
+155
+00:13:28,007 --> 00:13:33,006
+- theoretically-  actually gives you some information that are actively used in malwares.
+
+156
+00:13:33,006 --> 00:13:40,005
+So for example, at the start point, EAX gives you either gives you if it's older generation (XP or before),
+
+157
+00:13:40,005 --> 00:13:41,089
+or Vista or later.
+
+158
+00:13:42,008 --> 00:13:50,061
+This is not so used by malwares, I don't recall seeing it, but GS, if GS is null, then it's a 32-bit
+
+159
+00:13:50,061 --> 00:13:54,002
+system, and if it's not it's a 64-bit system.
+
+160
+00:13:54,002 --> 00:13:56,009
+I will actually use that later in one of the tricks.
+
+161
+00:13:56,009 --> 00:14:04,003
+And also, the relations between the registers -- there are many registers on the Intel CPUs -- is not
+
+162
+00:14:04,003 --> 00:14:10,007
+sometimes very clear.  I was surprised that when you do a FPU operation, it changes the FPU status, the
+
+163
+00:14:10,007 --> 00:14:18,005
+FPU registers themselves, but also the MMX registers, and somehow all the documentations I saw on the
+
+164
+00:14:18,005 --> 00:14:24,067
+internet are always mapping ST0 and MM0 in front of each other which makes sense, but actually if you
+
+165
+00:14:24,067 --> 00:14:30,046
+modify -- if you just do a single FPU operation, it will actually modify not MM0, but MM7.
+
+166
+00:14:31,003 --> 00:14:36,007
+So if you do an FPU operation like "load PI" [FLDPI] and then you check the value of MM7, that could be used
+
+167
+00:14:36,007 --> 00:14:38,078
+as a trick or it's just like the way it is.
+
+168
+00:14:38,078 --> 00:14:45,009
+And like, all the documentations, wikipedia and so on, that I could find about the overlapping of the registers.
+
+169
+00:14:45,009 --> 00:14:53,003
+Another thing is that this was used as an anti-emulation trick in XP, that FPU also changes CR0
+
+170
+00:14:53,003 --> 00:14:59,007
+so you have quite an unexpected anti-emulation trick by just using FPU operation.
+
+171
+00:14:59,007 --> 00:15:08,064
+So here is it; basically 'store machine status word' [SMSW] is an older 286 CPU opcode -- mnemonic, that was
+
+172
+00:15:08,064 --> 00:15:18,004
+created at the 286 era, so before the protected mode was fully created, and so it allows you to access
+
+173
+00:15:18,004 --> 00:15:26,009
+to read the value of CR0, even from user mode, while the 'MOV CR0' is actually a privileged opcode.
+
+174
+00:15:26,009 --> 00:15:33,064
+For some reason, the higher word of the register is undefined officially by the documentation, so Intel
+
+175
+00:15:33,064 --> 00:15:40,004
+just says "this is the value -- the lowest value is correct but you cannot expect the real value".  So for
+
+176
+00:15:40,004 --> 00:15:45,007
+some reason, I don't know why they say that, because it's actually the value - the higher bits - of CR0.
+
+177
+00:15:45,007 --> 00:15:52,072
+And under XP, when you do FPU operations, the value of CR0 will be modified, and eventually reverts
+
+178
+00:15:52,072 --> 00:16:00,003
+by itself.  So you can have, just by doing -- SMSW, and then you expect the result, then
+
+179
+00:16:00,003 --> 00:16:05,009
+you do a FPU operation, then the result should be different, and then eventually the result will revert
+
+180
+00:16:05,009 --> 00:16:10,026
+to the original value.  So it's quite a tricky and unexpected anti-emulator.
+
+181
+00:16:11,000 --> 00:16:18,091
+You have a similar trick on 32-bit Windows, where GS is not stored in the context, so it means that on
+
+182
+00:16:18,091 --> 00:16:25,031
+thread-switch the value of GS is lost, which means if you just wait for something, GS will eventually
+
+183
+00:16:25,031 --> 00:16:32,034
+reset to 0.  So if you set GS and you are stepping manually, this is slow and this creates a thread-switch,
+
+184
+00:16:32,041 --> 00:16:39,055
+so instantly GS is lost.  And also, like the previous trick, if you just wait for GS not to be...
+
+185
+00:16:40,005 --> 00:16:45,006
+if you just loop until GS is not 0, this on a real system, will eventually exit from the loop.
+
+186
+00:16:45,006 --> 00:16:52,084
+But the first time, it blew me, I was really wondering what can happen there, there's no other thread
+
+187
+00:16:52,084 --> 00:16:58,033
+and of course in my proof of concept, it directly starts like this.  What happens?  What should happen now ,
+
+188
+00:16:58,033 --> 00:17:02,009
+but on a real system?  Eventually, it's reset to 0.
+
+189
+00:17:02,009 --> 00:17:10,030
+Another thing is that of course it's reset to 0, but not in 0 time, so if you do wait for GS's reset
+
+190
+00:17:10,030 --> 00:17:17,005
+and then another loop, this can only happen between two resets... thread switch, which means it should
+
+191
+00:17:17,005 --> 00:17:23,000
+take a minimum of time, so you can use that for timing -- anti-emulation timing tricks.
+
+192
+00:17:25,005 --> 00:17:32,040
+Of course, I was also thinking that NOP is perfect, because NOP is NOP, it does nothing.
+
+193
+00:17:33,001 --> 00:17:44,001
+But originally NOP is 'exchange eax with eax' [xchg eax, eax], or 'ax with ax', but the problem is that NOP [encoded as] 0x90 is always doing nothing,
+
+194
+00:17:44,001 --> 00:17:51,001
+but on 64-bit you always have, you have another encoding [87 c0] to do an 'exchange EAX AX' which this time again
+
+195
+00:17:51,001 --> 00:17:54,006
+doesn't do anything  on 32b, but like all the other opcodes
+
+196
+00:17:54,006 --> 00:17:58,007
+in 64b mode, it actually resets the higher DWORD
+
+197
+00:17:58,007 --> 00:18:02,007
+so you have an XCHG EAX [,EAX] that does something,
+
+198
+00:18:02,007 --> 00:18:05,007
+even though at first it looks like it would do nothing
+
+199
+00:18:05,007 --> 00:18:09,025
+but hopefully in this case the 90 NOP is still doing nothing
+
+200
+00:18:10,001 --> 00:18:13,063
+and this is probably now common in malwares and stuff
+
+201
+00:18:14,001 --> 00:18:18,004
+HINT NOP was the multi-byte nop
+
+202
+00:18:18,004 --> 00:18:22,051
+that actually gives a hint about what will be executed next, by the CPU
+
+203
+00:18:23,004 --> 00:18:24,005
+whatever the address here [in memory referenced HINT NOP]
+
+204
+00:18:24,005 --> 00:18:25,059
+it wouldn't trigger an exception
+
+205
+00:18:25,059 --> 00:18:29,063
+but as you can see, it's really a multi-byte opcode -- it can be a very long nop
+
+206
+00:18:30,075 --> 00:18:31,066
+that's weird to say
+
+207
+00:18:32,014 --> 00:18:35,045
+another thing is, once again it's partially undocumented by Intel
+
+208
+00:18:37,002 --> 00:18:44,005
+the full range of HINT NOP encoding is bigger on AMD documentation
+
+209
+00:18:44,005 --> 00:18:47,070
+and another thing is that, because it's a multi-byte opcode
+
+210
+00:18:48,003 --> 00:18:51,007
+if you - at the end of a page - insert those bytes
+
+211
+00:18:51,007 --> 00:18:54,047
+then it will look for the operands
+
+212
+00:18:54,073 --> 00:18:56,006
+then it could trigger an exception,
+
+213
+00:18:56,006 --> 00:18:59,070
+so it's a nop that could trigger an exception if at the end of the page
+
+214
+00:19:01,003 --> 00:19:04,005
+so, thank you Intel -- or whatever, I don't know, I'm not sure
+
+215
+00:19:04,005 --> 00:19:06,026
+MOV, once again, I thought...
+
+216
+00:19:06,026 --> 00:19:09,096
+MOV being MOV, should be perfectly logical
+
+217
+00:19:10,099 --> 00:19:15,037
+sadly not... first... all this is documented, but it's tricky
+
+218
+00:19:15,043 --> 00:19:19,007
+because -- there were even bugs for that in all the disassemblers I tried, I think
+
+219
+00:19:19,007 --> 00:19:20,086
+well, except Xed, maybe
+
+220
+00:19:22,056 --> 00:19:29,005
+you cannot do MOV on or from CR0 on memory
+
+221
+00:19:29,005 --> 00:19:32,004
+so the documentation says that the Mod/RM is ignored
+
+222
+00:19:32,075 --> 00:19:34,058
+it doesn't mean it's illegal, it's just ignored
+
+223
+00:19:34,070 --> 00:19:36,060
+so if you do this, which could lead to a crash
+
+224
+00:19:36,060 --> 00:19:39,005
+it's actually interpreted as that
+
+225
+00:19:39,005 --> 00:19:42,003
+and as far as I can remember, you'd fail all the disassemblers with that
+
+226
+00:19:42,003 --> 00:19:43,065
+until recently [ ;) ]
+
+227
+00:19:44,004 --> 00:19:50,045
+MOVSXD is a 64b opcode, is sign-extending, so theoretically
+
+228
+00:19:50,045 --> 00:19:55,003
+it should work from a smaller register to a bigger register
+
+229
+00:19:55,003 --> 00:19:57,081
+but if you use no REX prefix, which is discouraged
+
+230
+00:19:57,081 --> 00:20:00,023
+you can actually make it work like a standard MOV,
+
+231
+00:20:01,040 --> 00:20:04,003
+and the other way around,
+
+232
+00:20:04,003 --> 00:20:09,009
+MOV from a selector to a 32b register actually works
+
+233
+00:20:09,009 --> 00:20:12,048
+so many disassemblers were disassembling that as MOV AX, CS
+
+234
+00:20:12,048 --> 00:20:15,067
+because that would make both operands the same size,
+
+235
+00:20:15,067 --> 00:20:19,030
+but actually the upper word of the target register
+
+236
+00:20:19,030 --> 00:20:22,063
+is 'undefined' but actually there is no funny thing here,
+
+237
+00:20:22,063 --> 00:20:24,082
+there's no random value, it's zeroes
+
+238
+00:20:24,082 --> 00:20:29,027
+so basically, it makes it equivalent to MOV EAX, CS
+
+239
+00:20:30,036 --> 00:20:32,005
+BSWAP is one of my favorite
+
+240
+00:20:32,005 --> 00:20:34,069
+because I think it's like an administration
+
+241
+00:20:35,001 --> 00:20:37,068
+it's supposed to just swap the endianness of the registers
+
+242
+00:20:37,068 --> 00:20:42,040
+but because of -- external reasons
+
+243
+00:20:42,040 --> 00:20:44,055
+it's never really doing the work you expect
+
+244
+00:20:44,055 --> 00:20:50,004
+so, only in 64b, it's actually correctly swapping the endianness
+
+245
+00:20:50,004 --> 00:20:51,009
+as you would expect
+
+246
+00:20:51,009 --> 00:20:55,009
+on EAX [32b], in 64b [mode], like all the 32b opcodes,
+
+247
+00:20:55,009 --> 00:20:58,034
+it will actually register [clear] the higher dword -- ok !
+
+248
+00:20:58,034 --> 00:21:02,007
+and, on word, it's actually 'undefined' again
+
+249
+00:21:02,007 --> 00:21:04,001
+but it's commonly used in malwares and packers
+
+250
+00:21:04,007 --> 00:21:07,000
+because it just resets [the register]
+
+251
+00:21:07,000 --> 00:21:09,005
+so it's like a XOR AX, AX
+
+252
+00:21:09,005 --> 00:21:14,005
+so, with this unexplainable result, I understand
+
+253
+00:21:14,005 --> 00:21:18,007
+that Intel probably doesn't want to explain -- just say it's 'undefined'
+
+254
+00:21:18,007 --> 00:21:20,009
+because they would be too ashamed to explain
+
+255
+00:21:20,009 --> 00:21:22,039
+why we get this funny result
+
+256
+00:21:24,007 --> 00:21:31,013
+BSWAP AX is also wrongly disassembled by WinDbg and so on
+
+257
+00:21:33,004 --> 00:21:35,006
+it will be disassembled as BSWAP EAX
+
+258
+00:21:35,006 --> 00:21:36,077
+and actually, you clear the register
+
+259
+00:21:42,000 --> 00:21:44,031
+can everybody understand this code?
+
+260
+00:21:47,003 --> 00:21:49,050
+anybody sees the potential trap?
+
+261
+00:21:53,000 --> 00:21:56,006
+so, it pushes the address of <next>  on the stack,
+
+262
+00:21:56,006 --> 00:21:59,050
+then RETN takes the address from the stack,
+
+263
+00:21:59,050 --> 00:22:02,069
+and, basically, you just jump to an immediate value,
+
+264
+00:22:10,011 --> 00:22:10,094
+execution ordering ?
+
+265
+00:22:10,097 --> 00:22:12,084
+yeah, the execution starts here
+
+266
+00:22:14,003 --> 00:22:17,012
+???
+
+267
+00:22:17,012 --> 00:22:20,009
+no -- ok, it's not the point here
+
+268
+00:22:20,009 --> 00:22:25,054
+and of course, if you -- this is OllyDbg 1, it's fixed in OllyDbg 2
+
+269
+00:22:25,054 --> 00:22:28,002
+but OllyDbg1 is even trying to be nice,
+
+270
+00:22:28,002 --> 00:22:30,005
+telling you -- this is an automatic comment -- that RET
+
+271
+00:22:30,005 --> 00:22:32,038
+is used as a jump to <next>
+
+272
+00:22:33,005 --> 00:22:36,003
+and, as you can see, not exactly the same [happens]
+
+273
+00:22:36,003 --> 00:22:37,004
+so, what happened ?
+
+274
+00:22:37,004 --> 00:22:38,023
+no one sees ?
+
+275
+00:22:40,002 --> 00:22:42,045
+so, basically, here, you have a 66 prefix on RETN
+
+276
+00:22:42,082 --> 00:22:46,008
+which actually makes RETN to IP, and not EIP
+
+277
+00:22:47,003 --> 00:22:55,001
+so, actually, you don't jump to 401008, but to 00001008
+
+278
+00:22:55,066 --> 00:22:58,056
+and in this proof of concept, I mapped the NULL page
+
+279
+00:22:58,056 --> 00:23:01,000
+and I created -- added some code at this address
+
+280
+00:23:01,000 --> 00:23:05,060
+so, this is actually not a return to this [<next>]
+
+281
+00:23:05,060 --> 00:23:10,008
+but the problem is that, officially, this is also called a 'return'
+
+282
+00:23:10,008 --> 00:23:15,007
+it's not [different from the standard one] -- the disassemblers added their own, now, way of disassembling it
+
+283
+00:23:15,007 --> 00:23:19,005
+like 'small retn', ret.16, or something like this
+
+284
+00:23:19,005 --> 00:23:22,007
+but actually officially, it's the same mnemonic
+
+285
+00:23:22,007 --> 00:23:26,074
+so, the latest Hiew, I think, and that's OllyDbg 1
+
+286
+00:23:28,032 --> 00:23:31,001
+maybe the latest OllyDbg 2 fixed that
+
+287
+00:23:31,001 --> 00:23:33,001
+but you can still be tricked just by that
+
+288
+00:23:33,001 --> 00:23:41,002
+the 66 prefix - the jump to IP - also works on CALLs, RETs, LOOPs, [and JMPs]
+
+289
+00:23:41,002 --> 00:23:44,014
+so all the flow control opcodes
+
+290
+00:23:45,009 --> 00:23:47,048
+so, I won't enumerate all the tricks,
+
+291
+00:23:47,048 --> 00:23:51,007
+because otherwise you'll die of boredom probably
+
+292
+00:23:51,007 --> 00:23:55,004
+if you want more, then I created a page on Corkami [x86.corkami.com],
+
+293
+00:23:55,004 --> 00:24:00,007
+and I already made some graphs and cheat sheets
+
+294
+00:24:00,007 --> 00:24:03,052
+to have an easy [table] -- list of opcodes
+
+295
+00:24:04,041 --> 00:24:06,087
+and, that's quite too much theory for now...
+
+296
+00:24:06,087 --> 00:24:11,078
+So, I don't like just -- reading stuff and not having something to feed my debugger
+
+297
+00:24:11,078 --> 00:24:12,078
+so I created CoST
+
+298
+00:24:12,078 --> 00:24:16,000
+which stands for Corkami Standard Test
+
+299
+00:24:16,000 --> 00:24:20,067
+CoST is a single binary, there is no option,
+
+300
+00:24:20,067 --> 00:24:25,004
+you just run it, and it will just execute a lot of different tests
+
+301
+00:24:25,004 --> 00:24:28,006
+and then, I also made it a hardened PE,
+
+302
+00:24:28,006 --> 00:24:35,001
+so it may also help you to test the PE side of your tools
+
+303
+00:24:35,001 --> 00:24:36,004
+or your knowledge
+
+304
+00:24:36,004 --> 00:24:40,001
+but, because in hardened PE, it's actually quite difficult to debug,
+
+305
+00:24:40,001 --> 00:24:42,007
+I also made an easy PE mode so that
+
+306
+00:24:42,007 --> 00:24:47,004
+you can study only the assembly, and not have too much troubles
+
+307
+00:24:47,004 --> 00:24:48,016
+debugging it
+
+308
+00:24:49,004 --> 00:24:50,098
+so, CoST contains a lot of tests
+
+309
+00:24:57,008 --> 00:24:59,007
+classic stuff -- very trivial stuff
+
+310
+00:24:59,007 --> 00:25:03,009
+then, a few more complex stuff, like JMP to IP, IRET...
+
+311
+00:25:03,009 --> 00:25:05,003
+undocumented opcodes
+
+312
+00:25:05,003 --> 00:25:10,004
+CPU specific, like MOVBE, POPCNT, CRC32
+
+313
+00:25:10,004 --> 00:25:17,008
+also some detections of OS and VM by using common opcodes
+
+314
+00:25:17,008 --> 00:25:25,004
+like, the 'red pill trick'... yeah, just SLDT execution, and you get a value, and you compare...
+
+315
+00:25:25,004 --> 00:25:27,050
+but it's 'the blue pill', or whatever...
+
+316
+00:25:29,001 --> 00:25:32,053
+and also some OS bugs because sometimes, Windows XP
+
+317
+00:25:32,053 --> 00:25:35,005
+was doing the wrong job trying to tell you which was
+
+318
+00:25:35,005 --> 00:25:38,006
+the exception that just happened, and it would be a way
+
+319
+00:25:38,006 --> 00:25:44,007
+to make the difference between an actual OS and an emulator that would try to be logical
+
+320
+00:25:45,018 --> 00:25:49,002
+CoST is written in assembly, so, there's no extra
+
+321
+00:25:50,002 --> 00:25:52,007
+it's not compiled, it's not generated, but
+
+322
+00:25:52,007 --> 00:25:56,007
+to make it self-documented, I created internal exports
+
+323
+00:25:56,007 --> 00:25:59,061
+so that each section of the file is easy to browse [to],
+
+324
+00:25:59,061 --> 00:26:05,008
+so that you will know -- if you quickly want to jump to the 64b part
+
+325
+00:26:06,034 --> 00:26:08,003
+then it's easier via the exports
+
+326
+00:26:08,003 --> 00:26:13,007
+and also I wanted it to print messages in the most convenient way
+
+327
+00:26:13,007 --> 00:26:18,005
+so, if you keep printing messages, then it will make the assembly
+
+328
+00:26:18,005 --> 00:26:21,009
+wider, I mean longer to scroll, so I used
+
+329
+00:26:21,009 --> 00:26:25,007
+Vectored Exception Handling, and a fake opcode
+
+330
+00:26:25,007 --> 00:26:28,005
+so that you have the comments of what's gonna happen,
+
+331
+00:26:28,005 --> 00:26:30,003
+appearing directly in the code
+
+332
+00:26:30,003 --> 00:26:34,008
+so it's a kind of self-documented, without a debug symbols file
+
+333
+00:26:34,008 --> 00:26:38,009
+and, you saw, it doesn't have much of output
+
+334
+00:26:38,009 --> 00:26:41,009
+but actually it has a lot of debug output
+
+335
+00:26:41,009 --> 00:26:46,099
+like 100 -- I forgot -- messages. it's even saying '[trick] I'm gonna do this'
+
+336
+00:26:46,099 --> 00:26:48,079
+and then, 'i'm gonna do that...', so
+
+337
+00:26:49,006 --> 00:26:54,057
+trying to make it helpful yet a bit hard to disassemble
+
+338
+00:26:57,007 --> 00:26:59,052
+can anyone understand what this code is doing ?
+
+339
+00:26:59,052 --> 00:27:00,080
+this is one of my favourite
+
+340
+00:27:02,008 --> 00:27:04,094
+we can't see the opcodes
+
+341
+00:27:06,001 --> 00:27:07,037
+no, there's no [opcode] trick this time
+
+342
+00:27:17,006 --> 00:27:19,006
+so, basically you push some arguments on the stack
+
+343
+00:27:19,006 --> 00:27:21,000
+you jump to here
+
+344
+00:27:21,000 --> 00:27:25,058
+basically, with the return far [RETF]... I pushed 'push_eip' on the stack
+
+345
+00:27:25,063 --> 00:27:28,005
+with a 33 word
+
+346
+00:27:28,005 --> 00:27:30,044
+so basically I will RETurn Far to this
+
+347
+00:27:30,044 --> 00:27:35,006
+basically I will return back to this EIP in selector 33
+
+348
+00:27:35,006 --> 00:27:38,074
+if this is in a 64b OS, and this is a 32b process
+
+349
+00:27:38,077 --> 00:27:42,007
+you will return back to execution here, in 64b mode
+
+350
+00:27:42,007 --> 00:27:47,007
+because selector 33 is the selector for 64b mode
+
+351
+00:27:47,007 --> 00:27:49,008
+which you can access from a 32b process
+
+352
+00:27:49,008 --> 00:27:53,056
+so basically this code will be executed first in the current selector
+
+353
+00:27:56,003 --> 00:28:01,009
+as you see, and then it's executed back on selector 33,
+
+354
+00:28:01,009 --> 00:28:03,052
+which means in 64b mode
+
+355
+00:28:03,052 --> 00:28:08,003
+so you have the same EIP, you have the same opcodes
+
+356
+00:28:08,003 --> 00:28:10,001
+but the disassembly will be different,
+
+357
+00:28:10,001 --> 00:28:14,002
+and I chose some opcodes will make mnemonics
+
+358
+00:28:14,002 --> 00:28:17,037
+specific to each side, 32b or 64b sides
+
+359
+00:28:17,037 --> 00:28:22,009
+so, it's already quite a b*tch to disassemble
+
+360
+00:28:22,009 --> 00:28:27,009
+because, same EIP, so unless you're careful about the selector,
+
+361
+00:28:27,009 --> 00:28:29,001
+well, it's a problem
+
+362
+00:28:29,082 --> 00:28:36,046
+[Errata: you can debug this kind of code, check my berlinsides presentation (screencast on slide 58)]
+
+363
+00:28:38,042 --> 00:28:44,054
+http://bsx2.corkami.com , slide 58 [screencast]
+
+364
+00:28:46,061 --> 00:28:50,006
+if you run over it, you return to the original selector,
+
+365
+00:28:50,006 --> 00:28:52,005
+which is why there is the PUSH CS here
+
+366
+00:28:52,005 --> 00:28:56,002
+and you go back to  with the original selector
+
+367
+00:28:56,002 --> 00:28:58,007
+execution will go through quickly
+
+368
+00:28:58,007 --> 00:29:00,007
+but you cannot step through that code [WRONG, you can with WinDbg+wow64exts]
+
+369
+00:29:00,007 --> 00:29:03,007
+so, killing the disassemblers, and the debuggers
+
+370
+00:29:03,007 --> 00:29:04,009
+and yet, simple
+
+371
+00:29:04,009 --> 00:29:07,003
+so, here is the result that you get when you run CoST
+
+372
+00:29:07,003 --> 00:29:10,006
+with the latest -- well the latest public version of Hiew
+
+373
+00:29:10,006 --> 00:29:13,003
+I think it's gonna be fixed
+
+374
+00:29:13,003 --> 00:29:16,007
+so, this is a HINT NOP that's not documented by Intel
+
+375
+00:29:16,007 --> 00:29:20,024
+and it's a bit forgotten by most disassemblers
+
+376
+00:29:20,024 --> 00:29:24,005
+so, WinDbg and Hiew are giving you
+
+377
+00:29:24,005 --> 00:29:28,053
+undocumented, well -- questions marks, or the Hiew style of question marks
+
+378
+00:29:28,053 --> 00:29:34,039
+then, since -- that was originally what I planned to present at Hashdays
+
+379
+00:29:34,042 --> 00:29:39,006
+but then, I decided to bring a few tricks in CoST itself, on the PE side of things
+
+380
+00:29:39,006 --> 00:29:42,039
+so, this is the header, so it has MZ, and then some text
+
+381
+00:29:42,039 --> 00:29:44,004
+so you can 'type cost.exe'
+
+382
+00:29:44,004 --> 00:29:46,008
+and it has some text - I made it type-able
+
+383
+00:29:46,008 --> 00:29:51,007
+and the NT headers - the 'PE' header, the one starting with PE
+
+384
+00:29:51,007 --> 00:29:54,007
+is actually starting at the bottom of the file -- the bottom of the file is here
+
+385
+00:29:54,007 --> 00:29:55,015
+so it's a footer
+
+386
+00:29:55,015 --> 00:29:57,055
+and I made it so the values are quite critical
+
+387
+00:29:57,063 --> 00:30:01,003
+so, they are not the one you would expect
+
+388
+00:30:01,003 --> 00:30:03,004
+so this is the result that you would get when you were
+
+389
+00:30:03,004 --> 00:30:05,045
+loading CoST under IDA 6.1
+
+390
+00:30:07,001 --> 00:30:10,027
+so, well, some values were random and everything
+
+391
+00:30:11,002 --> 00:30:15,032
+but, if you have -- with CoST, you can test and set the value of a register
+
+392
+00:30:15,032 --> 00:30:16,062
+then compare it
+
+393
+00:30:16,062 --> 00:30:19,006
+but you cannot test all the possibilities of PE files
+
+394
+00:30:19,006 --> 00:30:21,006
+with a single file, because you have to choose
+
+395
+00:30:21,006 --> 00:30:25,007
+so, for example, CoST has no section, weird alignments and everything
+
+396
+00:30:25,007 --> 00:30:27,007
+but you cannot make all the possible cases [in a single file]
+
+397
+00:30:27,007 --> 00:30:31,001
+so, I went on and I created another page on Corkami
+
+398
+00:30:31,001 --> 00:30:37,002
+with, as usual, the proof of concepts, some graphs about the PE files and everything
+
+399
+00:30:37,002 --> 00:30:40,007
+I don't consider it finished but I consider it good enough to break
+
+400
+00:30:40,007 --> 00:30:41,049
+a bit everything
+
+401
+00:30:42,009 --> 00:30:46,003
+now, I already created more than 100 PoCs, which try
+
+402
+00:30:46,003 --> 00:30:50,068
+0 section, big alignments, huge alignments, and I have some funny results...
+
+403
+00:30:50,068 --> 00:30:55,001
+so, here is the 'virtual section table vs Hiew'
+
+404
+00:30:55,001 --> 00:31:00,000
+so, when you're in low alignments, you can have no section,
+
+405
+00:31:00,000 --> 00:31:03,002
+or the section table can be empty
+
+406
+00:31:03,002 --> 00:31:08,003
+so basically, I made the SizeOfOptionalHeader point in virtual memory space
+
+407
+00:31:08,003 --> 00:31:11,009
+which means the section table is out of the PE file [full of 00, in virtual space]
+
+408
+00:31:11,009 --> 00:31:16,002
+and Hiew doesn't like this. A consequence of that it doesn't even think it's a PE file
+
+409
+00:31:16,002 --> 00:31:18,008
+while it's fully working, but this trick only works under XP
+
+410
+00:31:18,008 --> 00:31:25,000
+because Windows 7 is a bit more picky on the unused section table values
+
+411
+00:31:29,005 --> 00:31:34,002
+so when you got some ASCII art in the Data Directories
+
+412
+00:31:34,002 --> 00:31:37,001
+you can probably guess that there is something going on
+
+413
+00:31:37,001 --> 00:31:40,000
+if you have better ASCII art suggestion, I'm all ears
+
+414
+00:31:40,000 --> 00:31:43,003
+so, basically, this is the 'Dual PE header' that was presented by
+
+415
+00:31:43,003 --> 00:31:45,010
+Reversing Labs in BlackHat
+
+416
+00:31:45,010 --> 00:31:47,081
+so, are you familiar with that ?
+
+417
+00:31:50,003 --> 00:31:52,005
+so, basically, you extend the SizeOfHeaders so that
+
+418
+00:31:52,005 --> 00:31:59,006
+the NT headers will be actually mapped at the bottom of the file
+
+419
+00:31:59,006 --> 00:32:03,026
+so that when it's far enough to reach section [not file] alignment
+
+420
+00:32:03,068 --> 00:32:05,005
+and when you load that, in memory
+
+421
+00:32:05,005 --> 00:32:07,029
+the first section will actually be mapped over it
+
+422
+00:32:09,053 --> 00:32:12,068
+the first part of the OPTIONAL_HEADER is the one used on disk
+
+423
+00:32:13,005 --> 00:32:16,005
+so, this is what is used to check if the file will load
+
+424
+00:32:16,005 --> 00:32:20,009
+but the Data Directories are read from the values in memory
+
+425
+00:32:20,009 --> 00:32:25,000
+so, first, the OPTIONAL_HEADER is parsed, mapped in memory
+
+426
+00:32:25,000 --> 00:32:29,003
+then the section is folding itself over the bottom part of the header
+
+427
+00:32:29,003 --> 00:32:31,008
+and then the true Data directories that were originally
+
+428
+00:32:31,008 --> 00:32:34,002
+in the start of the section will be taken in account
+
+429
+00:32:34,002 --> 00:32:39,006
+so all this is garbage and visible on disk, it follows the SizeOfOptionalHeader
+
+430
+00:32:39,006 --> 00:32:43,051
+but actually in memory, this is not what is used to be parsed
+
+431
+00:32:45,000 --> 00:32:47,003
+another weird thing is that the export names can just be
+
+432
+00:32:47,003 --> 00:32:51,000
+absolutely anything, until a null character
+
+433
+00:32:51,000 --> 00:32:53,007
+which means, non ASCII, whatever
+
+434
+00:32:53,007 --> 00:32:56,001
+and another funny thing is that
+
+435
+00:32:56,001 --> 00:32:57,005
+Hiew displays them in line
+
+436
+00:32:57,005 --> 00:32:59,003
+so you can just add your own ads,
+
+437
+00:32:59,003 --> 00:33:02,005
+because those are just export names, and one of the export
+
+438
+00:33:02,005 --> 00:33:05,008
+[name] is actually more than 16 Kb
+
+439
+00:33:05,008 --> 00:33:08,002
+so that it's good enough to create a buffer overflow
+
+440
+00:33:08,002 --> 00:33:10,005
+if your tool is not careful about that
+
+441
+00:33:10,005 --> 00:33:14,002
+and it's also possible to have a NULL export [name], just a character NULL
+
+442
+00:33:14,002 --> 00:33:15,048
+and you can import a NULL API
+
+443
+00:33:15,048 --> 00:33:16,065
+no problem
+
+444
+00:33:19,002 --> 00:33:23,000
+I also just tried to see the different possibilities
+
+445
+00:33:23,000 --> 00:33:26,004
+created a few files that had the maximum number of sections
+
+446
+00:33:26,004 --> 00:33:31,006
+the limit is 96 under XP, and 64K under Vista and [Windows] 7
+
+447
+00:33:31,006 --> 00:33:33,000
+which means, well
+
+448
+00:33:33,000 --> 00:33:36,007
+OllyDbg 2 - the latest OllyDbg - gives you a funny message
+
+449
+00:33:36,007 --> 00:33:38,002
+but it still loads the file.
+
+450
+00:33:38,002 --> 00:33:40,024
+OllyDbg 1 crashes directly on this file
+
+451
+00:33:42,010 --> 00:33:42,096
+err...still some time ?
+
+452
+00:33:45,005 --> 00:33:48,005
+and the one last, not very visual, but I noticed
+
+453
+00:33:48,005 --> 00:33:52,006
+that the AddressOfIndex of the TLS is overwritten on loading
+
+454
+00:33:52,006 --> 00:33:59,002
+and imports - the terminator of imports doesn't need to be five null dwords
+
+455
+00:33:59,002 --> 00:34:03,000
+but only if the name [of the DLL] is 0, then the import descriptor
+
+456
+00:34:03,000 --> 00:34:05,009
+is considered a terminator
+
+457
+00:34:05,009 --> 00:34:09,028
+so, basically, if you make AddressOfIndex point to the name of an import descriptor
+
+458
+00:34:10,002 --> 00:34:15,002
+you could get that overwritten, and then the imports will be truncated
+
+459
+00:34:15,002 --> 00:34:16,006
+will be considered truncated
+
+460
+00:34:16,006 --> 00:34:20,005
+and actually, the behavior is different under XP or Windows 7
+
+461
+00:34:20,005 --> 00:34:25,008
+so, under XP, it's overwritten after imports loading,
+
+462
+00:34:25,008 --> 00:34:28,002
+so the whole imports table is not truncated,
+
+463
+00:34:28,002 --> 00:34:32,003
+while under Windows 7, it's happening before the imports are loaded,
+
+464
+00:34:32,003 --> 00:34:35,003
+which means you have the same PE, but different loading behaviour
+
+465
+00:34:35,003 --> 00:34:37,001
+under different versions of windows
+
+466
+00:34:37,001 --> 00:34:40,061
+and the file works on both versions of windows
+
+467
+00:34:43,003 --> 00:34:45,070
+oh wait, before that... maybe I still have some time ?
+
+468
+00:34:55,005 --> 00:34:56,005
+15 minutes left ? ok
+
+469
+00:34:56,005 --> 00:34:58,049
+I'll do the demo
+
+470
+00:35:00,058 --> 00:35:01,045
+This is just to prove...
+
+471
+00:35:02,040 --> 00:35:03,037
+sorry?
+
+472
+00:35:23,011 --> 00:35:25,042
+This is the kind of PE file that I typically create
+
+473
+00:35:25,045 --> 00:35:28,070
+I only defined [required] elements that just need to work
+
+474
+00:35:28,070 --> 00:35:30,031
+and this is actually a driver
+
+475
+00:35:30,031 --> 00:35:33,073
+so, even though I used some undocumented opcodes
+
+476
+00:35:36,067 --> 00:35:39,000
+It's a working driver and it doesn't have the usual
+
+477
+00:35:40,036 --> 00:35:41,061
+[compiler] stuff you have in a driver
+
+478
+00:35:43,059 --> 00:35:47,009
+just to say that this is the kind of PoC, clear to see
+
+479
+00:35:47,009 --> 00:35:51,004
+you don't have external stuff that bother, that bugs your view
+
+480
+00:35:51,004 --> 00:35:52,008
+or your debugging
+
+481
+00:35:52,008 --> 00:36:02,006
+so, this one is just to see the possible values of CR0
+
+482
+00:36:02,006 --> 00:36:07,005
+via the SMSW, theoretically undefined on DWORD
+
+483
+00:36:07,005 --> 00:36:08,067
+but it actually gives you the same value
+
+484
+00:36:08,067 --> 00:36:11,007
+[like] the standard MOV EAX, CR0
+
+485
+00:36:11,007 --> 00:36:16,005
+and here is MOV EAX, CR0 with the wrong Mod/RM
+
+486
+00:36:16,005 --> 00:36:22,019
+which, in the latest Hiew, is actually not disassembled at all
+
+487
+00:36:37,081 --> 00:36:38,084
+let's hope it doesn't crash...
+
+488
+00:36:43,007 --> 00:36:47,003
+so, as you can see, you get exactly the same value
+
+489
+00:36:47,003 --> 00:36:53,037
+whether you're using the normal CR0, the 'invalid' one, and the 'undefined'
+
+490
+00:36:55,006 --> 00:36:57,005
+the upper part is supposed to be undefined
+
+491
+00:36:57,005 --> 00:37:00,007
+usually when it's undefined, it's zeroes, in Intel language
+
+492
+00:37:00,007 --> 00:37:02,002
+but here it just works fine
+
+493
+00:37:02,002 --> 00:37:03,006
+and my machine didn't even crash
+
+494
+00:37:03,006 --> 00:37:05,009
+which means the driver is fine
+
+495
+00:37:05,009 --> 00:37:07,006
+so you can study small drivers
+
+496
+00:37:08,004 --> 00:37:11,024
+the first PoC that I presented here
+
+497
+00:37:11,053 --> 00:37:15,007
+was the one with old disassembly
+
+498
+00:37:15,007 --> 00:37:17,066
+anyone still knows what the value is?
+
+499
+00:37:19,066 --> 00:37:22,052
+so basically, some opcodes are here for garbage
+
+500
+00:37:22,052 --> 00:37:28,002
+just to prove that they are actually [supported], they are just used as junk
+
+501
+00:37:28,002 --> 00:37:30,008
+but registers are actually modified [in the others]
+
+502
+00:37:30,008 --> 00:37:37,056
+and these opcodes from the 70's, or something -- the early 80's
+
+503
+00:37:37,056 --> 00:37:40,090
+are still perfectly working on a modern CPU or even an i7
+
+504
+00:37:43,008 --> 00:37:47,055
+one of the PoC I created is the one that actually tests the values
+
+505
+00:37:47,055 --> 00:37:50,042
+-- the initial values [of each registers] -- so that you can see
+
+506
+00:37:50,050 --> 00:37:54,061
+what would be the possible values whether it's on XP or Windows 7
+
+507
+00:37:56,001 --> 00:38:01,008
+each time [TLS, EntryPoint, DllMain], I just save all the values of the registers
+
+508
+00:38:01,008 --> 00:38:03,066
+and then I compare them to possible values
+
+509
+00:38:03,066 --> 00:38:06,002
+so I test them one after each other
+
+510
+00:38:06,002 --> 00:38:10,007
+actually, on TLS, you have much more control of the values
+
+511
+00:38:10,007 --> 00:38:16,007
+because the values you will get in the TLS -- on loading the TLS
+
+512
+00:38:16,007 --> 00:38:20,002
+are the RVA [of the TLS data directory], the callbacks, the size of the TLS
+
+513
+00:38:20,002 --> 00:38:23,047
+you get that in -- I forgot exactly, but it's in the source...
+
+514
+00:38:26,007 --> 00:38:33,006
+running this will help you to mimic an OS better in your emulator
+
+515
+00:38:33,006 --> 00:38:35,005
+if that's what you're interested [in]
+
+516
+00:38:35,005 --> 00:38:41,006
+SMSW is actually the one comparing -- so, using SMSW,
+
+517
+00:38:41,006 --> 00:38:46,004
+then comparing the value, then checking whether the register changed
+
+518
+00:38:46,004 --> 00:38:48,007
+[after an FPU operation] and then when it reverts normally
+
+519
+00:38:48,007 --> 00:38:52,005
+a funny fact that I would like an explanation [for],
+
+520
+00:38:52,005 --> 00:38:53,053
+if you know it
+
+521
+00:38:54,007 --> 00:39:01,001
+is that actually, this behaviour is different if you run the file normally
+
+522
+00:39:01,001 --> 00:39:04,006
+or if you run it with a redirection
+
+523
+00:39:04,006 --> 00:39:08,004
+if you pipe the output, you get a 'fail' result
+
+524
+00:39:08,004 --> 00:39:11,005
+if you run the file normally, it just works
+
+525
+00:39:11,005 --> 00:39:17,043
+so, I would like -- here, I will just run it, and then I will run it to a file, and just TYPE the result
+
+526
+00:39:22,002 --> 00:39:24,007
+normal execution: OK
+
+527
+00:39:24,007 --> 00:39:26,005
+redirection: FAIL
+
+528
+00:39:26,005 --> 00:39:28,074
+if you guys have any explanation for that, I'm all ears
+
+529
+00:39:30,006 --> 00:39:37,001
+did you try redirecting to something else ? like, a COM
+
+530
+00:39:37,008 --> 00:39:38,066
+oh, I didn't try
+
+531
+00:39:42,000 --> 00:39:44,036
+so, you would pipe to another device, and ...
+
+532
+00:39:44,068 --> 00:39:46,007
+but then, how do you get it back ?
+
+533
+00:39:46,007 --> 00:39:48,001
+printer, or ...
+
+534
+00:39:48,001 --> 00:39:51,008
+yeah, I don't have a COM device or...
+
+535
+00:39:54,002 --> 00:39:56,007
+yeah, I don't know
+
+536
+00:39:56,007 --> 00:39:59,009
+but it was a big surprise, because I had a test bench
+
+537
+00:39:59,009 --> 00:40:01,024
+and then, 'FAIL'. .. uh ?
+
+538
+00:40:02,004 --> 00:40:05,094
+run, OK... so, I have no idea why...
+
+539
+00:40:07,002 --> 00:40:07,097
+the GS trick...
+
+540
+00:40:09,007 --> 00:40:10,037
+quite simple
+
+541
+00:40:10,039 --> 00:40:15,032
+and I also have some output
+
+542
+00:40:19,006 --> 00:40:21,008
+I modified GS then it's reset
+
+543
+00:40:21,008 --> 00:40:23,006
+then it's waited for result
+
+544
+00:40:23,006 --> 00:40:26,005
+then I'm doing 2 resets and checking the time in between
+
+545
+00:40:26,005 --> 00:40:28,071
+so that, it shouldn't happen too quickly
+
+546
+00:40:30,000 --> 00:40:31,031
+NOPs, so...
+
+547
+00:40:37,002 --> 00:40:39,005
+I'm testing the undocumented NOPs
+
+548
+00:40:39,005 --> 00:40:44,000
+testing the NOP that are on invalid page
+
+549
+00:40:53,085 --> 00:40:55,023
+so, standard NOP
+
+550
+00:41:00,042 --> 00:41:01,093
+32b nop
+
+551
+00:41:07,005 --> 00:41:15,007
+so, all my 64b tests are still done in 32b process so that you can run them on normal OS
+
+552
+00:41:15,007 --> 00:41:19,003
+then it detects via GS if 64b [mode] is available
+
+553
+00:41:19,003 --> 00:41:21,006
+and in this case, you would get a different result
+
+554
+00:41:21,006 --> 00:41:26,005
+so, if you run it on 64b, which I don't have here, you would get
+
+555
+00:41:26,005 --> 00:41:28,006
+the actual tests on 64b
+
+556
+00:41:28,006 --> 00:41:30,016
+and the results printed out.
+
+557
+00:41:31,002 --> 00:41:35,001
+but still, it's not possible to debug that easily [wrong]
+
+558
+00:41:35,001 --> 00:41:39,004
+but at least, there's no trick over there, so it's easy to bring back to a 64b process
+
+559
+00:41:39,004 --> 00:41:43,031
+[to step over 64b code and return to the 32b process]
+
+560
+00:41:45,000 --> 00:41:45,076
+PUSH/RET
+
+561
+00:41:48,004 --> 00:41:50,057
+you print the output, and then...
+
+562
+00:41:52,002 --> 00:41:56,087
+Olly nicely tells you that you will jump to 401008
+
+563
+00:41:58,000 --> 00:42:03,007
+but actually -- here the display is actually correct
+
+564
+00:42:03,007 --> 00:42:05,009
+and the TLS already created a null page
+
+565
+00:42:05,009 --> 00:42:06,070
+which prints 'FAIL'
+
+566
+00:42:09,005 --> 00:42:13,066
+so, as expected, but there is no standard way to disassemble that correctly
+
+567
+00:42:15,003 --> 00:42:23,006
+I can't execute the working 64k sections.
+
+568
+00:42:23,006 --> 00:42:27,007
+and actually I'm executing all the code [the complete virtual space of all 64k sections]
+
+569
+00:42:27,007 --> 00:42:29,002
+the sections are quite big
+
+570
+00:42:29,002 --> 00:42:32,044
+and I'm modifying EAX so that all the 00 00 are executed
+
+571
+00:42:32,044 --> 00:42:35,007
+and just to do a printf in the end.
+
+572
+00:42:35,007 --> 00:42:39,000
+it actually takes a few seconds to execute on an i7
+
+573
+00:42:39,000 --> 00:42:43,000
+so it's actually quite funny to see... you launch it... even when the cache is loaded,
+
+574
+00:42:43,000 --> 00:42:48,023
+and the OS is ready to be fast... you launch it... and printf comes a few seconds later
+
+575
+00:42:50,009 --> 00:42:58,048
+virtual sections is the one that Hiew doesn't think it's a PE at all -- this is the latest Hiew
+
+576
+00:43:00,005 --> 00:43:02,003
+well, it's been patched anyway
+
+577
+00:43:02,003 --> 00:43:08,006
+well, I can't browse PE now that it doesn't think it's a PE file...
+
+578
+00:43:08,006 --> 00:43:13,001
+but basically, it thinks that the OPTIONAL_HEADER points to the end of the file -- beyond the end of
+
+579
+00:43:13,001 --> 00:43:14,004
+the file
+
+580
+00:43:14,004 --> 00:43:15,008
+the folded header...
+
+581
+00:43:16,056 --> 00:43:17,050
+a few error messages...
+
+582
+00:43:18,006 --> 00:43:20,009
+because of the wrong data directories
+
+583
+00:43:20,009 --> 00:43:22,089
+and the actual DD are at the start of...
+
+584
+00:43:30,002 --> 00:43:31,036
+...the section
+
+585
+00:43:33,001 --> 00:43:40,090
+this would be the imports and the actual real DD
+
+586
+00:43:42,004 --> 00:43:48,067
+and last, the one with the TLS AddressOfIndex that is pointing...
+
+587
+00:43:57,051 --> 00:44:01,042
+...inside the imports, at the AddressOfName
+
+588
+00:44:02,003 --> 00:44:04,003
+so it will overwrite the loading [overwrite the pointer during loading]
+
+589
+00:44:04,003 --> 00:44:11,009
+and when you just load it, it just says 'it's XP' because
+
+590
+00:44:11,009 --> 00:44:14,007
+my imports were loaded this way, and not the other way.
+
+591
+00:44:14,007 --> 00:44:17,001
+and if you run that file [under W7], it will give you another results
+
+592
+00:44:17,001 --> 00:44:18,016
+and then, the exports...
+
+593
+00:44:19,005 --> 00:44:24,005
+where some of the exports are actually very long
+
+594
+00:44:24,005 --> 00:44:30,005
+you can see that actually, here I'm taking over the disassembly
+
+595
+00:44:30,005 --> 00:44:33,009
+so I'm repeating the same fake opcodes and address
+
+596
+00:44:33,009 --> 00:44:36,015
+so you fool the disassembler that way
+
+597
+00:44:37,005 --> 00:44:40,005
+I think it's just a visual effect, they are no big problems
+
+598
+00:44:40,005 --> 00:44:43,001
+but it's a known problem that was fixed recently in IDA
+
+599
+00:44:43,001 --> 00:44:46,054
+that if you put an export in the middle of the instruction
+
+600
+00:44:46,054 --> 00:44:49,007
+the fake export will actually take over the disassembly,
+
+601
+00:44:49,007 --> 00:44:52,001
+and that would ruin the disassembly
+
+602
+00:44:52,001 --> 00:44:56,012
+there's actually a PoC for that in Corkami, of course
+
+603
+00:44:57,020 --> 00:44:59,050
+so, that's all for the demos
+
+604
+00:45:04,056 --> 00:45:09,012
+so, I wanted to know more about x86 and PE
+
+605
+00:45:09,061 --> 00:45:12,006
+which are far from perfectly documented
+
+606
+00:45:12,006 --> 00:45:14,007
+and are still not perfectly documented,
+
+607
+00:45:14,007 --> 00:45:18,004
+but at least, I've been covering some parts of it,
+
+608
+00:45:18,004 --> 00:45:20,004
+there are still some gray areas,
+
+609
+00:45:20,004 --> 00:45:23,048
+but at least, every day, I'm just learning a bit more,
+
+610
+00:45:23,048 --> 00:45:25,084
+and publishing my results and sharing them openly,
+
+611
+00:45:27,030 --> 00:45:31,007
+like WinDbg, if you follow only the official documentations,
+
+612
+00:45:31,069 --> 00:45:36,001
+you will only get bad results, with malwares and packers out there,
+
+613
+00:45:36,001 --> 00:45:40,006
+if you - yourself - are interested, or you develop a tool, an emulator, an engine, whatever...
+
+614
+00:45:40,006 --> 00:45:44,005
+well you know you can just visit Corkami, read the pages,
+
+615
+00:45:44,005 --> 00:45:48,002
+download the PoCs, which are [freely] available,
+
+616
+00:45:48,002 --> 00:45:50,007
+and if you find any bugs - which might happen,
+
+617
+00:45:50,007 --> 00:45:54,026
+then send me a postcard, or a red-cross T-shirt
+
+618
+00:45:57,000 --> 00:46:01,007
+Thanks to Peter Ferrie, and all my reviewers, and people who contributed...
+
+619
+00:46:01,007 --> 00:46:02,025
+do you have any questions ?
+
+620
+00:46:03,006 --> 00:46:10,008
+did you ran them through AVs - antivirus scanners? you would find a sh*tload of 0days
+
+621
+00:46:10,008 --> 00:46:21,072
+no, then, I wouldn't be good to actually turn them into exploits or anything, so...
+
+622
+00:46:23,009 --> 00:46:29,000
+already breaking all the disassemblers and stuff was good enough for me
+
+623
+00:46:29,000 --> 00:46:32,079
+I found a crash in Intel XED, which was good enough
+
+624
+00:46:40,002 --> 00:46:43,058
+any other question? everybody survived the presentation?
+
+625
+00:46:45,000 --> 00:46:46,054
+it's a great talk, man
+
+626
+00:46:46,064 --> 00:46:47,060
+thank you!
+
+627
+00:46:48,002 --> 00:46:50,007
+THANK YOU! [for watching]

@@ -1,0 +1,1523 @@
+1
+00:00:00,000 --> 00:00:06,040
+(subtitles by Ange Albertini)
+
+2
+00:00:23,039 --> 00:00:24,054
+Hello everybody
+
+3
+00:00:25,094 --> 00:00:26,087
+Welcome to my talk,
+
+4
+00:00:26,087 --> 00:00:28,009
+I'm Ange Albertini
+
+5
+00:00:28,009 --> 00:00:31,067
+I will speak about the PE file format
+
+6
+00:00:41,047 --> 00:00:43,072
+I've been a reverse engineer for some time
+
+7
+00:00:43,072 --> 00:00:46,056
+and a few years ago, I was ashamed by a malware,
+
+8
+00:00:46,056 --> 00:00:49,029
+for which I couldn't understand the PE file structure
+
+9
+00:00:49,029 --> 00:00:51,046
+so I decided to go back to my studies
+
+10
+00:00:51,046 --> 00:00:53,065
+studying the PE file format from scratch
+
+11
+00:00:53,065 --> 00:00:56,094
+and I decided to share it on my website
+
+12
+00:00:56,094 --> 00:00:59,031
+following a few strict rules
+
+13
+00:01:00,029 --> 00:01:02,090
+my website is called corkami.com,
+
+14
+00:01:06,080 --> 00:01:12,060
+for example, whenever I learn a new fact, I will create a proof of concept,
+
+15
+00:01:12,060 --> 00:01:15,079
+so that I'm sure this is how things actually  work
+
+16
+00:01:15,079 --> 00:01:21,015
+also, I create all these proof of concept, by hand, from scratch
+
+17
+00:01:21,015 --> 00:01:26,019
+which means I'm not patching already existing files, using a generator or a compiler,
+
+18
+00:01:26,019 --> 00:01:29,056
+so that I'm sure I control everything in the full structure.
+
+19
+00:01:29,056 --> 00:01:36,008
+it's a bit tedious and requires a lot of extra work, but at least, I'm in full control,
+
+20
+00:01:36,008 --> 00:01:41,001
+for example, I type my PDF files in notepad,  so this is a complete PDF,
+
+21
+00:01:41,001 --> 00:01:47,032
+or I create the whole PE structure by outputting every byte of the file structure,
+
+22
+00:01:47,032 --> 00:01:53,010
+or, in this case, for a Java Class, I created my own script to output the opcodes individually,
+
+23
+00:01:53,010 --> 00:01:58,042
+so I'm sure this is how and why things actually work.
+
+24
+00:02:00,070 --> 00:02:04,063
+so that every proof of concept is pin-pointed on the fact that I'm studying,
+
+25
+00:02:04,063 --> 00:02:09,007
+it's crystal clear because there is no noise coming from the generator or anything else,
+
+26
+00:02:09,007 --> 00:02:13,027
+and, also important, they are clean - even if they are odd, they are not malicious,
+
+27
+00:02:13,027 --> 00:02:17,039
+so they are shareable, they are not dangerous to share around,
+
+28
+00:02:18,039 --> 00:02:21,099
+so this makes Corkami a technical website
+
+29
+00:02:22,070 --> 00:02:30,048
+Also, I wanted to be nice to the visitors, and to make easy access to everything, no ads, log-in or whatever
+
+30
+00:02:30,048 --> 00:02:37,034
+and everything on my website is open source, using a licence that is reusable commercially
+
+31
+00:02:37,034 --> 00:02:40,051
+everything is open-source, including the documents and graphics,
+
+32
+00:02:40,051 --> 00:02:44,061
+and also I'm trying to rely only free tools for everything,
+
+33
+00:02:44,061 --> 00:02:49,079
+so everybody can review, comment my work
+
+34
+00:02:49,079 --> 00:02:52,066
+and more importantly, they can suggest
+
+35
+00:02:52,066 --> 00:02:59,093
+so for example, sometimes guys have a malware or a confidential file that they are not allowed to share,
+
+36
+00:02:59,093 --> 00:03:04,029
+but still has something interesting, [so] they come to me and they know that out of it,
+
+37
+00:03:04,029 --> 00:03:10,016
+I'll extract the interesting property, so then it's available for everybody on Corkami.
+
+38
+00:03:10,016 --> 00:03:14,017
+Also, I provide the binaries, because sometimes it's a pain to compile them,
+
+39
+00:03:14,017 --> 00:03:18,073
+so if you're just interested in testing your tools, your emulator, or anything,
+
+40
+00:03:18,073 --> 00:03:23,001
+then you can just download all the proofs of concept - just to give you an idea, right now,
+
+41
+00:03:23,001 --> 00:03:26,054
+I have a bit more of 160 different PE files on Corkami,
+
+42
+00:03:26,054 --> 00:03:31,091
+so if you're interested in studying it in details or testing your emulator for robustness or something like this,
+
+43
+00:03:31,091 --> 00:03:35,077
+then just download them, it's a single archive.
+
+44
+00:03:35,077 --> 00:03:37,075
+so, this makes Corkami free.
+
+45
+00:03:38,062 --> 00:03:44,040
+and also, what's the final goal of Corkami? it's not to advertise for a specific company, it's for my own use.
+
+46
+00:03:44,040 --> 00:03:51,091
+I'm not trying to do something shiny, I'm just trying to do something useful, that I would use myself as a reference,
+
+47
+00:03:51,091 --> 00:03:55,070
+either to learn, remember or to teach other people,
+
+48
+00:03:55,070 --> 00:04:02,040
+and the test set that all these files represent is meaningful, because - first - it failed all the tools I tried,
+
+49
+00:04:02,040 --> 00:04:04,057
+IDA, OllyDbg, Hiew...
+
+50
+00:04:06,012 --> 00:04:11,014
+and it's clean, while it's odd and really pushing the envelope, and it's really unusual,
+
+51
+00:04:11,014 --> 00:04:15,096
+everything is clean, so it's freely shareable, there's no boundaries.
+
+52
+00:04:15,096 --> 00:04:21,083
+and also, you cannot ask people just to review proofs of concept, and to look at sourcecode,
+
+53
+00:04:21,083 --> 00:04:28,032
+so when I have enough proofs of concept, I start writing a wiki page, that tries to summarize everything,
+
+54
+00:04:28,032 --> 00:04:34,001
+but I don't have so much time, all this is just a hobby I do once the kids are asleep,
+
+55
+00:04:34,001 --> 00:04:37,027
+the wiki page is often outdated compared to the rest,
+
+56
+00:04:37,027 --> 00:04:46,021
+and eventually, when the wiki page has been live for enough months, I submit for a presentation [apply in conference]
+
+57
+00:04:46,021 --> 00:04:50,036
+and also, because sometimes you cannot ask people just to read text and whatever,
+
+58
+00:04:50,036 --> 00:04:54,076
+I also focus on trying to make documents that I use myself as a reference,
+
+59
+00:04:54,076 --> 00:05:04,043
+so whether it's opcode tables, or graphics, or posters, I also try to do some document that I used to teach people.
+
+60
+00:05:04,043 --> 00:05:06,001
+that the people would print,
+
+61
+00:05:06,001 --> 00:05:11,072
+that I would print myself to give some documentation to someone instead of reading lines of code and source.
+
+62
+00:05:11,072 --> 00:05:14,047
+so, I believe that makes Corkami useful.
+
+63
+00:05:14,047 --> 00:05:21,070
+so, the rules of how I wanted to share my knowledge on Corkami, is that it's technical, free and useful.
+
+64
+00:05:21,070 --> 00:05:23,061
+and I don't think I'm anyone special,
+
+65
+00:05:23,061 --> 00:05:27,027
+so it's the best way I can provide and share my knowledge with the community.
+
+66
+00:05:28,022 --> 00:05:29,055
+so, first of all,
+
+67
+00:05:29,055 --> 00:05:34,041
+I will start with an easy introduction on what's a PE file (but really lightly)
+
+68
+00:05:34,041 --> 00:05:38,018
+and then I explain at least why I decided to create yet another doc,
+
+69
+00:05:38,018 --> 00:05:42,092
+and then I will enumerate a few oddities, whether they're static or dynamic.
+
+70
+00:05:42,092 --> 00:05:47,092
+the thing is, I can't cover all the 160 proof of concept on the website,
+
+71
+00:05:47,092 --> 00:05:52,016
+and if you want to go for more, and if you have some tools to test, or to learn,
+
+72
+00:05:52,016 --> 00:05:55,031
+then go ahead, on the website.
+
+73
+00:05:55,031 --> 00:06:00,007
+so, "PE file", "Portable Executable", or the "Common Object File Format",
+
+74
+00:06:00,007 --> 00:06:01,050
+ok, the basics
+
+75
+00:06:01,050 --> 00:06:09,049
+PE file is the Windows binary [format], so if ever ran one of these, then you actually executed a PE file in your life.
+
+76
+00:06:09,049 --> 00:06:14,086
+actually, PE file is for executables, DLLs and drivers,
+
+77
+00:06:14,086 --> 00:06:17,012
+so it's used a bit everywhere in Windows,
+
+78
+00:06:17,012 --> 00:06:24,086
+so if you take a Windows 7 live system, then  you end up having a lot of modules loaded at the same time in memory,
+
+79
+00:06:24,086 --> 00:06:32,075
+this is just a standard -- all the modules present on a standard Windows 7 system [in usermode]
+
+80
+00:06:32,075 --> 00:06:38,056
+PE file format is also used to store pure data stuff, so for example when you share icons,
+
+81
+00:06:38,056 --> 00:06:45,095
+they are typically stored in a DLL, that is used just as Icon storage.
+
+82
+00:06:55,077 --> 00:06:58,088
+it's also used for translation strings
+
+83
+00:06:58,088 --> 00:07:03,083
+in Windows 7, the strings for all the text of the interface are stored in independant DLLs
+
+84
+00:07:03,083 --> 00:07:09,040
+they only have a resource section, no code, and all the resources are strings,
+
+85
+00:07:09,040 --> 00:07:15,006
+it's also used for keyboard layouts, so once again, no code
+
+86
+00:07:15,006 --> 00:07:23,087
+this is yet another DLL that has no code, and is used in standard by the OS
+
+87
+00:07:23,087 --> 00:07:32,062
+a funny exception is that fonts are NOT stored in PE files, they are stored as standalone binary data files
+
+88
+00:07:32,062 --> 00:07:39,081
+except the old bitmap fonts, which are - even under Windows 7 - stored in the outdated New Executable files
+
+89
+00:07:39,081 --> 00:07:47,020
+so all these bitmap fonts are actually NE files, the file format from OS/2.
+
+90
+00:07:47,020 --> 00:07:53,057
+which is not executable anymore, but these fonts are still using this outdated format
+
+91
+00:07:53,057 --> 00:07:58,034
+but the day someone finds an exploit in these fonts, people will have to use an outdated parser
+
+92
+00:07:58,034 --> 00:08:00,080
+in their security tools.
+
+93
+00:08:00,080 --> 00:08:05,031
+so, Basically, PE file is really the universal windows binary [format].
+
+94
+00:08:05,031 --> 00:08:12,029
+and if you are not familiar at all with PE files yourself, or if you know someone who's  not familiar at all,
+
+95
+00:08:12,029 --> 00:08:17,053
+I made this poster, which is a simplified explanation, but it's self-contained
+
+96
+00:08:17,053 --> 00:08:21,028
+so you can print it and download it [and not require an extra document]
+
+97
+00:08:21,028 --> 00:08:32,093
+it's available in English, German, Spanish, Japanese, Korean (not available yet but will   be ready soon)
+
+98
+00:08:32,093 --> 00:08:43,026
+Polish (how do you say the title? thank you!)
+
+99
+00:08:43,026 --> 00:08:46,003
+I don't know how to say the Korean one
+
+100
+00:08:46,003 --> 00:08:48,091
+and actually, if you're familiar with the PE file format,
+
+101
+00:08:48,091 --> 00:08:52,076
+you maybe already know the OpenRCE poster, which was made by Ero Carrera,
+
+102
+00:08:52,076 --> 00:08:59,033
+and one thing is this poster was always available online, but his next 2 posters were only available commercially,
+
+103
+00:08:59,033 --> 00:09:05,030
+so here they are, they are not available yet, he's planning to re-work on them,
+
+104
+00:09:05,030 --> 00:09:09,084
+and if you're interested in those posters, he accepted that I mention them at my talk,
+
+105
+00:09:09,084 --> 00:09:15,034
+so that you give him pressure, so that you make him move them to higher priority, so that he releases them.
+
+106
+00:09:15,034 --> 00:09:20,090
+so, he made an improved layout poster, and also a PE header walkthrough.
+
+107
+00:09:20,090 --> 00:09:28,015
+he plans to release them. if you want them, tell him! He said he was ok with me doing so.
+
+108
+00:09:28,015 --> 00:09:37,090
+so, once again, if you need an easy and visual introduction, I also supply the file that is being analyzed.
+
+109
+00:09:37,090 --> 00:09:45,002
+it's available on the website, so that you can actually see it yourself, and all the elements are described,
+
+110
+00:09:45,002 --> 00:09:47,036
+so it's an easy introduction for the format.
+
+111
+00:09:50,008 --> 00:09:52,062
+any questions so far?
+
+112
+00:09:52,062 --> 00:10:00,063
+now, we're gonna leave the easy part - if you were not familiar with PE - now it's gone.
+
+113
+00:10:00,063 --> 00:10:08,007
+I will not detail every element of the PE file format. We'll switch to the a bit extreme side of the PE file.
+
+114
+00:10:08,007 --> 00:10:14,022
+so, my other page - this is the advanced page where I try to summarize all of my findings.
+
+115
+00:10:14,022 --> 00:10:20,005
+even if it's a bit permanently outdated. the proofs of concept are a bit more up to date.
+
+116
+00:10:20,005 --> 00:10:26,067
+so, the important thing is here, I'm interested in what the OS actually allows,
+
+117
+00:10:26,067 --> 00:10:32,036
+and not the incomplete specs of Microsoft or any other documentation is about.
+
+118
+00:10:32,036 --> 00:10:40,084
+so, of course, there is an official Microsoft documentation, that is pretending, well... it's not pretending anything...
+
+119
+00:10:40,084 --> 00:10:44,018
+so, I won't spend a lot of time on it.
+
+120
+00:10:44,018 --> 00:10:46,040
+for example, 2 easy examples.
+
+121
+00:10:46,040 --> 00:10:50,057
+it says that the SizeOfOptionalHeader is actually, the size of the optional header.
+
+122
+00:10:50,057 --> 00:10:54,063
+the optional header being constant, it should be a constant.
+
+123
+00:10:54,063 --> 00:10:59,042
+and just another one. Win32VersionValue is reserved and must be zero.
+
+124
+00:10:59,042 --> 00:11:06,026
+ok, so 2 of my PoCs. one of them actually uses a SizeOfOptionalHeader that is 0, and it works.
+
+125
+00:11:06,026 --> 00:11:12,053
+it means the sections table is overlapping the OptionalHeader, and here, I have another PoC
+
+126
+00:11:12,053 --> 00:11:19,022
+it's actually a SizeOfOptionalHeader that is longer than the file itself. so, thank you Microsoft.
+
+127
+00:11:19,022 --> 00:11:27,014
+and for the Win32VersionValue, it can be non-zero, it's actually used in malwares.
+
+128
+00:11:27,014 --> 00:11:33,017
+so basically, this is interfering with the actual version, that will be reported by the OS, on the PEB [Process Environmnent Block]
+
+129
+00:11:33,017 --> 00:11:38,092
+so basically, if you modify Win32VersionValue, then a call to GetVersion   will give you this funny version number
+
+130
+00:11:38,092 --> 00:11:40,084
+that is coming from Win32VersionValue.
+
+131
+00:11:40,084 --> 00:11:42,031
+this is actually used in malware.
+
+132
+00:11:42,031 --> 00:11:48,012
+so, as you can see, if you rely on this documentation, you're bound to fail.
+
+133
+00:11:48,012 --> 00:11:55,051
+of course, maybe there would be a private confidential Microsoft-only documentation,
+
+134
+00:11:55,051 --> 00:12:03,076
+but I discovered recently that Windows 7 AppLocker is rejecting some files
+
+135
+00:12:03,076 --> 00:12:08,012
+the message is funny, because it says 'AppLocker - is not a valid Win32 application'
+
+136
+00:12:08,012 --> 00:12:09,093
+so already, the message is funny.
+
+137
+00:12:09,093 --> 00:12:13,044
+and it's rejecting files that are perfectly working, thinking they're not even valid.
+
+138
+00:12:13,044 --> 00:12:18,081
+while they perfectly work. So here, this is a bug that I found last month:
+
+139
+00:12:18,081 --> 00:12:24,020
+in AppLocker, it rejects PE files just based on the LinkerVersion, which is absolutely meaningless.
+
+140
+00:12:24,020 --> 00:12:29,091
+so, I have no idea why they would say it's not valid.
+
+141
+00:12:29,091 --> 00:12:33,098
+so at least, if there is a perfect documentation, it's not at Microsoft.
+
+142
+00:12:33,098 --> 00:12:39,082
+because otherwise such an incredible weirdness wouldn't happen.
+
+143
+00:12:39,082 --> 00:12:43,008
+of course, there are other documentations on the PE file format.
+
+144
+00:12:43,008 --> 00:12:51,006
+but what's lacking is that most of them are based on existing files: "I never saw that field in use", or something like this.
+
+145
+00:12:51,006 --> 00:13:00,011
+and most of the time, you only get a webpage with pictures, not the actual PoCs that runs and will save you time,
+
+146
+00:13:00,011 --> 00:13:07,050
+that will make yourself sure because sometimes the doc is not so clear,
+
+147
+00:13:07,050 --> 00:13:12,048
+so at least, when you have the PoC, you know this is how things work, and when there are [available PoCs],
+
+148
+00:13:12,048 --> 00:13:15,053
+they are either very limited, or messy, like patched files,
+
+149
+00:13:15,053 --> 00:13:18,088
+or private, and you have to contact the person, and everything...
+
+150
+00:13:18,088 --> 00:13:23,084
+but I don't claim that Corkami's documentation is perfect. the first reason is that it's only a hobby.
+
+151
+00:13:23,084 --> 00:13:28,094
+and I don't focus on explaining everything, even if, at some time, I was considering writing a book...
+
+152
+00:13:28,094 --> 00:13:30,095
+...on the PE file format,
+
+153
+00:13:30,095 --> 00:13:36,000
+but at least, for now, just highlight oddities via my various PoCs.
+
+154
+00:13:36,000 --> 00:13:43,011
+so, just to make sure, usually, in peoples' mind, a standard PE file has sections, an EntryPoint, and imports
+
+155
+00:13:43,011 --> 00:13:48,008
+and it's possible to do a PoC that has no section, no EntryPoint, and no Import
+
+156
+00:13:48,008 --> 00:13:56,071
+that just has code that is running. so if you were following model, then your parser, or when you analyze a file,
+
+157
+00:13:56,071 --> 00:13:59,074
+you're bound to fail - with malware of course.
+
+158
+00:13:59,074 --> 00:14:04,001
+compiled files are standard and clean [PE-wise], but it's not my focus here.
+
+159
+00:14:04,093 --> 00:14:08,046
+so I'll start with the static oddities
+
+160
+00:14:08,046 --> 00:14:14,054
+I discovered that the most basic PE is not executable in the OS.
+
+161
+00:14:14,054 --> 00:14:22,021
+because you can have - like those for the resources, and icons, and stuff - "data files" PE.
+
+162
+00:14:22,021 --> 00:14:27,024
+PE files that are loaded by LoadLibraryEx with a special parameter saying it's a data file.
+
+163
+00:14:27,024 --> 00:14:35,071
+it has to be a PE - it will fail if it's any kind of binary - but it can be <i>just</i> a PE in its most strict meaning.
+
+164
+00:14:35,071 --> 00:14:42,033
+just MZ, e<u>lfwanew and the PE signature, that's it. then, it's accepted.</u>
+
+165
+00:14:42,033 --> 00:14:47,061
+it doesn't have a magic, machine, alignment, all these kind of things that we think are standard,
+
+166
+00:14:47,061 --> 00:14:52,030
+so if you want to hook at this [LoadLibraryEx], make sure that the PE file is different,
+
+167
+00:14:52,030 --> 00:14:55,028
+so it means that the parser is different from the standard one,
+
+168
+00:14:55,028 --> 00:15:03,077
+and even if you don't specify it's x86 code or anything, it can contain code. and you can execute it!
+
+169
+00:15:03,077 --> 00:15:07,001
+and another trick, is because "PE\0\0" [signature] doesn't even have to be full,
+
+170
+00:15:07,001 --> 00:15:15,002
+you don't even need the zeroes, you can then make a non-null PE file that will have code executed.
+
+171
+00:15:15,002 --> 00:15:20,034
+(it was a request from IvanLeF0u) it's not possible as a standard executable binary,
+
+172
+00:15:20,034 --> 00:15:23,032
+but as a data file binary, it's possible to do a non-null.
+
+173
+00:15:23,032 --> 00:15:28,027
+and because all the rest [of the header] is not taken into account, you can very easily break all the parsers
+
+174
+00:15:28,027 --> 00:15:34,008
+because all the values are ignored, and the headers themselves can be truncated
+
+175
+00:15:34,008 --> 00:15:42,038
+either you truncate the PE signature, either you don't need to go beyond one byte of e<u>lfanew for it to work.</u>
+
+176
+00:15:42,038 --> 00:15:47,027
+then, I was wondering what is the minimum requirement for those PEs that actually contain resources
+
+177
+00:15:47,027 --> 00:15:49,032
+Data PE typically have resources,
+
+178
+00:15:49,032 --> 00:15:56,087
+and it's pretty fucked up again, everything can be full of FF, and you can still do a LoadLibrary and FindResource
+
+179
+00:15:56,087 --> 00:15:58,043
+and use the resource correctly,
+
+180
+00:15:58,043 --> 00:16:02,037
+and you just need <i>PE<i>, <i>SizeOfOptionalHeader<i>, <i>Magic<i>, <i>SizeOfHeaders</i> and <i>Resources</i> [Data directory]</i></i></i></i></i></i>
+
+181
+00:16:02,037 --> 00:16:10,085
+the rest is completely f<i>cked up - you can see I declare 65536 sections - only the 1st section is meaningful.</i>
+
+182
+00:16:10,085 --> 00:16:16,092
+so, if your parser, or if you're relying on that to see if the file is valid, then you're bound to fail,
+
+183
+00:16:16,092 --> 00:16:20,056
+because it just works, even under Windows 7.
+
+184
+00:16:20,056 --> 00:16:26,042
+ok, I must admit that these files are a bit unusual, but still, if you hook that,
+
+185
+00:16:26,042 --> 00:16:36,082
+or if during an intrusion test, you can put your own file to be loaded via LoadLibraryEx,
+
+186
+00:16:36,082 --> 00:16:41,054
+then you can have a backdoor that people wouldn't expect [it won't be scanned]
+
+187
+00:16:41,054 --> 00:16:43,021
+back to classic PEs, the one with 'declared' code
+
+188
+00:16:43,021 --> 00:16:49,014
+(the others could still contain code, not officially declared [in the header] as [any kind of] assembly)
+
+189
+00:16:49,014 --> 00:16:54,034
+the good old DOS header [and stub] is still under present under Windows 7 64b,
+
+190
+00:16:54,034 --> 00:17:05,013
+usually, this old 16 bit DOS stub is just printing a message and exiting.
+
+191
+00:17:05,013 --> 00:17:12,040
+I was wondering what are the actual possibilities of that header, so one of my PoC is actually a broken PE,
+
+192
+00:17:12,040 --> 00:17:19,092
+PE-wise, it's broken. the DOS stub will be executed, and is actually loading the file itself, patches itself,
+
+193
+00:17:19,092 --> 00:17:27,018
+and launching itself again, so at first launch, this is 16b code, and then this is the PE file code that is executed.
+
+194
+00:17:27,018 --> 00:17:31,054
+so this line is shown by 16b dos stub [via Int 21, and the next line is printed via 32b PE code],
+
+195
+00:17:31,054 --> 00:17:33,061
+then it's executing itself again.
+
+196
+00:17:33,061 --> 00:17:41,091
+So, if your customers still have XP, it might be a way to get in because most tools will just say 'this is not a PE file'
+
+197
+00:17:41,091 --> 00:17:48,094
+'and it's not executable'. well, it is, and recovering itself. on disk, so the image will be detected.
+
+198
+00:17:48,094 --> 00:17:55,054
+but still, it was surprising because if you think about it, old dos files were not allowed to execute PE files.
+
+199
+00:17:55,054 --> 00:17:57,011
+that didn't exist in the past.
+
+200
+00:17:57,011 --> 00:18:05,028
+so I don't see why DOS files could execute a 32b file just fine. it's a bit of a danger, but XP is outdated, so...
+
+201
+00:18:05,028 --> 00:18:23,008
+ImageBase... is pretty standard. must be a multiple of 10 000h. You cannot collide with  System DLLs.
+
+202
+00:18:23,008 --> 00:18:30,011
+the error messages are completely different depending on the OS.
+
+203
+00:18:30,011 --> 00:18:36,065
+if you collide with ntdll under 7, it says 'the subsystem needed to support the image type is not present'
+
+204
+00:18:36,065 --> 00:18:41,087
+which is absolutely meaningless, because it's actually something like (under XP)
+
+205
+00:18:41,087 --> 00:18:45,059
+'illegal system DLL relocation'.
+
+206
+00:18:45,059 --> 00:18:50,035
+For 4 collisions, every time you get a different result under 2 versions of Windows.
+
+207
+00:18:50,035 --> 00:18:53,006
+I wonder what is their policy there.
+
+208
+00:18:53,006 --> 00:19:00,012
+Another thing is that it's absolutely not a problem to have an ImageBase in kernel [range] for user-mode [PEs]
+
+209
+00:19:00,012 --> 00:19:04,085
+provided you have relocations. This is not a perfect trick, but I found a CVE this way:
+
+210
+00:19:04,085 --> 00:19:18,073
+I had to install a security software, and I just happened to run one of my PE. and then I got a blue screen.
+
+211
+00:19:18,073 --> 00:19:25,046
+there are many tricks with EntryPoint. at 0,   it's a classic case.
+
+212
+00:19:25,046 --> 00:19:35,042
+the EntryPoint being virtual. in this case, it's one byte before the virtual start, not on the physical image.
+
+213
+00:19:35,042 --> 00:19:40,078
+a virtual 0 would be used to encode some stuff. This will break some loaders because the address of the EntryPoint
+
+214
+00:19:40,078 --> 00:19:43,040
+is not physical.
+
+215
+00:19:47,059 --> 00:19:52,019
+Actually, there is absolutely no check on the EntryPoint itself. it can be just anywhere in memory
+
+216
+00:19:52,019 --> 00:19:58,078
+and is just executed blindly. so if your TLS [Thread Local Storage callback] is allocating the memory space,
+
+217
+00:19:58,078 --> 00:20:05,036
+or a DLL [with no relocation] that is placed [at the right address],
+
+218
+00:20:05,036 --> 00:20:13,015
+or you can directly call system APIs, there is absolutely no check on the validity of the EntryPoint.
+
+219
+00:20:13,015 --> 00:20:18,069
+that shows how fucked up the Windows loader is.
+
+220
+00:20:18,069 --> 00:20:22,089
+TLS is execuded before and after EntryPoint.
+
+221
+00:20:22,089 --> 00:20:27,010
+if a TLS [callback] is actually triggering ExitProcess, then the EntryPoint will never be called.
+
+222
+00:20:28,041 --> 00:20:40,036
+Subsystem: no particular trick. it's the last required element to be present. if it's 0, the file will not work.
+
+223
+00:20:40,036 --> 00:20:47,080
+but there are no requirement between a driver and a standard PE file, which means
+
+224
+00:20:47,080 --> 00:20:55,010
+Just to be sure, I made one of my PoC, is actually a file that is working in all the 3 subsystems,
+
+225
+00:20:55,010 --> 00:20:59,037
+so if you just change the subsystem and you load it, it will work accordingly, as a driver:
+
+226
+00:20:59,037 --> 00:21:06,043
+it checks "I am in kernel mode? I am in user-mode?". then it locates the imports [manually] and it also works as GUI
+
+227
+00:21:06,043 --> 00:21:13,008
+or console. so, besides the low alignments, there is no difference between a driver and [another kind of] PE file
+
+228
+00:21:13,008 --> 00:21:21,022
+so that enabled me to -- sometimes, malware packers for drivers are a bit simple in what they do, but usually,
+
+229
+00:21:21,022 --> 00:21:29,001
+being a driver-mode code, it's a bit annoying to debug. so, because the only difference is a subsystem,
+
+230
+00:21:29,001 --> 00:21:33,024
+so, if you change a subsystem, you could load it in OllyDbg or any usermode debugger,
+
+231
+00:21:33,024 --> 00:21:39,027
+the thing is the imports will not resolve if the driver has imports, so for that I created a fake ntoskrnl, that
+
+232
+00:21:39,027 --> 00:21:45,074
+actually redirects standard kernel mode APIs to usermode.
+
+233
+00:21:45,074 --> 00:21:52,032
+so basically, it's possible to take your driver, patch the subsystem, use a fake ntoskrnl, and load it
+
+234
+00:21:52,032 --> 00:21:56,005
+with OllyDbg, and still be able to debug some code [like ExAllocatePool calls],
+
+235
+00:21:56,005 --> 00:21:59,074
+this was used for the public CTF last year at NuitDuHack [a keygen using a driver]
+
+236
+00:22:04,030 --> 00:22:12,021
+There are many tricks for sections: there can be no section [with low alignments], up to 96 under XP,
+
+237
+00:22:12,021 --> 00:22:23,037
+up to 64k sections under Windows 7 and Vista, you have several tricks, one of my favorite trick is this one:
+
+238
+00:22:27,061 --> 00:22:31,001
+basically, in low alignments, only the first section is taken into consideration,
+
+239
+00:22:31,017 --> 00:22:34,082
+so only the rest is complete garbage, and it just works.
+
+240
+00:22:36,007 --> 00:22:44,004
+I know this file is extreme, but it would be pretty difficult to determine if it would run or not.
+
+241
+00:22:45,009 --> 00:22:47,057
+Now, let's move on to the dynamic oddities
+
+242
+00:22:50,028 --> 00:22:53,026
+during the loading process, all the headers are parsed on disk,
+
+243
+00:22:53,026 --> 00:22:57,067
+and the data directories are parsed once everything is mapped in memory.
+
+244
+00:22:59,021 --> 00:23:10,004
+if you play the trick and the section overlaps the Data Directories, you can get some funny DDs
+
+245
+00:23:11,055 --> 00:23:18,031
+when the attacker is making ASCII art with DDs, you can tell something wrong is going on.
+
+246
+00:23:18,093 --> 00:23:20,044
+but it still works.
+
+247
+00:23:20,044 --> 00:23:24,011
+this idea actually comes from Reversing Labs.
+
+248
+00:23:25,024 --> 00:23:31,004
+there are other possibilities when some data are taken into consideration after loading.
+
+249
+00:23:31,004 --> 00:23:35,007
+so you have non-existing bytes [non physical] but when they are filled with zeroes,
+
+250
+00:23:35,007 --> 00:23:39,062
+then the structure becomes valid while they are not present on the physical file. [imports terminator, relocations...]
+
+251
+00:23:40,050 --> 00:23:49,099
+TLS is probably one of the most f<i>cked up part of the PE file. it's a list of callbacks, that are executed one after</i>
+
+252
+00:23:49,099 --> 00:23:54,020
+each other, but the list can be updated on the fly.
+
+253
+00:23:54,020 --> 00:24:00,071
+a first TLS puts the 2nd TLs in the list, which will be executed.
+
+254
+00:24:00,071 --> 00:24:09,029
+TLS are executed on thread start and thread stop, which means before the EntryPoint and after ExitProcess
+
+255
+00:24:09,029 --> 00:24:14,076
+so, it's known for 'before EntryPoint', so EntryPoint is not the first point of execution,
+
+256
+00:24:14,076 --> 00:24:18,064
+but also, you can have an ExitProcess [call] and then the code is still actually doing something.
+
+257
+00:24:18,064 --> 00:24:23,038
+and another thing is that TLS can trigger unhandled exceptions.
+
+258
+00:24:23,038 --> 00:24:28,041
+Unlike the EntryPoint, a TLS can do something completely garbage, triggering exceptions,
+
+259
+00:24:28,041 --> 00:24:34,029
+and then the EntryPoint will be executed just fine. so it actually created a few other bugs in emulators and stuff...
+
+260
+00:24:34,029 --> 00:24:45,003
+TLS can actually be located to imports, so that you get a free import call before anything else,
+
+261
+00:24:45,052 --> 00:24:48,062
+and because imports are not resolved on the file,
+
+262
+00:24:48,062 --> 00:24:51,061
+it's actually a bit hard to see [what will happen] on the file itself
+
+263
+00:24:52,077 --> 00:24:59,086
+TLS, like a DllMain, has tricky execution conditions (I think this bug was fixed in IDA 6.3)
+
+264
+00:24:59,086 --> 00:25:07,008
+basically, after you return from TLS, only ESI has to be valid, so basically, one of my PoCs completely f<i>cks up</i>
+
+265
+00:25:07,008 --> 00:25:09,078
+the registers [except ESI] - it was generating a crash in IDA.
+
+266
+00:25:11,094 --> 00:25:20,057
+one of the elements of TLS, AddressOfIndex, is a pointer to an address that will be replaced by an index.
+
+267
+00:25:20,057 --> 00:25:27,015
+I don't think it's documented by Microsoft -  on the first TLS load, the pointed address will be replaced with 0.
+
+268
+00:25:27,015 --> 00:25:30,003
+so you can already play some kind of dynamic tricks [for ex:erasing the operand of a fake call],
+
+269
+00:25:30,003 --> 00:25:32,097
+then, on the next TLS, it will be replaced with 1 [and so on...]
+
+270
+00:25:35,028 --> 00:25:39,001
+it happens differently whether you're under XP or under Windows 7:
+
+271
+00:25:39,001 --> 00:25:47,045
+basically, you can have a working file that is working on both but the loading order being slightly different,
+
+272
+00:25:47,045 --> 00:25:50,087
+the actual way the file is loaded is different on 2 [different] OS.
+
+273
+00:25:50,087 --> 00:25:59,031
+I already showed that there are datafile PEs and binary [code] PEs, but also PE files can be different
+
+274
+00:25:59,031 --> 00:26:04,076
+whether they are run under Windows 7 and Vista or XP.
+
+275
+00:26:12,036 --> 00:26:23,030
+a perfect PE parser and mapper should ask 'which versions of Windows do you want me to map as?'
+
+276
+00:26:23,030 --> 00:26:28,048
+it's a bit extreme, but it's better to know that someone does it for you, on your network.
+
+277
+00:26:31,005 --> 00:26:40,063
+relocations: just rebase code when it has to be loaded at a different ImageBase than the one in the header
+
+278
+00:26:40,063 --> 00:26:49,053
+relocations are not used in 64b code because  of RIP-relative code.
+
+279
+00:26:49,083 --> 00:26:53,047
+one of my PoC just uses that just to be sure  this works.
+
+280
+00:26:53,047 --> 00:26:58,088
+it's still funny that the system DLLs on 64b  still contain relocations [DD], but with empty [relocation] tables
+
+281
+00:26:58,088 --> 00:27:02,097
+(weird artifact from the compiler)
+
+282
+00:27:02,097 --> 00:27:10,075
+relocations are totally ignored if they are not needed. They could be present but if not needed, the structure is not
+
+283
+00:27:10,075 --> 00:27:16,012
+parsed at all. Which can still create a few bugs with some software that actually tries to parse them.
+
+284
+00:27:16,012 --> 00:27:22,045
+Even if this completely bogus relocation information is not used for loading, [it crashes].
+
+285
+00:27:28,000 --> 00:27:35,057
+of course, if you know in advance where the code will be relocated, it's possible to have relocation encryption,
+
+286
+00:27:35,057 --> 00:27:38,049
+but it's also possible to relocate manually [in advance].
+
+287
+00:27:38,049 --> 00:27:45,009
+Here, the ImageBase is in kernel, but I know  where the code will be relocated, so my code is pre-relocated,
+
+288
+00:27:45,009 --> 00:27:52,036
+so there is no relocation, and it works because things just come in place at the right moment,
+
+289
+00:27:52,036 --> 00:27:56,086
+so another failure in a few emulators.
+
+290
+00:27:56,086 --> 00:28:01,077
+if you know where the file will be relocated, you can predict what the relocation [delta] would be,
+
+291
+00:28:01,077 --> 00:28:04,084
+you can encrypt code with relocation.
+
+292
+00:28:04,084 --> 00:28:09,079
+that's nothing new, and used in malwares.
+
+293
+00:28:09,079 --> 00:28:12,079
+the relocations can apply to relocations themselves
+
+294
+00:28:12,079 --> 00:28:20,042
+my PoC on Corkami is actually using -- the relocations are decrypting the next block of relocations,
+
+295
+00:28:20,042 --> 00:28:27,051
+so you really have to make things dynamically, and unlike what the documentations say on the Internet,
+
+296
+00:28:27,051 --> 00:28:37,031
+MIPS relocations are still perfectly working, under Windows 7, even if you're under an x86 OS <i>and</i> PE file
+
+297
+00:28:37,031 --> 00:28:40,088
+this is still not supported by IDA 6.3
+
+298
+00:28:40,088 --> 00:28:44,004
+I understand that they don't want to support that, because it's odd,
+
+299
+00:28:44,004 --> 00:28:49,088
+but you just know that it could be used in a  malware, and it would work just fine.
+
+300
+00:28:49,088 --> 00:28:56,092
+relocations on ImageBase is a funny one: of course, the ImageBase shouldn't be relocated by default,
+
+301
+00:28:56,092 --> 00:28:59,087
+because this is what the OS itself relocates,
+
+302
+00:28:59,087 --> 00:29:04,057
+but the ImageBase itself [on header] is used then for the calculation of the EntryPoint.
+
+303
+00:29:04,057 --> 00:29:10,014
+the EntryPoint has a bogus value, the ImageBase will trigger relocations, but one of the relocations is applied
+
+304
+00:29:10,014 --> 00:29:16,002
+on the ImageBase itself, so it's not applied on disk, so this is not interfering with the mapping,
+
+305
+00:29:16,002 --> 00:29:20,085
+but once it's in memory, the relocations will be applied, ImageBase [the header field] will be modified,
+
+306
+00:29:20,085 --> 00:29:24,044
+and this will shift the EntryPoint to the right place.
+
+307
+00:29:24,044 --> 00:29:31,093
+Even if the EntryPoint's RVA doesn't correspond to what you have here on the file, it works just fine,
+
+308
+00:29:31,093 --> 00:29:34,060
+because once again, things fit in together.
+
+309
+00:29:44,052 --> 00:29:52,055
+this is actually a funny one, because I still don't have the explanation for it
+
+310
+00:29:52,055 --> 00:29:59,083
+if you play tricks, the section is actually in the middle of the file,
+
+311
+00:30:22,012 --> 00:30:30,033
+the section is bigger than 10 000h, so this should be totally loaded in the file,
+
+312
+00:30:30,033 --> 00:30:46,015
+because of the section characteristics being in the header, it's not related to the sections nor to the PE characteristics
+
+313
+00:30:46,015 --> 00:30:49,082
+only the END is loaded, and at 1000h, nothing loaded anymore.
+
+314
+00:30:49,082 --> 00:30:55,040
+of course, this PoC checks that one value is present and that the other is not.
+
+315
+00:30:55,040 --> 00:30:57,069
+I still don't have the explanation for that one.
+
+316
+00:30:57,069 --> 00:31:00,025
+it was highlighted by Peter Ferrie.
+
+317
+00:31:22,091 --> 00:31:27,046
+you can have a DLL that doesn't the FILE<u>IS<u>DLL [characteristic] set, it just works,</u></u>
+
+318
+00:31:27,046 --> 00:31:34,019
+but in this case, the DllMain is not executed, but this is how OllyDbg determines if the file is a DLL.
+
+319
+00:31:34,019 --> 00:31:41,009
+basically, you have a PE that cannot be loaded, because the EntryPoint will not be used (here, it's bogus enough)
+
+320
+00:31:48,057 --> 00:31:51,019
+but you can still export it fine.
+
+321
+00:31:58,011 --> 00:32:07,078
+on the other hand, for an executable file, everything can be set, except FILE<u>IS<u>DLL</u></u>
+
+322
+00:32:07,078 --> 00:32:16,079
+all this usually unrelevant flags can be set, but not FILE<u>IS<u>DLL.</u></u>
+
+323
+00:32:19,006 --> 00:32:23,042
+another one that I played with and shows some discrepancy between the documentation and the various versions
+
+324
+00:32:23,042 --> 00:32:26,088
+of Windows: the File Version.
+
+325
+00:32:27,098 --> 00:32:34,050
+the VERSION INFORMATION is not correctly [documented]. the structure itself is defined in the Microsoft documentation,
+
+326
+00:32:34,050 --> 00:32:39,024
+but it's not very clear where in the file it should be.
+
+327
+00:32:39,024 --> 00:32:44,050
+so it's possible to make a tab of version appear, but then there is nothing here,
+
+328
+00:32:44,050 --> 00:32:48,086
+or just a bit of information - this actually generates a crash under Windows XP.
+
+329
+00:32:48,086 --> 00:32:55,023
+and it's even better, because it crashes, then Dr Watson kicks in, Dr Watson crashes, and so on...
+
+330
+00:32:57,029 --> 00:32:59,069
+of course, it's XP, so it's a bit outdated,
+
+331
+00:32:59,069 --> 00:33:05,036
+but it shows that Microsoft really doesn't have a correct documentation,
+
+332
+00:33:05,036 --> 00:33:07,071
+because they have assumptions [starting at the offset 0 of a ressource section] about the file version
+
+333
+00:33:07,071 --> 00:33:11,025
+that are not even written in the official specs.
+
+334
+00:33:11,025 --> 00:33:18,091
+it's possible to create completely crazy values, even duplicates, there are lots of possibilities,
+
+335
+00:33:18,091 --> 00:33:21,097
+and it depends on the versions of the OS.
+
+336
+00:33:24,022 --> 00:33:32,055
+not PE file, but the most important file in Corkami: it's a file that works both as Java and JavaScript,
+
+337
+00:33:32,055 --> 00:33:36,094
+so if you have someone who pretends it's the same thing, or who doesn't want to understand the difference,
+
+338
+00:33:36,094 --> 00:33:39,085
+then you can say, this is the same thing/file, and it works.
+
+339
+00:33:39,085 --> 00:33:44,073
+I think it's the most valuable file in Corkami even though it's not PE related, it's definitely worth it.
+
+340
+00:33:49,027 --> 00:33:50,025
+any questions so far?
+
+341
+00:34:14,005 --> 00:34:22,034
+this PE.RAR is exactly the same as you can download from the Corkami website.
+
+342
+00:34:22,034 --> 00:34:25,029
+the sources and the binaries are on it.
+
+343
+00:34:37,023 --> 00:34:53,002
+DelayImports is a completely fake structure, it has nothing to do with the PE loader itself.
+
+344
+00:34:53,017 --> 00:34:58,092
+it's just a structure to beautify [decorate]  the imports, but it's really fake imports,
+
+345
+00:34:58,092 --> 00:35:05,018
+because it's actually code being added by the compiler.
+
+346
+00:35:05,018 --> 00:35:12,090
+it's not used by the loader at all, so if you create completely fake delay imports structures,
+
+347
+00:35:12,090 --> 00:35:19,059
+tools will report bugs and possibly crash, (it doesn't crash anymore - it's a new version)
+
+348
+00:35:19,059 --> 00:35:33,014
+because it's still used by the disassembler to beautify the code, you can actually make it pretend it's a fake structure,
+
+349
+00:35:33,014 --> 00:35:41,071
+but this completely irrelevant for the process of execution.
+
+350
+00:35:51,063 --> 00:36:08,049
+Bound imports: Instead of having an RVA to the actual name of the string,
+
+351
+00:36:08,049 --> 00:36:18,029
+you put directly the timestamp of the DLL, and the actual address of the DLL's [export]
+
+352
+00:36:18,029 --> 00:36:27,081
+so it makes imports loading faster, because the potential VA of the import to be imported is already present,
+
+353
+00:36:27,081 --> 00:36:34,091
+the thing is, you can actually fake it, it's a way of tricking stuff.
+
+354
+00:36:37,058 --> 00:36:52,049
+if you modify manually one of the [bound imports] to be redirected [to another export].
+
+355
+00:36:52,049 --> 00:36:59,085
+and under XP, it was possible to redirect to another DLL. it's then calling another [different] DLL.
+
+356
+00:36:59,085 --> 00:37:04,052
+it's a way for malwares to actually redirect  execution.
+
+357
+00:37:06,022 --> 00:37:34,003
+you can also forward imports from one dll to the other, and you can also make loops.
+
+358
+00:37:34,003 --> 00:37:42,068
+you can actually redirect yourself [imports to themselves]
+
+359
+00:37:42,068 --> 00:37:45,025
+or do a cross [X to Y, and Y to X],
+
+360
+00:37:45,025 --> 00:37:49,064
+[or chain redirections]
+
+361
+00:37:49,064 --> 00:37:54,081
+the fake ExitProcess is actually [chained], bound to break a few emulators and tools.
+
+362
+00:38:22,089 --> 00:38:25,062
+my conclusion is that PE file is a mess
+
+363
+00:38:25,062 --> 00:38:36,015
+different parsers, on a single OS, and then the parsers are behaving differently on various versions of the OS.
+
+364
+00:38:36,015 --> 00:38:40,030
+there is no tool or documentation that can claim to be perfect.
+
+365
+00:38:40,030 --> 00:38:50,008
+a good thing is that Reversing Labs which is also very good in PE studies and writing tools,
+
+366
+00:38:50,008 --> 00:38:57,075
+is about to release an open source library that should be extremely strong to parse and handle PE files
+
+367
+00:38:57,075 --> 00:39:00,006
+they asked me to review it.
+
+368
+00:39:00,006 --> 00:39:04,030
+also <i>pefile<i>, the python library by Ero Carrera, is pretty strong,</i></i>
+
+369
+00:39:04,030 --> 00:39:09,041
+there are still many unknowns, but at least, a lot less after I started, I think.
+
+370
+00:39:09,041 --> 00:39:15,051
+and if you want a simple introduction to PE file, then check this URL [pe101.corkami.com]
+
+371
+00:39:15,051 --> 00:39:21,050
+and then you have the complete URL [pe.corkami.com] with 100 PoCs available for everybody,
+
+372
+00:39:21,050 --> 00:39:27,063
+to test, try, have fun with, show your kids, etc...
+
+373
+00:39:27,063 --> 00:39:29,037
+any questions?
+
+374
+00:39:30,078 --> 00:39:35,059
+did you try your PE tricks on concrete softwares?
+
+375
+00:39:35,059 --> 00:39:44,061
+yeah, that's why I had a few CVEs and bugs. I didn't try all of them, but I had a few messages from vendors and stuff.
+
+376
+00:39:44,061 --> 00:39:49,017
+I don't have so much time, I tried it 'accidentally' sometimes,
+
+377
+00:39:49,017 --> 00:39:55,087
+I try it intensively on IDA and everything (Hiew, OllyDbg), but not on vendors in general,
+
+378
+00:40:02,020 --> 00:40:03,077
+did you have any problem then?
+
+379
+00:40:03,077 --> 00:40:12,020
+with the security tools? yeah, crashes, failures. with such sections tables [slide 52], what do you expect?
+
+380
+00:40:13,071 --> 00:40:15,094
+any other questions?
+
+381
+00:40:18,040 --> 00:40:20,095
+ok, thank you!

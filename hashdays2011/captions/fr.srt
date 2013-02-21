@@ -1,0 +1,2499 @@
+1
+00:00:05,000 --> 00:00:10,000
+Quel processeur bizarre - faire des misères au x86... et un peu de PE [Portable Executable]
+
+2
+00:00:10,000 --> 00:00:19,000
+Bienvenue... et surtout, dites-moi si je vais trop vite
+
+3
+00:00:19,000 --> 00:00:28,000
+Je vais parler des opcodes, et un peu du format PE et de leurs bizarreries
+
+4
+00:00:28,000 --> 00:00:35,000
+Je fais du reverse depuis quelque temps. J'ai créé un projet appelé Corkami.
+
+5
+00:00:35,000 --> 00:00:42,000
+Dans le passé, j'ai participé à Mame, l'émulateur Arcade, et professionnellement, analyste de virus,
+
+6
+00:00:42,000 --> 00:00:48,000
+mais je suis ici à titre personnel, ce sont mes propres expériences à la maison.
+
+7
+00:00:48,000 --> 00:00:57,000
+Donc, je viens de mentionner Corkami. C'est le nom du projet de mon projet de reverse [rétro-ingénierie]
+
+8
+00:00:57,000 --> 00:01:03,000
+Je n'y parle que de choses techniques, pas de pubs, pas de login requis
+
+9
+00:01:03,000 --> 00:01:06,000
+Directement le pur jus.
+
+10
+00:01:06,000 --> 00:01:12,000
+J'essaie de le maintenir à jour, et util. J'ai créé des fiches pense-bêtes et d'autre documents
+
+11
+00:01:12,000 --> 00:01:15,000
+que j'utilise moi-même au boulot, au quotidien
+
+12
+00:01:15,000 --> 00:01:18,000
+mais c'est juste un loisir. je commence quand les enfants sont couchés
+
+13
+00:01:18,000 --> 00:01:23,000
+tard dans la nuit, donc ça n'a probablement pas le polish professionnel
+
+14
+00:01:23,000 --> 00:01:25,000
+que j'aimerais qu'il ait.
+
+15
+00:01:25,000 --> 00:01:30,000
+Actuellement, Corkami est un wiki et des pense-bêtes
+
+16
+00:01:30,000 --> 00:01:37,000
+et je me focalise sur la création de preuves de concepts [démonstration d'hypothèse, "proof of concept] [Tiens, salut Bob!]
+
+17
+00:01:37,000 --> 00:01:42,000
+donc les binaires sont fait-main, d'habitude je n'utilise pas de compilateurs, je créé la structure du PE à la main
+
+18
+00:01:42,000 --> 00:01:46,000
+pour que ce soit focalisé sur le point pertinent
+
+19
+00:01:46,000 --> 00:01:49,000
+et qu'on est pas de parasites. on n'a probablement pas besoin d'IDA
+
+20
+00:01:49,000 --> 00:01:51,000
+pour comprendre ce qui se passe
+
+21
+00:01:51,000 --> 00:01:54,000
+car je me concentre uniquement sur ce qui est important.
+
+22
+00:01:54,000 --> 00:01:58,000
+Les binaires sont directement téléchargeables pour que vous puissiez
+
+23
+00:01:58,000 --> 00:02:01,000
+tester avec votre débogueur, vos outils, vos connaissances,
+
+24
+00:02:01,000 --> 00:02:03,000
+directement.
+
+25
+00:02:03,000 --> 00:02:07,000
+pour l'instant, je me suis concentré sur le PDF, l'assembleur et le format PE
+
+26
+00:02:07,000 --> 00:02:11,000
+quelques autres trucs, mais ce sont les sujets les plus approfondis
+
+27
+00:02:11,000 --> 00:02:15,000
+du site, et je partage tout ça avec une licence
+
+28
+00:02:15,000 --> 00:02:19,000
+très permissive, BSD, donc vous pouvez réutiliser commercialement
+
+29
+00:02:19,000 --> 00:02:24,000
+Même les images sont en format ouvert.
+
+30
+00:02:24,000 --> 00:02:29,000
+Donc, la raison de cette présentation... il y a quelque temps,
+
+31
+00:02:29,000 --> 00:02:32,000
+J'étais jeune et innocent, et je pensais que les CPUs, fait de transistors,
+
+32
+00:02:32,000 --> 00:02:38,000
+était parfaitement logique
+
+33
+00:02:38,000 --> 00:02:41,000
+et ensuite, un virus m'a piégé... simplement,
+
+34
+00:02:41,000 --> 00:02:46,000
+IDA était rendu inutile. Donc j'ai décidé de repartir à zéro
+
+35
+00:02:46,000 --> 00:02:49,000
+et d'étudier l'assembleur et le PE du début.
+
+36
+00:02:49,000 --> 00:02:52,000
+j'ai écrit en chemin des documents, partagés sur Corkami
+
+37
+00:02:52,000 --> 00:02:57,000
+et maintenant je vous présente le résultat plus ou moins final,
+
+38
+00:02:57,000 --> 00:03:01,000
+ou du moins quelques buts atteints. Si j'étais juste un gars qui a étudié l'assembleur
+
+39
+00:03:01,000 --> 00:03:05,000
+je ne serais probablement pas en train de présenter ici,
+
+40
+00:03:05,000 --> 00:03:10,000
+à moins d'avoir eu quelques résultats avec certains outils.
+
+41
+00:03:10,000 --> 00:03:13,000
+Donc, pour résumer, j'ai trouvés des bogues dans tous les désassembleurs que j'ai essayé
+
+42
+00:03:13,000 --> 00:03:22,000
+et j'ai aussi obtenus quelques plantages. J'insiste que tous les auteurs ont été contactés
+
+43
+00:03:22,000 --> 00:03:26,000
+et que la plupart des problèmes ont déjà été corrigé,
+
+44
+00:03:26,000 --> 00:03:30,000
+mais en tout cas, en version 6.1, il plante directement, mais dans la version 6.2
+
+45
+00:03:30,000 --> 00:03:33,000
+c'est corrigé.
+
+46
+00:03:33,000 --> 00:03:37,000
+et la dernière version de Hiew [Hacker's view] (enfin, pas la dernière publique)
+
+47
+00:03:37,000 --> 00:03:41,000
+corrige ça aussi.
+
+48
+00:03:41,000 --> 00:03:44,000
+Donc, pour cette présentation, je commencerais facile,
+
+49
+00:03:44,000 --> 00:03:50,000
+je pars du principe que vous êtes tous habitués à l'assembleur ?
+
+50
+00:03:50,000 --> 00:03:57,000
+Oui. et vous êtes tous habitués, ou
+
+51
+00:03:57,000 --> 00:04:02,000
+vous avez déjà rencontré des cas d'opcodes non documentés?
+
+52
+00:04:02,000 --> 00:04:06,000
+Genre vous faites confiance à IDA, point barre.
+
+53
+00:04:06,000 --> 00:04:10,000
+Est-ce habituel de voir quelque chose non géré par IDA ?
+
+54
+00:04:10,000 --> 00:04:14,000
+Levez les bras... ok, pas tant que ça.
+
+55
+00:04:14,000 --> 00:04:19,000
+Bon, après l'introduction en accéléré,
+
+56
+00:04:19,000 --> 00:04:25,000
+Je parlerais de quelques techniques, puis présenterai CoST, mon programme
+
+57
+00:04:25,000 --> 00:04:28,000
+et je parlerais aussi un peu du format PE
+
+58
+00:04:28,000 --> 00:04:34,000
+Bon, vous connaissez tous l'assembleur, on va survoler ...
+
+59
+00:04:34,000 --> 00:04:37,000
+Donc, on compile un binaire, il y a de l'assembleur, il y a
+
+60
+00:04:37,000 --> 00:04:44,000
+un rapport, des points communs entre le code source et l'assembleur généré...
+
+61
+00:04:44,000 --> 00:04:48,000
+et bien sûr, une relation entre langage machine et les opcodes
+
+62
+00:04:48,000 --> 00:04:53,000
+ce qui est important est que l'assembleur est généré par le compilateur, mais ce qui reste
+
+63
+00:04:56,000 --> 00:04:59,000
+dans le binaire, sont uniquement les opcodes, qui sont interprétés
+
+64
+00:04:59,000 --> 00:05:03,000
+directement par le processeur, ce qui implique qu'il sache quoi faire avec,
+
+65
+00:05:03,000 --> 00:05:07,000
+il s'en fiche si vous ou vos outils
+
+66
+00:05:07,000 --> 00:05:10,000
+ne savent pas ce qui va arriver. il le fait, tout simplement.
+
+67
+00:05:10,000 --> 00:05:16,000
+Et le problème, c'est que d'habitude, on ne lit pas les opcodes directement, mais le désassemblage
+
+68
+00:05:16,000 --> 00:05:20,000
+donc si le désassemblage échoue, on est bloqué
+
+69
+00:05:20,000 --> 00:05:25,000
+on est aveugle, on ne sait pas ce qui va s'exécuter
+
+70
+00:05:25,000 --> 00:05:28,000
+l'autre problème est comme les instructions sont de longueurs variables
+
+71
+00:05:28,000 --> 00:05:30,000
+on ne sait pas ou la suivante commence
+
+72
+00:05:30,000 --> 00:05:32,000
+donc même la suite est inconnue.
+
+73
+00:05:32,000 --> 00:05:40,000
+Donc, on créé une seule instruction non documentée dans un programme simple
+
+74
+00:05:40,000 --> 00:05:48,000
+on utilise le mot-clef 'emit' -- c'est Visual Studio 2010 ultimate --
+
+75
+00:05:48,000 --> 00:05:52,000
+et on obtient un octet non identifié au désassemblage
+
+76
+00:05:52,000 --> 00:05:58,000
+on a des juste points d'interrogations.
+
+77
+00:05:58,000 --> 00:06:01,000
+et donc, même si Visual Studio coûte plusieurs milliers d'euros
+
+78
+00:06:01,000 --> 00:06:05,000
+il ne sait pas ce qui va se produire....
+
+79
+00:06:05,000 --> 00:06:09,000
+et si on regarde les documentations Intel
+
+80
+00:06:09,000 --> 00:06:14,000
+circulez, il y a rien a voir... l'opcode D6... inconnu au bataillon
+
+81
+00:06:14,000 --> 00:06:17,000
+Microsoft n'a rien à dire, Intel non plus,
+
+82
+00:06:17,000 --> 00:06:21,000
+donc d'habitude, si vous essayez des choses comme ça, attendez-vous au pire.
+
+83
+00:06:21,000 --> 00:06:26,000
+Donc, aucune information... en général, ça annonce un plantage...
+
+84
+00:06:26,000 --> 00:06:29,000
+mais dans ce cas particulier, aucun problème...
+
+85
+00:06:29,000 --> 00:06:35,000
+nous ne savons pas ce qui se passe, si on regarde les docs Intel et Microsoft, on n'en sait pas plus.
+
+86
+00:06:35,000 --> 00:06:41,000
+Mais le CPU a juste fait son boulot dans son coin. Ce qui s'est passé est qu'en fait
+
+87
+00:06:41,000 --> 00:06:49,000
+D6 est un opcode très simple, qui ne fait pas grand chose, mais pas documenté par Intel,
+
+88
+00:06:49,000 --> 00:06:53,000
+par contre, il l'est par AMD, et la plupart le sont aussi également, par AMD mais pas Intel
+
+89
+00:06:53,000 --> 00:06:58,000
+aucune idée pourquoi. si quelqu'un le sait...
+
+90
+00:06:58,000 --> 00:07:04,000
+c'est un opcode pourtant trivial, pourtant... 'y a rien à voir, continuez votre chemin'
+
+91
+00:07:04,000 --> 00:07:08,000
+Il est utilisé souvent... l'utilisation habituelle de tels opcodes sont les virus et les packeurs
+
+92
+00:07:08,000 --> 00:07:13,000
+pour éviter les analyses automatisées où trop facile.
+
+93
+00:07:13,000 --> 00:07:22,000
+Ce qui est ironique, c'est que si vous regardez la doc, elle est pleine de trous. mais le désassembleur d'Intel,
+
+94
+00:07:22,000 --> 00:07:25,000
+Xed, qui est gratuit mais pas ouvert, gère tous ces opcodes sans problème...
+
+95
+00:07:25,000 --> 00:07:35,000
+Alors que Microsoft, Visual Studio, et WinDBG, suivent la documentation aveuglément
+
+96
+00:07:35,000 --> 00:07:43,000
+Donc vous obtiendrez des points d'interrogation alors qu'Intel sait très bien ce qui se passe
+
+97
+00:07:43,000 --> 00:07:52,000
+'faites ce que je fais, pas ce que je dit'
+
+98
+00:07:52,000 --> 00:08:01,000
+donc, bien sûr, vous me direz que WinDbg est fait uniquement ce qui est généré
+
+99
+00:08:01,000 --> 00:08:08,000
+par les compilateurs Microsoft, mais ça exclut WinDBG comme outil d'analyse de virus:
+
+100
+00:08:08,000 --> 00:08:17,000
+vous rajoutez D6, trivial, et WinDbg est muet.
+
+101
+00:08:17,000 --> 00:08:25,000
+pas génial
+
+102
+00:08:25,000 --> 00:08:32,000
+un autre problème est que toutes ses choses non documentées
+
+103
+00:08:32,000 --> 00:08:37,000
+sont peut-être présentes, l'une dans un virus,
+
+104
+00:08:37,000 --> 00:08:42,000
+l'autre dans un packeur, etc... donc il n'est pas facile
+
+105
+00:08:42,000 --> 00:08:46,000
+de trouver un bon regroupement de tels fichiers pour rassembler toutes ces informations
+
+106
+00:08:46,000 --> 00:08:50,000
+donc par exemple,
+
+107
+00:08:50,000 --> 00:08:53,000
+quelqu'un vous parle d'une astuce
+
+108
+00:08:53,000 --> 00:08:55,000
+et vous dit qu'elle est enfouit dans MebRoot (un virus costaud)
+
+109
+00:08:55,000 --> 00:08:58,000
+donc vous êtes obligé de creuser pour voir juste la partie qui vous intéresse
+
+110
+00:08:58,000 --> 00:09:03,000
+et en plus, on sait que c'est un virus, donc ca ne circule pas facilement,
+
+111
+00:09:03,000 --> 00:09:08,000
+et il y a plein de trucs dedans qui n'ont rien à voir dedans,
+
+112
+00:09:08,000 --> 00:09:15,000
+avant ou après ce qui vous intéresse. Donc c'est le fossé que je veux remplir en fournissant
+
+113
+00:09:15,000 --> 00:09:21,000
+un groupe de fichier à la fois simple et complet, et focalisé.
+
+114
+00:09:21,000 --> 00:09:27,000
+Donc, on commence. enfin, du vrai, quelques opcodes non documentés.
+
+115
+00:09:27,000 --> 00:09:37,000
+Mais avant d'avoir commencé à étudier, je me suis demandé quelles étaient les vrais capacités
+
+116
+00:09:37,000 --> 00:09:44,000
+des processeurs, quelles instructions existent vraiment.
+
+117
+00:09:44,000 --> 00:09:52,000
+C'est un peu comme l'anglais: la plupart de la population mondiale comprend ces mots, et
+
+118
+00:09:52,000 --> 00:09:57,000
+si vous avez déjà désassemblé quelque chose, vous êtes habitués à ces instructions
+
+119
+00:09:57,000 --> 00:10:04,000
+tous les compilateurs les utilisent. elles sont tellement répandues que si elles sont absentes,
+
+120
+00:10:04,000 --> 00:10:08,000
+on se sent pris au dépourvu.
+
+121
+00:10:08,000 --> 00:10:19,000
+mais les processeurs Intels datent des années 70. Donc,
+
+122
+00:10:19,000 --> 00:10:27,000
+comme l'anglais de Shakespeare, vous voyez que c'est de l'anglais... mais, ça veut dire quoi en fait ?
+
+123
+00:10:27,000 --> 00:10:30,000
+d'ailleurs, j'ai déjà oublié
+
+124
+00:10:30,000 --> 00:10:36,000
+ces instructions sont toutes gérées par tous nos processeurs, pourtant, on n'a plus l'habitude de les lire
+
+125
+00:10:36,000 --> 00:10:41,000
+c'est plus que génant
+
+126
+00:10:41,000 --> 00:10:46,000
+En fait, j'ai écrit un exemple qui n'utilisent que ces vieilles instructions, qui font vraiment quelque chose
+
+127
+00:10:46,000 --> 00:10:53,000
+donc si vous vous sentez ici comme chez vous, je voudrais vous demander 'quel âge avez-vous ?'
+
+128
+00:10:53,000 --> 00:10:59,000
+parce que même moi, j'ai l'habitude de PUSH/JUMP/CALLs, mais ça, euhh...
+
+129
+00:10:59,000 --> 00:11:05,000
+pourtant, ça marche même sur un i7, et c'est utilisable par les virus,
+
+130
+00:11:05,000 --> 00:11:13,000
+les packeurs, etc... pourtant, la plupart est complètement inutilisée de nos jours, bien que parfaitement
+
+131
+00:11:13,000 --> 00:11:15,000
+gérées par nos processeurs modernes.
+
+132
+00:11:15,000 --> 00:11:21,000
+Et, tel l'anglais, c'est une langue qui évolue, et les générations précédentes
+
+133
+00:11:21,000 --> 00:11:27,000
+n'ont pas l'habitude des derniers mots à la mode.
+
+134
+00:11:27,000 --> 00:11:35,000
+Ces instructions sont parfois présentes sur les processeurs les plus récent. en une seule instruction, on fait
+
+135
+00:11:35,000 --> 00:11:41,000
+un CRC32, on décrypte l'AES, on compare des chaînes, ou d'autres opérations complexes.
+
+136
+00:11:41,000 --> 00:11:47,000
+Donc, c'est possible sur un processeur moderne. pas tous, bien sûr.
+
+137
+00:11:47,000 --> 00:11:54,000
+une que j'aime bien est MOVBE -- move big endian -- parce que c'est le vilain petit canard du lot...
+
+138
+00:11:54,000 --> 00:12:01,000
+uniquement implémentée sur les processeurs Atom, donc comme ce netbook, qui la gère...
+
+139
+00:12:01,000 --> 00:12:09,000
+alors qu'un i7 64-bits ne l'a pas, même si lui aura CRC32, peut-être AES, etc...
+
+140
+00:12:09,000 --> 00:12:12,000
+donc, tant pis pour la retro-compatibilité
+
+141
+00:12:12,000 --> 00:12:20,000
+à ma connaissance, il n'y existe aucun processeur qui gère à la fois CRC32 et MOVBE.
+
+142
+00:12:20,000 --> 00:12:24,000
+De plus, MOVBE est un peu inutile car il fait la même chose que MOV et BSWAP réunit...
+
+143
+00:12:24,000 --> 00:12:32,000
+donc, bizarre. en tout cas, ce mini-PC a une instruction que la plupart des PC n'ont pas
+
+144
+00:12:32,000 --> 00:12:35,000
+Pourquoi ? quelqu'un sait?
+
+145
+00:12:35,000 --> 00:12:37,000
+[Auditeur:] "cette instruction est documentée ?"
+
+146
+00:12:37,000 --> 00:12:38,000
+oui
+
+147
+00:12:38,000 --> 00:12:42,000
+totalement documentée officiellement
+
+148
+00:12:42,000 --> 00:12:46,000
+[Auditeur:] "Mais, c'est un drapeau du processeur juste pour cette instruction, ou implicitement lié au
+
+149
+00:12:46,000 --> 00:12:51,000
+processeurs Atom ?
+
+150
+00:12:51,000 --> 00:12:58,000
+mmm, je ne sais pas. je vérifie la valeur par CPUID, mais j'ai oublié la définition exacte.
+
+151
+00:12:58,000 --> 00:13:07,000
+il y a tant d'informations données par CPUID que j'ai vite oublié.
+
+152
+00:13:07,000 --> 00:13:13,000
+Autre chose, spécifique à Windows, car je m'intéresse aux virus...
+
+153
+00:13:13,000 --> 00:13:22,000
+avant d'exécuter quoi que ce soit, je me demandais quelle était la valeur initiale de chaque registre
+
+154
+00:13:22,000 --> 00:13:28,000
+quand le programme démarre.
+
+155
+00:13:28,000 --> 00:13:33,000
+et ça vous donne en fait de l'information fiable, qu'on retrouve utilisée par les virus
+
+156
+00:13:33,000 --> 00:13:40,000
+donc par exemple, au démarrage, EAX vous dit si vous êtes sur un OS ancien (XP ou avant)
+
+157
+00:13:40,000 --> 00:13:42,000
+ou plus récent, Vista ou 7.
+
+158
+00:13:42,000 --> 00:13:50,000
+de même, ce n'est pas utilisé par les virus à mon souvenir, mais si GS est nul, on est dans un OS 32 bits
+
+159
+00:13:50,000 --> 00:13:54,000
+sinon, sur un 64b.
+
+160
+00:13:54,000 --> 00:13:56,000
+J'utilise ça régulièrement, on le verra plus tard.
+
+161
+00:13:56,000 --> 00:14:04,000
+De même, la relation entre les registres n'est pas forcément évidente. il y en a beaucoup,
+
+162
+00:14:04,000 --> 00:14:10,000
+et j'ai été surpris qu'une instruction à virgule flottante (FPU) change le statut (FST), les registres
+
+163
+00:14:10,000 --> 00:14:18,000
+eux-mêmes (STx), les registres MMx aussi, mais en plus, toutes les documentations en ligne associent
+
+164
+00:14:18,000 --> 00:14:24,000
+ST0 et MM0, ce qui semble logique, alors qu'en fait, une seule instruction modifie
+
+165
+00:14:24,000 --> 00:14:31,000
+non pas MM0, mais MM7, dans l'autre sens.
+
+166
+00:14:31,000 --> 00:14:36,000
+donc après une instruction comme "load PI" [FLDPI] on regarde la valeur de MM7,
+
+167
+00:14:36,000 --> 00:14:39,000
+ça peut-être utilisé comme astuce simple.
+
+168
+00:14:39,000 --> 00:14:45,000
+alors que toutes les documentations, Wikipedia ou autre, se trompent.
+
+169
+00:14:45,000 --> 00:14:53,000
+quelque chose d'autre qui peut être utilisé comme anti-débogueur sous XP: le FPU modifie aussi CR0
+
+170
+00:14:53,000 --> 00:14:59,000
+donc ça fait une astuce anti-émulateur plutôt inattendue rien qu'avec le FPU.
+
+171
+00:14:59,000 --> 00:15:09,000
+'store machine status word' [SMSW] est une instruction qui date du 286, quand le mode protégé était
+
+172
+00:15:09,000 --> 00:15:18,000
+récent et incomplet, qui permet de lire les valeurs de CR0, même depuis le mode utilisateur.
+
+173
+00:15:18,000 --> 00:15:26,000
+alors que 'MOV CR0' est privilégiée
+
+174
+00:15:26,000 --> 00:15:34,000
+pour une raison inconnue, le mot de poid fort est officiellement non défini.
+
+175
+00:15:34,000 --> 00:15:40,000
+donc à priori, on ne sait pas ce qu'il va contenir,
+
+176
+00:15:40,000 --> 00:15:45,000
+mais en fait il s'agit bien du même mot de poid fort que CR0.
+
+177
+00:15:45,000 --> 00:15:52,000
+et, sous XP, après une instruction FPU, la valeur de CR0 est modifiée, mais reprend sa valeur initiale
+
+178
+00:15:52,000 --> 00:16:00,000
+toute seule par la suite. donc juste avec SMSW, verifier le résultat, puis faire une opération FPU,
+
+179
+00:16:00,000 --> 00:16:05,000
+alors SMSW donnera un résultat différent, mais ensuite, le résultat redeviendra comme à l'origine.
+
+180
+00:16:05,000 --> 00:16:11,000
+un moyen élégant de faire des boucles en apparence infinies. une astuce complexe anti-émulateurs.
+
+181
+00:16:11,000 --> 00:16:18,000
+Une astuce similaire sous Windows 32b, où GS n'est pas stocké dans le CONTEXT, donc quand l'OS passe d'un
+
+182
+00:16:18,000 --> 00:16:25,000
+fil d'exécution à l'autre (thread-switch), GS est remis à zero. Donc, si on attend, quoi qu'on fasse,
+
+183
+00:16:25,000 --> 00:16:33,000
+GS change comme par enchantement. Mais si vous faites du pas à pas, c'est lent, donc l'OS change de fil,
+
+184
+00:16:33,000 --> 00:16:40,000
+et GS est perdu dès l'instruction suivante.
+
+185
+00:16:40,000 --> 00:16:45,000
+De même, si on attend que GS devienne nul, on finira par sortir de la boucle.
+
+186
+00:16:45,000 --> 00:16:53,000
+En tout cas, la première fois, ça défiait mon entendement... sans autres process ou autre, je ne comprenais
+
+187
+00:16:53,000 --> 00:16:58,000
+pas d'où ça venait. Au moins, mon exemple commence dès le début avec ça
+
+188
+00:16:58,000 --> 00:17:02,000
+c'est plus pratique
+
+189
+00:17:02,000 --> 00:17:11,000
+une autre particularité, c'est que ça met du temps pour être remis à zéro. en faisant 2 boucles d'attentes,
+
+190
+00:17:11,000 --> 00:17:17,000
+et mesurant le temps entre les 2 (changement de fil), ça prend somme toute assez longtemps, comparé à une
+
+191
+00:17:17,000 --> 00:17:25,000
+exécution standard. ça fait un anti-émulation solide.
+
+192
+00:17:25,000 --> 00:17:33,000
+Je pensais tout naturellement que NOP était parfait! NOP, c'est NOP, ça ne fait rien, donc, aucun problème !
+
+193
+00:17:33,000 --> 00:17:44,000
+Mais à l'origine, NOP est 'échange ?AX avec lui-même' (xchg ?ax, ?ax) mais c'est le cas pour le NOP encodé 0x90
+
+194
+00:17:44,000 --> 00:17:51,000
+mais il y a un autre encodage de XCHG EAX, EAX, qui ne fait rien non plus en 32b
+
+195
+00:17:51,000 --> 00:17:54,000
+mais, à l'instar de toutes les instructions sur 32b en mode 64b
+
+196
+00:17:54,000 --> 00:17:58,000
+cette instruction remet à zéro le double mot de poid fort
+
+197
+00:17:58,000 --> 00:18:02,000
+donc on a un XCHG EAX [,EAX] qui fait quelque chose.
+
+198
+00:18:02,000 --> 00:18:05,000
+bien qu'initialement il semblerait ne rien faire, de sa relation avec NOP
+
+199
+00:18:05,000 --> 00:18:10,000
+mais heureusement, le NOP 0x90, lui, ne fait toujours rien, un vrai fainéant ;)
+
+200
+00:18:10,000 --> 00:18:14,000
+Celui-ci est maintenant bien répandu,
+
+201
+00:18:14,000 --> 00:18:18,000
+le HINT NOP est un NOP sur plusieurs octets
+
+202
+00:18:18,000 --> 00:18:23,000
+qui indique au processeur ce qui va être exécuté ou accédé ensuite
+
+203
+00:18:23,000 --> 00:18:24,000
+quelque soit l'adresse dans un HINT NOP en mémoire,
+
+204
+00:18:24,000 --> 00:18:26,000
+aucune exception n'est déclenchée
+
+205
+00:18:26,000 --> 00:18:32,000
+mais ...
+
+206
+00:18:32,000 --> 00:18:37,000
+autre chose, il est partiellement non documenté par Intel
+
+207
+00:18:37,000 --> 00:18:44,000
+(comme d'habitude, ce n'est pas le cas avec AMD)
+
+208
+00:18:44,000 --> 00:18:48,000
+en outre, comme c'est une instruction sur plusieurs octets, avec des opérandes immédiates
+
+209
+00:18:48,000 --> 00:18:51,000
+si on met ces octets à la fin d'une page mémoire
+
+210
+00:18:51,000 --> 00:18:55,000
+alors le processeur va vouloir lire l'encodage des opérandes,
+
+211
+00:18:55,000 --> 00:18:56,000
+et ça va déclencher une exception
+
+212
+00:18:56,000 --> 00:19:01,000
+donc c'est un NOP qui peut déclencher une exception en bas de page
+
+213
+00:19:01,000 --> 00:19:04,000
+Merci, Intel
+
+214
+00:19:04,000 --> 00:19:07,000
+MOV également, je croyais...
+
+215
+00:19:07,000 --> 00:19:11,000
+qu'il devrait être parfaitement logique
+
+216
+00:19:11,000 --> 00:19:16,000
+mais, même s'il est documenté, il y a des cas compliqués,
+
+217
+00:19:16,000 --> 00:19:19,000
+qui n'étaient pas parfaitement gérés dans tous les assembleurs que j'ai essayé
+
+218
+00:19:19,000 --> 00:19:22,000
+sauf peut-être Xed
+
+219
+00:19:22,000 --> 00:19:29,000
+on ne peut pas faire un MOV de ou vers CR0 en mémoire,
+
+220
+00:19:29,000 --> 00:19:33,000
+la documentation dit que le Mod/RM est ignoré
+
+221
+00:19:33,000 --> 00:19:34,000
+ce qui ne veut pas dire que l'instruction est invalide
+
+222
+00:19:34,000 --> 00:19:35,000
+simplement, considéré comme n'utilisant pas la mémoire
+
+223
+00:19:35,000 --> 00:19:36,000
+sinon, ça ferait un plantage
+
+224
+00:19:36,000 --> 00:19:39,000
+donc, voici l'équivalent
+
+225
+00:19:39,000 --> 00:19:42,000
+ce qui mettait en tord tous les désassembleurs
+
+226
+00:19:42,000 --> 00:19:44,000
+jusque récemment
+
+227
+00:19:44,000 --> 00:19:50,000
+MOVSXD est une instruction 64b, qui étend un registre
+
+228
+00:19:50,000 --> 00:19:55,000
+donc, d'un registre vers un plus gros
+
+229
+00:19:55,000 --> 00:19:58,000
+mais sans préfixe REX - ce qui n'est pas encouragé,
+
+230
+00:19:58,000 --> 00:20:02,000
+on peut l'utiliser comme un MOV standard, de 32b vers 32b
+
+231
+00:20:02,000 --> 00:20:04,000
+et dans l'autre sens,
+
+232
+00:20:04,000 --> 00:20:09,000
+MOV d'un selecteur à un registre 32b marche sans problème,
+
+233
+00:20:09,000 --> 00:20:13,000
+alors que beaucoup de désassembleurs afficheraient MOV AX, CS, ce qui semble logique
+
+234
+00:20:13,000 --> 00:20:16,000
+niveau taille
+
+235
+00:20:16,000 --> 00:20:19,000
+mais en fait le mot de poid fort du registre cible est 'non défini'
+
+236
+00:20:19,000 --> 00:20:21,000
+mais ici, pas de surprise amusante,
+
+237
+00:20:21,000 --> 00:20:25,000
+ce sont juste des zéros
+
+238
+00:20:25,000 --> 00:20:30,000
+donc c'est équivalent à MOV EAX, CS
+
+239
+00:20:30,000 --> 00:20:32,000
+BSWAP est un de mes favoris
+
+240
+00:20:32,000 --> 00:20:35,000
+parce que je le compare à une administration:
+
+241
+00:20:35,000 --> 00:20:38,000
+il est supposé passer d'un endianisme [endianness] à l' autre
+
+242
+00:20:38,000 --> 00:20:42,000
+mais pour diverses raisons,
+
+243
+00:20:42,000 --> 00:20:45,000
+il ne peut jamais faire son travail correctement
+
+244
+00:20:45,000 --> 00:20:50,000
+donc, c'est juste en 64b que tout se passe
+
+245
+00:20:50,000 --> 00:20:51,000
+comme prévu
+
+246
+00:20:51,000 --> 00:20:55,000
+en 32b, comme toutes les autres instruction 32b
+
+247
+00:20:55,000 --> 00:20:59,000
+le double mot de poid fort est mis à zéro...
+
+248
+00:20:59,000 --> 00:21:02,000
+et sur un mot, il est non défini officiellement,
+
+249
+00:21:02,000 --> 00:21:04,000
+mais il est pourtant utilisé couramment dans les virus et les packeurs
+
+250
+00:21:04,000 --> 00:21:07,000
+car il remet simplement à zéro le registre,
+
+251
+00:21:07,000 --> 00:21:09,000
+comme un simple XOR AX, AX
+
+252
+00:21:09,000 --> 00:21:14,000
+donc, devant un résultat si inexplicable, je comprends
+
+253
+00:21:14,000 --> 00:21:18,000
+qu'Intel ne veuille pas en parler
+
+254
+00:21:18,000 --> 00:21:20,000
+ça serait sûrement gênant de devoir expliquer
+
+255
+00:21:20,000 --> 00:21:24,000
+ce résultat plutôt comique.
+
+256
+00:21:24,000 --> 00:21:33,000
+BSWAP AX est aussi mal géré par WinDbg et les autres
+
+257
+00:21:33,000 --> 00:21:35,000
+on lira BSWAP EAX
+
+258
+00:21:35,000 --> 00:21:42,000
+alors que le registre est remis à zéro... génant
+
+259
+00:21:42,000 --> 00:21:47,000
+tout le monde comprend ce code?
+
+260
+00:21:47,000 --> 00:21:53,000
+quelqu'un voit un piège possible?
+
+261
+00:21:53,000 --> 00:21:56,000
+l'adresse de  est empilée
+
+262
+00:21:56,000 --> 00:22:00,000
+puis dépilée par RETN
+
+263
+00:22:00,000 --> 00:22:05,000
+donc, on saute vers une adresse immédiates
+
+264
+00:22:05,000 --> 00:22:11,000
+l'ordre d'exécution ?
+
+265
+00:22:11,000 --> 00:22:18,000
+oui, l'exécution démarre ici
+
+266
+00:22:18,000 --> 00:22:20,000
+non, rien à voir ici
+
+267
+00:22:20,000 --> 00:22:26,000
+voilà OllyDbg 1 - c'est corrigé dans le 2
+
+268
+00:22:26,000 --> 00:22:28,000
+Olly essaie même d'être sympa et de vous dire
+
+269
+00:22:28,000 --> 00:22:30,000
+via un commentaire automatique,
+
+270
+00:22:30,000 --> 00:22:33,000
+que RET sera utilisé comme saut vers
+
+271
+00:22:33,000 --> 00:22:36,000
+et, voyez le résultat, plutôt différent
+
+272
+00:22:36,000 --> 00:22:37,000
+donc, que c'est-il passé ?
+
+273
+00:22:37,000 --> 00:22:40,000
+quelqu'un voit ?
+
+274
+00:22:40,000 --> 00:22:43,000
+donc, RETN a un prefix 66
+
+275
+00:22:43,000 --> 00:22:47,000
+donc, il retourne vers IP (16b), pas EIP
+
+276
+00:22:47,000 --> 00:22:56,000
+donc on ne saute pas vers 401008, mais 00001008
+
+277
+00:22:56,000 --> 00:22:58,000
+et dans mon exemple, la page nulle a été allouée
+
+278
+00:22:58,000 --> 00:23:01,000
+et du code a été placé à 1008
+
+279
+00:23:01,000 --> 00:23:06,000
+donc, ça ne retourne pas vers []
+
+280
+00:23:06,000 --> 00:23:10,000
+mais l'autre problème est que c'est aussi appelé un RETN
+
+281
+00:23:10,000 --> 00:23:15,000
+bien que ce soit différent. les désassembleurs ont leur propre façon de l'afficher
+
+282
+00:23:15,000 --> 00:23:19,000
+tel que 'small retn', 'ret.16', ou autre
+
+283
+00:23:19,000 --> 00:23:22,000
+mais officiellement, c'est la même instruction qu'un RETN standard.
+
+284
+00:23:22,000 --> 00:23:28,000
+donc, le dernier Hiew, et OllyDbg 1
+
+285
+00:23:28,000 --> 00:23:31,000
+peut-être pas le 2
+
+286
+00:23:31,000 --> 00:23:33,000
+mais on peut se faire avoir
+
+287
+00:23:33,000 --> 00:23:41,000
+et le préfixe 66 a le même role avec CALLs, RETs, LOOPs, JMPs
+
+288
+00:23:41,000 --> 00:23:45,000
+toutes les instructions contrôlant le flux d'exécution
+
+289
+00:23:45,000 --> 00:23:48,000
+je ne vais pas tout énumérer
+
+290
+00:23:48,000 --> 00:23:51,000
+car sinon vous allez mourir d'ennui
+
+291
+00:23:51,000 --> 00:23:55,000
+pour en savoir plus, j'ai créé une page sur Corkami [x86.corkami.com],
+
+292
+00:23:55,000 --> 00:24:00,000
+avec quelques graphiques et penses-bêtes
+
+293
+00:24:00,000 --> 00:24:04,000
+pour faciliter le boulot
+
+294
+00:24:04,000 --> 00:24:06,000
+bon, trop de théorie
+
+295
+00:24:06,000 --> 00:24:11,000
+je n'aime pas lire sans avoir quelque chose à me mettre sous le débogueur,
+
+296
+00:24:11,000 --> 00:24:13,000
+donc j'ai créé CoST
+
+297
+00:24:13,000 --> 00:24:16,000
+ce qui signifie Corkami Standard Test
+
+298
+00:24:16,000 --> 00:24:20,000
+CoST est un unique binaire, sans option de ligne de commande
+
+299
+00:24:20,000 --> 00:24:25,000
+on l'exécute, il fait plein de tests
+
+300
+00:24:25,000 --> 00:24:28,000
+le tout dans un PE compliqué
+
+301
+00:24:28,000 --> 00:24:35,000
+pour aussi tester vos outils PE
+
+302
+00:24:35,000 --> 00:24:36,000
+ou vos connaissances
+
+303
+00:24:36,000 --> 00:24:40,000
+mais, dans ce PE compliqué, il est casse-pied à déboguer
+
+304
+00:24:40,000 --> 00:24:42,000
+donc j'ai fait aussi une version 'PE standard'
+
+305
+00:24:42,000 --> 00:24:47,000
+si on ne veut étudier que l'assembleur
+
+306
+00:24:47,000 --> 00:24:49,000
+sans difficultés
+
+307
+00:24:49,000 --> 00:24:57,000
+donc, CoST contient de nombreux tests
+
+308
+00:24:57,000 --> 00:24:59,000
+les classiques, triviaux,
+
+309
+00:24:59,000 --> 00:25:03,000
+un peu plus compliqués, JMP to IP, IRET...
+
+310
+00:25:03,000 --> 00:25:05,000
+les non documentés
+
+311
+00:25:05,000 --> 00:25:10,000
+les spécifiques aux processeurs, comme MOVBE, POPCNT, CRC32
+
+312
+00:25:10,000 --> 00:25:17,000
+les détections d'OS et VM
+
+313
+00:25:17,000 --> 00:25:25,000
+comme le fameux 'red pill'... juste une instruction SLDT, on compare le résultat,
+
+314
+00:25:25,000 --> 00:25:29,000
+et on baptise ça 'red pill'... sans commentaire...
+
+315
+00:25:29,000 --> 00:25:32,000
+et aussi, des bogues des SE, parce que Windows XP
+
+316
+00:25:32,000 --> 00:25:35,000
+se trompe en essayant de vous dire
+
+317
+00:25:35,000 --> 00:25:38,000
+quelle exception vient de se produire,
+
+318
+00:25:38,000 --> 00:25:44,000
+ce qui permettrait de différencier un SE réel d'un émulateur.
+
+319
+00:25:44,000 --> 00:25:50,000
+CoST est écrit en assembleur, donc rien de superflu
+
+320
+00:25:50,000 --> 00:25:52,000
+pas compilé, ni généré
+
+321
+00:25:52,000 --> 00:25:56,000
+mais pour le documenter un peu plus, j'ai ajouté des exports internes
+
+322
+00:25:56,000 --> 00:26:00,000
+donc on peut aller facilement d'une section à l'autre
+
+323
+00:26:00,000 --> 00:26:05,000
+donc on se retrouve facilement à la partie qui nous intéresse
+
+324
+00:26:05,000 --> 00:26:08,000
+via les exports,
+
+325
+00:26:08,000 --> 00:26:13,000
+et je voulais pouvoir afficher un message de manière pratique
+
+326
+00:26:13,000 --> 00:26:18,000
+sans que ça allonge trop le listing
+
+327
+00:26:18,000 --> 00:26:21,000
+je veux dire, devoir faire défiler l'écran parce qu'il est couvert d'appel à printf
+
+328
+00:26:21,000 --> 00:26:25,000
+donc j'au utilisé un Vectored Exception Handler, et une instruction-marqueur
+
+329
+00:26:25,000 --> 00:26:28,000
+donc plein de commentaires sont affichés,
+
+330
+00:26:28,000 --> 00:26:30,000
+directement dans le code
+
+331
+00:26:30,000 --> 00:26:34,000
+donc ça fait un code binaire documenté sans fichier de symboles de débogage
+
+332
+00:26:34,000 --> 00:26:38,000
+et vous avez vu, il n'y a pas beaucoup d'affichage
+
+333
+00:26:38,000 --> 00:26:41,000
+mais en fait, il y a beaucoup plus d'affichage de déboguage
+
+334
+00:26:41,000 --> 00:26:46,000
+une centaine au moins, qui indiquent même ce qui va se produire, etc
+
+335
+00:26:46,000 --> 00:26:49,000
+donc on est pas pris au dépourvu
+
+336
+00:26:49,000 --> 00:26:57,000
+on est guidé lors de l'analyse
+
+337
+00:26:57,000 --> 00:27:00,000
+quelqu'un comprend de quoi il s'agit?
+
+338
+00:27:00,000 --> 00:27:02,000
+c'est un de mes préférés
+
+339
+00:27:02,000 --> 00:27:06,000
+on ne peut pas voir les opcodes
+
+340
+00:27:06,000 --> 00:27:17,000
+ah, il n'y a pas d'astuce à ce niveau là cette fois-ci ;)
+
+341
+00:27:17,000 --> 00:27:19,000
+donc, on empile des valeurs
+
+342
+00:27:19,000 --> 00:27:21,000
+on saute ici
+
+343
+00:27:21,000 --> 00:27:26,000
+et avec le RETF, j'ai empilé l'adresse de 'push_eip'
+
+344
+00:27:26,000 --> 00:27:28,000
+et un mot, 0x33
+
+345
+00:27:28,000 --> 00:27:31,000
+donc on va revenir de loin ici
+
+346
+00:27:31,000 --> 00:27:35,000
+donc on retourne à cette adresse avec un sélecteur 33
+
+347
+00:27:35,000 --> 00:27:39,000
+qui est réservé au mode 64b, même pour un programme en 32b
+
+348
+00:27:39,000 --> 00:27:42,000
+donc on va revenir ici, en mode 64b
+
+349
+00:27:42,000 --> 00:27:47,000
+car 33 est le sélecteur pour le mode 64b
+
+350
+00:27:47,000 --> 00:27:49,000
+qu'on peut atteindre depuis un programme 32b
+
+351
+00:27:49,000 --> 00:27:56,000
+donc le code sera d'abord exécuté en mode 32b, avec le sélecteur standard,
+
+352
+00:27:56,000 --> 00:28:01,000
+puis à nouveau, avec le sélecteur 33
+
+353
+00:28:01,000 --> 00:28:04,000
+en mode 64b
+
+354
+00:28:04,000 --> 00:28:08,000
+donc on a la même adresse, les mêmes opcodes,
+
+355
+00:28:08,000 --> 00:28:10,000
+mais le désassemblage sera différent
+
+356
+00:28:10,000 --> 00:28:14,000
+et j'ai choisi des opcodes qui génèrent des instructions
+
+357
+00:28:14,000 --> 00:28:18,000
+spécifique à chaque mode
+
+358
+00:28:18,000 --> 00:28:22,000
+donc, c'est déjà une belle s*loperie à désassembler,
+
+359
+00:28:22,000 --> 00:28:27,000
+car avec la même EIP, si on ne fait pas attention au sélecteur,
+
+360
+00:28:27,000 --> 00:28:29,000
+on est bloqué
+
+361
+00:28:29,000 --> 00:28:46,000
+On peut déboguer un tel code - voir ma présentation à BerlinSides, transparent de démonstration 58
+
+362
+00:28:46,000 --> 00:28:50,000
+Si on l'exécute en passant par dessus, on retourne au sélecteur d'origine
+
+363
+00:28:50,000 --> 00:28:52,000
+qui était sauvé par le PUSH CS
+
+364
+00:28:52,000 --> 00:28:56,000
+donc on retourne à  avec le sélecteur initial
+
+365
+00:28:56,000 --> 00:28:58,000
+l'exécution est rapide,
+
+366
+00:28:58,000 --> 00:29:00,000
+mais difficile à déboguer (uniquement avec WinDbg+wow64exts)
+
+367
+00:29:00,000 --> 00:29:03,000
+ça rend inutile les désassembleurs, et la plupart des débogueurs
+
+368
+00:29:03,000 --> 00:29:04,000
+pourtant, c'est si simple.
+
+369
+00:29:04,000 --> 00:29:07,000
+Voilà ce que donne CoST
+
+370
+00:29:07,000 --> 00:29:10,000
+sous la dernière version de Hiew
+
+371
+00:29:10,000 --> 00:29:13,000
+je pense que ce sera bientôt corrigé
+
+372
+00:29:13,000 --> 00:29:16,000
+c'est un HINT NOP non documenté par Intel
+
+373
+00:29:16,000 --> 00:29:21,000
+et oublié par la plupart des désassembleurs
+
+374
+00:29:21,000 --> 00:29:24,000
+donc WinDbg et Hiew
+
+375
+00:29:24,000 --> 00:29:29,000
+vous donnent des points d'interrogations
+
+376
+00:29:29,000 --> 00:29:34,000
+au début, je pensais m'arrêter là pour Hashdays
+
+377
+00:29:34,000 --> 00:29:39,000
+mais j'ai décidé de rajouter quelques astuces PE à CoST
+
+378
+00:29:39,000 --> 00:29:43,000
+donc, en voici l'en-tête... MZ, puis du texte
+
+379
+00:29:43,000 --> 00:29:44,000
+donc on peut taper 'type cost.exe', comme ce bon vieux Budokan...
+
+380
+00:29:44,000 --> 00:29:46,000
+et ensuite,
+
+381
+00:29:46,000 --> 00:29:51,000
+l'en-tête 'NT headers' - appelé 'PE' car il commence par ces lettres-là,
+
+382
+00:29:51,000 --> 00:29:54,000
+et en fait à la fin du fichier
+
+383
+00:29:54,000 --> 00:29:56,000
+le 'pied-de-page PE'
+
+384
+00:29:56,000 --> 00:29:59,000
+et les valeurs de l'en-tête sont un peu extrême
+
+385
+00:29:59,000 --> 00:30:01,000
+donc, pour le moins inattendu
+
+386
+00:30:01,000 --> 00:30:03,000
+donc voici ce qu'IDA 6.1 en pensait
+
+387
+00:30:03,000 --> 00:30:07,000
+...plantage directe...
+
+388
+00:30:07,000 --> 00:30:11,000
+ça lui apprendra à se fier aux valeurs
+
+389
+00:30:11,000 --> 00:30:15,000
+mais, aussi bien dans CoST, on peut changer un registre, faire une comparaison, tester,
+
+390
+00:30:15,000 --> 00:30:17,000
+et enchaîner ainsi plein de tests,
+
+391
+00:30:17,000 --> 00:30:19,000
+aussi bien, côté PE, on n'a qu'un seul binaire, donc
+
+392
+00:30:19,000 --> 00:30:21,000
+un seul essai
+
+393
+00:30:21,000 --> 00:30:25,000
+donc même si CoST n'a pas de section, des TLS bizarres,....
+
+394
+00:30:25,000 --> 00:30:27,000
+il ne peut pas tout tester
+
+395
+00:30:27,000 --> 00:30:31,000
+donc, j'ai créé pour ça une autre page sur Corkami
+
+396
+00:30:31,000 --> 00:30:37,000
+avec comme d'habitudes, des exemples, des graphiques,
+
+397
+00:30:37,000 --> 00:30:40,000
+elle n'est pas finie, mais déjà largement suffisante pour tester ou faire planter
+
+398
+00:30:40,000 --> 00:30:42,000
+n'importe quel outil
+
+399
+00:30:42,000 --> 00:30:46,000
+j'ai déjà une centaine d'exemples,
+
+400
+00:30:46,000 --> 00:30:51,000
+qui mettent l'accent sur de nombreux aspects, avec parfois des résultats inattendus
+
+401
+00:30:51,000 --> 00:30:55,000
+donc, voici une table de section virtuelle, et Hiew
+
+402
+00:30:55,000 --> 00:31:00,000
+quand les alignements sont bas, on n'a pas besoin de section
+
+403
+00:31:00,000 --> 00:31:03,000
+ou la table peut être vide
+
+404
+00:31:03,000 --> 00:31:08,000
+donc, j'ai modifié SizeOfOptionalHeader pour qu'il pointe en espace mémoire virtuel
+
+405
+00:31:08,000 --> 00:31:11,000
+donc la table des sections est en dehors du PE, pleines de zéros
+
+406
+00:31:11,000 --> 00:31:16,000
+et Hiew n'aime pas ça. En conséquence, il ne pense même pas que c'est un PE
+
+407
+00:31:16,000 --> 00:31:18,000
+alors que ça marche parfaitement, du moins sous XP
+
+408
+00:31:18,000 --> 00:31:27,000
+car Windows 7 est plus capricieux concernant les valeurs de la table des section
+
+409
+00:31:27,000 --> 00:31:29,000
+ensuite...
+
+410
+00:31:29,000 --> 00:31:34,000
+si on fait de l'art dans les Data Directories
+
+411
+00:31:34,000 --> 00:31:37,000
+vous pouvez commencer à vous inquiéter
+
+412
+00:31:37,000 --> 00:31:40,000
+si vous avez un dessin plus joli, je suis preneur
+
+413
+00:31:40,000 --> 00:31:43,000
+donc, il s'agit du 'Dual PE header', présenté
+
+414
+00:31:43,000 --> 00:31:46,000
+par Reversing Labs à la BlackHat
+
+415
+00:31:46,000 --> 00:31:50,000
+quelqu'un connaît ?
+
+416
+00:31:50,000 --> 00:31:52,000
+donc, on augmente SizeOfHeader pour que
+
+417
+00:31:52,000 --> 00:31:59,000
+les en-têtes NT soient en fait assez loin,
+
+418
+00:31:59,000 --> 00:32:04,000
+pour qu'il soit aligné avec les sections
+
+419
+00:32:04,000 --> 00:32:05,000
+quand il se charge en mémoire
+
+420
+00:32:05,000 --> 00:32:08,000
+la première section sera chargée par dessus
+
+421
+00:32:08,000 --> 00:32:13,000
+la première partie du OPTIONAL_HEADER est lue dans le fichier
+
+422
+00:32:13,000 --> 00:32:16,000
+donc, prise en compte pour charger le fichier
+
+423
+00:32:16,000 --> 00:32:20,000
+mais les Data Directories sont lus en mémoire
+
+424
+00:32:20,000 --> 00:32:25,000
+donc, d'abord l'OPTIONAL_HEADER est analysé, chargé en mémoire,
+
+425
+00:32:25,000 --> 00:32:29,000
+puis la section est dépliée sur la partie basse de l'en-tête
+
+426
+00:32:29,000 --> 00:32:31,000
+et les vrais Data directories qui étaient initialement au début de la section
+
+427
+00:32:31,000 --> 00:32:34,000
+vont être pris en compte,
+
+428
+00:32:34,000 --> 00:32:39,000
+donc tout ceci est du pipeau présent dans le fichier, à la suite de SizeOfOptionalHeader
+
+429
+00:32:39,000 --> 00:32:45,000
+mais en mémoire, ce sera écrasé et ignoré
+
+430
+00:32:45,000 --> 00:32:47,000
+une autre bizarrerie est que les noms d'exports peuvent avoir n'importe quelle valeur,
+
+431
+00:32:47,000 --> 00:32:51,000
+jusqu'au caractère zéro
+
+432
+00:32:51,000 --> 00:32:53,000
+donc, absolument n'importe quoi,
+
+433
+00:32:53,000 --> 00:32:56,000
+et de plus,
+
+434
+00:32:56,000 --> 00:32:57,000
+Hiew les affichent directement
+
+435
+00:32:57,000 --> 00:32:59,000
+donc on peut insérer ses propres messages
+
+436
+00:32:59,000 --> 00:33:02,000
+ce sont juste des noms d'exports, d'ailleurs
+
+437
+00:33:02,000 --> 00:33:05,000
+l'un d'entre eux est excessivement long,
+
+438
+00:33:05,000 --> 00:33:08,000
+idéal pour tester les dépassement de tampon [buffer overflow]
+
+439
+00:33:08,000 --> 00:33:10,000
+dans votre outil favori
+
+440
+00:33:10,000 --> 00:33:14,000
+et il est également possible d'avoir un export avec un nom nul,
+
+441
+00:33:14,000 --> 00:33:16,000
+on peut donc importer l'api nulle
+
+442
+00:33:16,000 --> 00:33:19,000
+sans problème
+
+443
+00:33:19,000 --> 00:33:23,000
+j'ai aussi essayé les différentes possibilités,
+
+444
+00:33:23,000 --> 00:33:26,000
+avec des fichiers contenant un maximum de section,
+
+445
+00:33:26,000 --> 00:33:31,000
+la limite est 96 sous XP, et 64K sous Vista et Windows 7
+
+446
+00:33:31,000 --> 00:33:33,000
+ce qui donne
+
+447
+00:33:33,000 --> 00:33:36,000
+avec le dernier OllyDbg 2 ce message surprenant
+
+448
+00:33:36,000 --> 00:33:38,000
+mais le fichier charge quand même
+
+449
+00:33:38,000 --> 00:33:41,000
+OllyDbg 1, lui, plante directement
+
+450
+00:33:41,000 --> 00:33:45,000
+il reste du temps ?
+
+451
+00:33:45,000 --> 00:33:48,000
+un dernier... pas très visuel
+
+452
+00:33:48,000 --> 00:33:52,000
+l'adresse AddressOfIndex du TLS est mise à zéro au chargement
+
+453
+00:33:52,000 --> 00:33:59,000
+et le terminus [terminator] des imports n'a pas besoin d'être composé de 5 doubles mots nuls
+
+454
+00:33:59,000 --> 00:34:03,000
+mais juste d'un seul, pour son AddressOfName
+
+455
+00:34:03,000 --> 00:34:05,000
+pour être considéré comme le terminus
+
+456
+00:34:05,000 --> 00:34:10,000
+donc, si on fait pointer AddressOfIndex vers l'AddressOfName d'un descripteur d'imports
+
+457
+00:34:10,000 --> 00:34:15,000
+s'il est mis à zéro,
+
+458
+00:34:15,000 --> 00:34:16,000
+les imports seront tronqués
+
+459
+00:34:16,000 --> 00:34:20,000
+et en fait, le comportement est différent sous XP ou 7
+
+460
+00:34:20,000 --> 00:34:25,000
+donc, sous XP, il est écrasé après que les imports soient chargés,
+
+461
+00:34:25,000 --> 00:34:28,000
+donc la table n'est pas tronquée
+
+462
+00:34:28,000 --> 00:34:32,000
+alors que sous 7, il est écrasé avant les imports
+
+463
+00:34:32,000 --> 00:34:35,000
+donc, pour le même PE, on a 2 comportements différents
+
+464
+00:34:35,000 --> 00:34:37,000
+sous deux versions de Windows différentes,
+
+465
+00:34:37,000 --> 00:34:43,000
+alors que le fichier marche sous les 2 versions.
+
+466
+00:34:43,000 --> 00:34:55,000
+ah, attendez, on a encore le temps?
+
+467
+00:34:55,000 --> 00:34:56,000
+15 minutes ? ok
+
+468
+00:34:56,000 --> 00:35:01,000
+je vais commencer la démonstration
+
+469
+00:35:01,000 --> 00:35:23,000
+pour vous montrer...
+
+470
+00:35:23,000 --> 00:35:26,000
+le style de PE que je créé d'habitude
+
+471
+00:35:26,000 --> 00:35:29,000
+avec le minimum d'éléments définis
+
+472
+00:35:29,000 --> 00:35:31,000
+c'est en fait un pilotes [driver]
+
+473
+00:35:31,000 --> 00:35:36,000
+même si j'ai utilisé des opcodes non documentés,
+
+474
+00:35:36,000 --> 00:35:40,000
+ce pilote marche, sans le vrac
+
+475
+00:35:40,000 --> 00:35:43,000
+habituel rajouté par le compilateurs
+
+476
+00:35:43,000 --> 00:35:47,000
+donc, un exemple clair, simple
+
+477
+00:35:47,000 --> 00:35:51,000
+sans rien pour vous géner la vue
+
+478
+00:35:51,000 --> 00:35:52,000
+ou votre débogueur
+
+479
+00:35:52,000 --> 00:36:02,000
+donc, cet exemple regarde les valeurs de CR0
+
+480
+00:36:02,000 --> 00:36:07,000
+via SMSW, officiellement non défini sur un double mot
+
+481
+00:36:07,000 --> 00:36:10,000
+mais en fait donne la même valeur
+
+482
+00:36:10,000 --> 00:36:11,000
+que le MOV EAX, CR0 standard
+
+483
+00:36:11,000 --> 00:36:16,000
+ensuite, MOV EAX, CR0 avec un 'mauvais' Mod/RM
+
+484
+00:36:16,000 --> 00:36:39,000
+sous le dernier Hiew, ce n'est en fait même pas désassemblé
+
+485
+00:36:39,000 --> 00:36:43,000
+on espère que ça ne plante pas...
+
+486
+00:36:43,000 --> 00:36:47,000
+donc, vous voyez, on obtient les mêmes valeurs
+
+487
+00:36:47,000 --> 00:36:55,000
+via le CR0 standard, l'invalide, et le non défini
+
+488
+00:36:55,000 --> 00:36:57,000
+dont la partie de poids fort est non définie
+
+489
+00:36:57,000 --> 00:37:00,000
+d'habitude, en langage Intel, non défini signifie 'mis à zéro',
+
+490
+00:37:00,000 --> 00:37:02,000
+mais ici, on a bien CR0 entier
+
+491
+00:37:02,000 --> 00:37:03,000
+et ma machine n'a même pas plantée
+
+492
+00:37:03,000 --> 00:37:05,000
+ce qui signifie que le pilote fonctionne correctement
+
+493
+00:37:05,000 --> 00:37:08,000
+donc vous pouvez étudier des petits pilotes
+
+494
+00:37:08,000 --> 00:37:12,000
+le premier exemple présenté aujourd'hui
+
+495
+00:37:12,000 --> 00:37:15,000
+était celui avec l'assembleur ancien
+
+496
+00:37:15,000 --> 00:37:20,000
+quelqu'un connaît le résultat final ?
+
+497
+00:37:20,000 --> 00:37:23,000
+certaines instructions sont inutiles,
+
+498
+00:37:23,000 --> 00:37:28,000
+juste pour vérifier que le processeur les gère
+
+499
+00:37:28,000 --> 00:37:30,000
+mais d'autres modifient les registres
+
+500
+00:37:30,000 --> 00:37:37,000
+et ces instructions des années 70-80
+
+501
+00:37:37,000 --> 00:37:43,000
+sont toujours gérées par les processeurs modernes
+
+502
+00:37:43,000 --> 00:37:47,000
+un des exemples que j'ai crée teste
+
+503
+00:37:47,000 --> 00:37:50,000
+les valeurs initiales de chaque registre
+
+504
+00:37:50,000 --> 00:37:56,000
+donc on peut voir les valeurs possibles sous XP ou W7
+
+505
+00:37:56,000 --> 00:38:01,000
+à chaque fois [TLS, EntryPoint, DllMain], je sauve tous les registres
+
+506
+00:38:01,000 --> 00:38:04,000
+et je compare à diverses valeurs possibles
+
+507
+00:38:04,000 --> 00:38:06,000
+successivement
+
+508
+00:38:06,000 --> 00:38:10,000
+en fait, au TLS, on a beaucoup de contrôles de ces valeurs,
+
+509
+00:38:10,000 --> 00:38:16,000
+car ces valeurs proviennent du Data Directory
+
+510
+00:38:16,000 --> 00:38:20,000
+en particulier, son adresse relative, sa taille, les callbacks...
+
+511
+00:38:20,000 --> 00:38:26,000
+pour plus de détail, voir le source...
+
+512
+00:38:26,000 --> 00:38:33,000
+ça vous permet d'imiter mieux un SE dans votre émulateur,
+
+513
+00:38:33,000 --> 00:38:35,000
+si ça vous intéresse
+
+514
+00:38:35,000 --> 00:38:41,000
+on utilise SMSW, on compare la valeur
+
+515
+00:38:41,000 --> 00:38:46,000
+ensuite, après une opération FPU, on regarde si la valeur a changé
+
+516
+00:38:46,000 --> 00:38:48,000
+et si elle revient à sa valeur initiale.
+
+517
+00:38:48,000 --> 00:38:52,000
+une autre bizarrerie, si quelqu'un a l'explication
+
+518
+00:38:52,000 --> 00:38:54,000
+est qu'en fait
+
+519
+00:38:54,000 --> 00:39:01,000
+ça se comporte différemment si on exécute le fichier normalement
+
+520
+00:39:01,000 --> 00:39:04,000
+ou avec une redirection
+
+521
+00:39:04,000 --> 00:39:08,000
+si on redirige, 'échec'
+
+522
+00:39:08,000 --> 00:39:11,000
+sinon, ça marche normalement.
+
+523
+00:39:11,000 --> 00:39:22,000
+pour vous montrer... on exécute, et on lance TYPE
+
+524
+00:39:22,000 --> 00:39:24,000
+normal : OK
+
+525
+00:39:24,000 --> 00:39:26,000
+redirection: ECHEC
+
+526
+00:39:26,000 --> 00:39:30,000
+si vous avez une explication, je suis preneur
+
+527
+00:39:30,000 --> 00:39:37,000
+tu as essayé de rediriger vers autre chose ?
+
+528
+00:39:37,000 --> 00:39:42,000
+non, je n'ai pas essayé
+
+529
+00:39:42,000 --> 00:39:45,000
+donc, rediriger vers un autre périphérique?
+
+530
+00:39:45,000 --> 00:39:46,000
+mais, comment on récupère le résultat ?
+
+531
+00:39:46,000 --> 00:39:48,000
+imprimante ?
+
+532
+00:39:48,000 --> 00:39:54,000
+je n'ai pas de périphérique COM
+
+533
+00:39:54,000 --> 00:39:56,000
+non, je ne sais pas
+
+534
+00:39:56,000 --> 00:39:59,000
+mais c'était surprenant, car je lançais tous mes tests...
+
+535
+00:39:59,000 --> 00:40:02,000
+et d'un coup, 'ECHEC'...
+
+536
+00:40:02,000 --> 00:40:07,000
+alors qu'à la main, aucun problème.
+
+537
+00:40:07,000 --> 00:40:09,000
+l'astuce avec GS
+
+538
+00:40:09,000 --> 00:40:11,000
+très simple
+
+539
+00:40:11,000 --> 00:40:19,000
+et quelques affichages
+
+540
+00:40:19,000 --> 00:40:21,000
+je modifie GS, qui se remet à zéro
+
+541
+00:40:21,000 --> 00:40:23,000
+puis j'attends le résultat,
+
+542
+00:40:23,000 --> 00:40:26,000
+ensuite je fais 2 tests et je compare le temps entre
+
+543
+00:40:26,000 --> 00:40:30,000
+car ça ne doit pas arriver trop vite
+
+544
+00:40:30,000 --> 00:40:37,000
+NOPs
+
+545
+00:40:37,000 --> 00:40:39,000
+je teste les NOPs non documentés
+
+546
+00:40:39,000 --> 00:40:45,000
+celui sur une page invalide
+
+547
+00:40:45,000 --> 00:41:01,000
+NOP standard
+
+548
+00:41:01,000 --> 00:41:07,000
+32 bits
+
+549
+00:41:07,000 --> 00:41:15,000
+tous mes tests 64b sont fait dans des programmes 32b, car on peut les exécuter sur un OS normal
+
+550
+00:41:15,000 --> 00:41:19,000
+et ensuite je regarde GS pour voir si le mode 64b est disponible
+
+551
+00:41:19,000 --> 00:41:21,000
+dans ce cas, on obtiendrait un résultat différent
+
+552
+00:41:21,000 --> 00:41:26,000
+donc, en 64b, que je n'ai aps ici, on obtiendrait
+
+553
+00:41:26,000 --> 00:41:28,000
+les tests en 64b
+
+554
+00:41:28,000 --> 00:41:31,000
+et ces results.
+
+555
+00:41:31,000 --> 00:41:35,000
+mais, pas si facile à déboguer
+
+556
+00:41:35,000 --> 00:41:39,000
+mais ici, pas de piège, donc on peut revenir facilement en 32b
+
+557
+00:41:39,000 --> 00:41:45,000
+on saute le code 64b et revient en 32b
+
+558
+00:41:45,000 --> 00:41:48,000
+PUSH/RET
+
+559
+00:41:48,000 --> 00:41:52,000
+on affiche le message et ensuite...
+
+560
+00:41:52,000 --> 00:41:58,000
+Olly vous dit qu'on va sauter vers [4010]08
+
+561
+00:41:58,000 --> 00:42:03,000
+mais en fait - ici, c'est correct
+
+562
+00:42:03,000 --> 00:42:05,000
+et le TLS a alloué la page NULLE
+
+563
+00:42:05,000 --> 00:42:09,000
+qui affiche 'ECHEC'
+
+564
+00:42:09,000 --> 00:42:15,000
+donc, comme mentionné auparavant, pas de façon standard de désassembler ça correctement
+
+565
+00:42:15,000 --> 00:42:23,000
+je ne peux pas exécuter les 64K sections
+
+566
+00:42:23,000 --> 00:42:27,000
+et en fait, cet exemple exécute tout le code (l'espace virtuel complet des 65535 sections)
+
+567
+00:42:27,000 --> 00:42:29,000
+elles sont grosses,
+
+568
+00:42:29,000 --> 00:42:33,000
+et je modifie EAX pour que tous les 00 00 soient exécutés
+
+569
+00:42:33,000 --> 00:42:35,000
+juste pour faire un printf à la fin
+
+570
+00:42:35,000 --> 00:42:39,000
+ça prend plusieurs secondes sur un i7
+
+571
+00:42:39,000 --> 00:42:43,000
+c'est assez amusant: on le lance, et même avec le cache,
+
+572
+00:42:43,000 --> 00:42:50,000
+et que le SE n'est pas occupé, ça prend un temps visible, juste pour un tas de 00
+
+573
+00:42:50,000 --> 00:43:00,000
+les sections virtuelles... celui que le dernier Hiew ne voit pas comme un PE
+
+574
+00:43:00,000 --> 00:43:02,000
+enfin, bientôt corrigé
+
+575
+00:43:02,000 --> 00:43:08,000
+ah, je ne peux pas l'analyser car il ne pense même pas que c'est un PE
+
+576
+00:43:08,000 --> 00:43:13,000
+mais, pour simplifier, OPTIONAL_HEADER pointe au delà
+
+577
+00:43:13,000 --> 00:43:14,000
+du fichier
+
+578
+00:43:14,000 --> 00:43:17,000
+l'en-tête plié...
+
+579
+00:43:17,000 --> 00:43:18,000
+quelques messages d'erreurs,
+
+580
+00:43:18,000 --> 00:43:21,000
+à cause des faux Data Directories
+
+581
+00:43:21,000 --> 00:43:30,000
+et les DD réels sont au début
+
+582
+00:43:30,000 --> 00:43:33,000
+de la première section
+
+583
+00:43:33,000 --> 00:43:42,000
+ceci deviendra les imports, et le vrai Data Directory
+
+584
+00:43:42,000 --> 00:43:49,000
+et pour finir, celui avec TLS AddressOfIndex qui pointe...
+
+585
+00:43:49,000 --> 00:44:02,000
+...dans les descripteurs d'imports, sur AddressOfName
+
+586
+00:44:02,000 --> 00:44:04,000
+donc, il sera écrasé au chargement
+
+587
+00:44:04,000 --> 00:44:11,000
+et quand on le charge, il reconnait XP
+
+588
+00:44:11,000 --> 00:44:14,000
+à la façon dont les imports ont été chargés
+
+589
+00:44:14,000 --> 00:44:17,000
+et sous 7, on obtiendra un autre résultat.
+
+590
+00:44:17,000 --> 00:44:19,000
+pour finir, les exports
+
+591
+00:44:19,000 --> 00:44:24,000
+certains ont des noms très longs
+
+592
+00:44:24,000 --> 00:44:30,000
+en fait, on remarque que j'écrase le désassemblage même
+
+593
+00:44:30,000 --> 00:44:33,000
+donc je répète les faux opcodes et adresses
+
+594
+00:44:33,000 --> 00:44:37,000
+donc le désassembleur est perturbé
+
+595
+00:44:37,000 --> 00:44:40,000
+mais c'est juste visuel, pas vraiment grave
+
+596
+00:44:40,000 --> 00:44:43,000
+bien que ce soit un problème récent dans IDA
+
+597
+00:44:43,000 --> 00:44:47,000
+ou si on met un export au milieu d'une instruction
+
+598
+00:44:47,000 --> 00:44:49,000
+l'export aura priorité sur le désassemblage,
+
+599
+00:44:49,000 --> 00:44:52,000
+et casse l'instruction en deux
+
+600
+00:44:52,000 --> 00:44:58,000
+il y a bien sûr un exemple pour ça sur Corkami
+
+601
+00:44:58,000 --> 00:45:05,000
+donc, voilà pour les démonstrations
+
+602
+00:45:05,000 --> 00:45:10,000
+Je voulais donc en savoir plus sur le x86 et le PE
+
+603
+00:45:10,000 --> 00:45:12,000
+qui sont loin d'être correctement documentés
+
+604
+00:45:12,000 --> 00:45:14,000
+et qui ne le sont toujours pas,
+
+605
+00:45:14,000 --> 00:45:18,000
+mais j'en ai couvert un peu
+
+606
+00:45:18,000 --> 00:45:20,000
+il y a encore des flous
+
+607
+00:45:20,000 --> 00:45:24,000
+mais de moins en moins, j'y travaille
+
+608
+00:45:24,000 --> 00:45:27,000
+en publiant mes recherches librement
+
+609
+00:45:27,000 --> 00:45:31,000
+tel WinDbg, si vous suivez les documentations officielles à la lettre,
+
+610
+00:45:31,000 --> 00:45:36,000
+vous êtes voués à l'échec, surtout avec tous les virus et packeurs existants
+
+611
+00:45:36,000 --> 00:45:40,000
+si vous êtes intéressés, ou que vous programmez un outil, un émulateur, un moteur...
+
+612
+00:45:40,000 --> 00:45:44,000
+vous savez que vous pouvez aller sur Corkami, lire les pages
+
+613
+00:45:44,000 --> 00:45:48,000
+télécharger les exemples, qui sont disponibles librement, à tout point de vue
+
+614
+00:45:48,000 --> 00:45:50,000
+et si vous trouvez des bugs, ce qui pourrait arriver
+
+615
+00:45:50,000 --> 00:45:57,000
+envoyez-moi une carte postale, ou un t-shirt croix rouge ;)
+
+616
+00:45:57,000 --> 00:46:01,000
+Merci à Peter Ferrie, et tous mes relecteurs et contributeurs
+
+617
+00:46:01,000 --> 00:46:03,000
+vous avez des questions ?
+
+618
+00:46:03,000 --> 00:46:10,000
+tu les as testés sur des anti-virus ? tu devrais trouver une ch*ée de 0days
+
+619
+00:46:10,000 --> 00:46:23,000
+mouai, non, je ne saurais pas en faire des exploits...
+
+620
+00:46:23,000 --> 00:46:29,000
+tenir en échec les désassembleurs me suffit
+
+621
+00:46:29,000 --> 00:46:40,000
+j'ai trouvé un crash dans Xed d'Intel, ça me suffit
+
+622
+00:46:40,000 --> 00:46:45,000
+une autre question ? tout le monde a survécu ?
+
+623
+00:46:45,000 --> 00:46:46,000
+c'était une super présentation, mec
+
+624
+00:46:46,000 --> 00:46:48,000
+merci!
+
+625
+00:46:48,000 --> 00:46:50,000
+MERCI!
