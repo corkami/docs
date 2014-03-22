@@ -1,0 +1,131 @@
+%PDF-1.4
+
+6 0 obj
+<<
+    /Type /Catalog
+    /Pages 7 0 R
+>>
+endobj
+
+7 0 obj
+<<
+    /Type /Pages
+    /Count 2
+    /Kids[1 0 R 2 0 R]
+>>
+endobj
+
+1 0 obj
+<<
+    /Type /Page
+    /Parent 7 0 R
+    /Resources 3 0 R
+    /Contents 4 0 R
+    /MediaBox[0 0 400 300]
+>>
+endobj
+
+2 0 obj
+<<
+    /Type /Page
+    /Parent 7 0 R
+    /Resources 3 0 R
+    /Contents 5 0 R
+    /MediaBox[0 0 400 300]
+>>
+endobj
+
+3 0 obj
+<</Font
+    <</F
+        <<
+            /BaseFont/Arial
+            /Type /Font
+            /Subtype /Type1
+        >>
+    >>
+>>
+endobj
+
+4 0 obj
+<<>>
+stream
+BT
+/F 60
+Tf
+20 20 TL
+60 190 Td
+(Binary Art)' T*
+/F 20
+Tf 10 -40
+Td(Ange Albertini - 2014/03/21)'
+-40 -5 Td
+(Insomni`hack, Geneva, Switzerland)'
+ET
+endstream
+endobj
+
+5 0 obj
+<<>>
+stream
+BT
+/F 6 Tf 10 10 TL 40 270
+Td(author of corkami)'
+(* reverse engineering & visual documentations)'
+()'
+(file formats)'
+(supposed to be safe)'
+(* public specs)'
+(* open-source parsers)'
+(* {weirdness} == {exploits} ?)'
+(* software = parse, sanitize, recover)'
+(formats diversity:)'
+(* no header, magic signature, start offset)'
+(* obsolescence, directions, versions, scanning,)'
+(* no official names)'
+(study formats:)'
+(reproduce structure, mimick file, have fun)'
+(plenty of fun:)'(* small, big files)'
+(* quine (relay))'
+(* polyglot)'
+(* schizophren)'
+(* misc)'
+(* crypto (encryption, collision))'
+(conclusion)'
+10 10 TL
+200 200 
+Td(visual documentations)'
+(disclaimer)'
+(goal)'
+(why posters?)'
+(use common sense, and your own eyes)'
+(creativity = give yourself time (to fail))'
+(define your audience, your margins)'
+(remove the obvious)'
+(space: optimal separator)'
+(leave door closed, no unnecessary extras)'
+(requirements)'
+(links)'
+()'
+(conclusion)'
+()'
+(questions?)'
+()'
+(thank you)'
+( @angealbertini)'
+( ange@corkami.com)'
+ET
+endstream
+endobj
+
+xref
+0 1
+0000000000 65535 f
+0000000001 00000 n
+
+trailer
+<</Root 6 0 R>>
+
+startxref
+1738
+%%EOF
