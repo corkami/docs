@@ -1,0 +1,619 @@
+#summary x86 oddities
+#labels Featured
+
+[http://code.google.com/p/corkami/ << index] [http://opcodes.corkami.com Android/Java/x86/... opcodes tables] [http://pdf.corkami.com PDF tricks] [http://pe.corkami.com Portable Executable] [http://x86.corkami.com x86 oddities]
+
+Available in: [http://code.google.com/p/corkami/wiki/x86oddities?wl=fr Français]
+
+=x86 oddities=
+This page ([http://code.google.com/p/corkami/wiki/x86oddities?show=content printable version] [http://corkami.googlecode.com/svn/wiki/x86oddities.wiki wiki source]) enumerates various oddities of the x86/x64.
+
+They are all implemented and tested in [StandardTest CoST].
+
+this topic was presented in 2011 at [http://code.google.com/p/corkami/wiki/hashdays2011?show=content Hashdays] (video available) and [http://code.google.com/p/corkami/wiki/BerlinSidesX2?show=content BerlinSides] (screencasts available)
+
+<wiki:toc max_depth="3" />
+
+=general=
+==register order==
+ * In 32b, each register has some unique role (unlike in 64b, where all registers of the r`9`-r`15` group are equivalent, from an mnemonic perspective, excepted that `r11` holds the value of RFLAGS on `syscall`/`sysret`): `stosd` stores `eax` at `es:edi`, `loop` relies on `ecx`, `xlat` uses `ebx` as a base, `in` reads from port `dx`...
+ * Registers are using A, B, C, D letters, but it stands for Accumulator, Base, Counter, Data, not the letters themselves.
+ Their logical order is not the alphabetic one: In the CPU, they're encoded in the A, C, D, B order:
+  for example, `inc eax` is encoded `40`, `inc ecx` is encoded `41`, and so on...
+
+ https://corkami.googlecode.com/svn/wiki/pics/x86_regorder.png
+
+==instruction length==
+An instruction is limited to 15 bytes on recent CPUs (it changed over time):
+ for example, while a `nop` preceded by 14 useless prefixes is valid,
+ {{{
+66 66 66 66 66 66 66 66 66 66 66 66 66 66 90: nop
+
+=> nothing
+}}}
+ adding one more prefix will reach the limit and trigger an exception:
+ {{{
+
+66 66 66 66 66 66 66 66 66 66 66 66 66 66 66 90: ??
+
+=> exception
+}}}
+
+However, it's possible to almost reach that limit with legitimate operations:
+ * in 64 bits:
+{{{
+ 2e 67 f0 48 818480 23df067e 89abcdef: lock add qword cs:[eax + 4 * eax + 07e06df23h], 0efcdab89h
+}}}
+
+ * (the same with more details):
+{{{
+ 2e                                                   cs:
+    67                                                    e         e
+       f0                              lock
+          48                                    qword
+             818480                         add          [?ax + 4 * ?ax +           ],
+                    23df067e                                              07e06df23h
+                             89abcdef:                                                 0efcdab89h
+}}}
+https://corkami.googlecode.com/svn/wiki/pics/x86_15bop_64b.gif
+
+ * it's also possible in 16 bits:
+{{{
+f0 2e 66 67 818418 67452301 efcdab89: lock add dword cs:[eax + ebx + 001234567h], 089abcdefh
+}}}
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_15bop_16b.png
+
+VirtualPC has been known to be incorrectly ignoring the 15 bytes limit.
+
+==REX prefix==
+ * in 64b, `ah`, `bh`, `ch`, `dh` are not addressable when a REX prefix is used, while `sil`, `dil`, `bpl`, `spl` are only addressable when a REX prefix is used (they overlap).
+{{{
+   88EC:  mov    ah,  ch
+40 88EC:  mov   spl, bpl
+}}}
+ * in theory, only one REX prefix should be used. In practice, only the last one is taken into account.
+{{{
+                                       89D8:  mov  eax, ebx
+                                    4F 89D8:  mov   r8, r11
+40 41 42 43 44 45 46 47 48 49 4A 4B 4F 89D8:  mov   r8, r11
+}}}
+
+ * legacy prefix are expected before REX prefix: a REX prefix before a legacy prefix is silently ignored:
+{{{
+   2E 00F7: add   bh,  dh
+40 2E 00F7: add   bh,  dh    ; 40 is silently ignored
+2E 40 00F7: add  dil, sil
+}}}
+
+==mnemonic length==
+ * `or`, `in`, `jz/jp/js/jo`, `bt` are the smallest mnemonics
+ * `maskmovdqu`, `vbroadcast`, `vzeroupper`, `vfnmadd132pd`, `vbroadcastf128` are long names...
+  * but `aeskeygenassist` beats them all.
+
+==mnemonic collision==
+`movsd` refers to two different instructions:
+ * "Move Data from String to String"
+{{{
+A5  movsd
+}}}
+ * "Move Scalar Double-precision floating-point"
+{{{
+F2:0F 10 C1  movsd xmm0, xmm1
+}}}
+
+=registers=
+
+==MMX and FPU==
+MMX and FPU registers are overlapping, but in opposite directions: 0, 1,2,3... mapped to 7,6,5...
+
+Thus, a single FPU operation on `st0` will modify `fst`, `st0`, but also `mm7` (and `cr0`, under XP).
+{{{
+d9eb: fldpi
+
+=> fst = 03800h
+   st0 = 04000c90fdaa22168c235h
+   mm7 =     0c90fdaa22168c235h
+   cr0 = 080010031h (under XP)
+}}}
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_regs.gif
+
+==GS==
+On 32bit Windows, GS is not saved in the execution context:
+when the OS switches from an application to another, the content of GS is lost.
+This can be used as an anti-emulator or an anti-stepping:
+after some time of execution, GS will eventually be reset:
+ # set GS to X
+ # wait until GS is null `<== thread switch eventually happens, and resets GS`
+ # execution resume here
+
+==os/tool/vm detection==
+At any defined point of execution (!EntryPoint, !DllMain, TLS...),
+registers might have different values, depending on the OS.
+ * tools like packers (such as UPX) or debuggers (such as !OllyDbg) might also alterate these values.
+
+And, at any point of execution:
+ * `smsw`, `sidt`, `str`, `sgdt` will return different values depending on the OS.
+ * `sldt`, `lsl`, `str` might return different values if execution takes place in a virtual machine.
+
+These values are currently being collected in the [InitialValues Initial Values page].
+
+=specific=
+
+==nop==
+`nop` is an alias mnemonic of `90:xchg *ax, *ax`
+(which does nothing, as no flag are affected by `xchg`):
+the whole 90-97 range is actually `xchg *ax, <reg32>`.
+{{{
+90: xchg eax, eax
+
+=> eax, eax = eax, eax ;)
+}}}
+{{{
+91: xchg ecx, eax
+
+=> ecx, eax = eax, ecx
+}}}
+
+However, `xchg *ax, *ax` has another encoding, which is not considered a `nop`.
+And, on 64 bits, it clears the upper 32 bits of `rax`. So, not all `xchg *ax, *ax` are nops.
+{{{
+87c0: xchg eax, eax
+
+=> rax = eax
+}}}
+
+Hopefully, 90 is truly a `nop`, even in 64 bits.
+
+==xchg/xadd==
+`xchg`, `xadd` are opcodes that affect both source and target operands (like `fxch`).
+
+Moreover, they can operate on different parts of the same register,
+which has the potential to break trivial logic analyzers:
+{{{
+0f c0c4: xadd ah, al
+
+=> ah, al = al + ah, ah
+}}}
+
+==aad==
+`aad` is officially defined to use only 10/0Ah as a default operand, but can just use any other operand.
+
+it makes it the first Add and Multiply opcode, as `al = ah * operand + al`.
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_aad.gif
+
+{{{
+
+ax = 325h
+
+d507: aad 7
+
+=> ax = 3 * 7 + 25h = 3ah
+}}}
+
+==aam==
+Similar logic for `aam`:
+ * it's officially defined with 10/0ah, but it just works with any byte.
+ * it's a division, and quotient and remainder go to `ah` and `al` respectively.
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_aam.gif
+
+{{{
+al = 3ah
+
+d403: aam 3
+
+=> ah = 3ah / 3 = 13h
+   al = 3ah % 3 = 1
+}}}
+
+==bswap==
+https://corkami.googlecode.com/svn/wiki/pics/x86_bswap.gif
+
+`bswap` is *officially undefined* on WORDS. In *reality*, it just clears the register, unexpectedly.
+{{{
+66 0fc8: bswap ax
+
+=> ax = 0
+}}}
+
+to effectively swap `ax` contents, one can use `86e0: xchg al, ah`
+
+==cmpxchg`*`==
+ * `lock cmpxchg8b` doesn't crash CPUs anymore,
+but some tools might still show obsolete warnings about it.
+ * for bus optimization purposes, all 3 `cmpxchg` opcodes always write the operand, even if the values are unchanged: this could trigger an exception on read-only memory.
+
+==crc32==
+https://corkami.googlecode.com/svn/wiki/pics/x86_crc32.gif
+
+The `crc32` opcode implements the full algorithm with a single operation, however, it's not the commonly used CRC32 (used in Zip), but actually the CRC-32C (Castagnoli CRC-32), which uses a different polynomial.
+
+While it's technically the same algorithm as the 'common' CRC32, it uses a different seed, so it returns different results, thus it's useless for Zip, and all the countless applications of the deflate algorithm.
+{{{
+eax = 0abcdef9h
+ebx = 12345678h
+
+f2 0f 38f1c3: crc32 eax, ebx
+
+=> eax, 0c0c38ce0h
+}}}
+
+It's still usable independently as a checksum, and is actually used in network protocols such as iSCSI, SCTP; it's actually more efficient than the standard CRC32 (when used for recovery purposes), but it's just incompatible.
+
+==mov==
+ * mov to/from control and debug registers ignores the modRM (the field that specifies if operations are done on registers or memory).
+{{{
+0f 2000: mov eax, cr0
+}}}
+ by the usual standards, it should have been decoded as `mov [eax], cr0` instead, which would be invalid.
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_cr0.png
+
+ * `mov <reg32>, <selector>` is officially MOV, (not MOVZX) yet it modifies the full DWORD from a WORD. (the upper word is supposedly undefined on CPUs older (or equal) to Pentium, but it's zero on a Pentium anyway). In any case, the upper word is null on modern CPUs.
+{{{
+8cc8: mov eax, cs
+
+=> eax = 0000001bh (xp)
+}}}
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_movcs.gif
+
+==push==
+https://corkami.googlecode.com/svn/wiki/pics/x86_push.gif
+
+Even though selectors are WORDS-sized registers, like standard registers such as AX, they're not pushed on the stack the same way.
+{{{
+1e: push ds
+
+=> esp = esp - 4
+   word ptr [esp] = ds
+}}}
+
+{{{
+66 50: push ax
+
+=> esp = esp - 2
+   word ptr [esp] = ax
+}}}
+
+no other word is changed.
+
+==movbe==
+https://corkami.googlecode.com/svn/wiki/pics/x86_movbe.gif
+
+
+ * `movbe` (MOV Big Endian) is a recent opcode equivalent to `mov + bswap`, but only to/from memory.
+{{{
+[ebx] = 011223344h
+
+0f 38f003: movbe eax, [ebx]
+
+=> eax = 044332211h
+}}}
+ * unlike `bswap`, it's able to work with a WORD without resetting it.
+ * It's found only on Atom CPUs. Thus, netbooks support it, but not powerful CPUs such as i7.
+
+==bsf/r==
+`bsf/r` are undefined when its source is 0. In practice, the target register is not modified.
+
+==lzcnt==
+`lzcnt` (Leading Zero CouNT) is an opcode created in 2007, only supported by AMD in their Barcelona architecture and later (it's planned in Intel Haswell for 2013, along with its counterpart `tzcnt`).
+
+Recent opcodes would usually trigger an exception when executed on a CPU not supporting them.
+
+However, this one is mapped on `0fbd: bsr` (Bit Scan Reverse) with an `f3` prefix, so it will not trigger any exception on a CPU that doesn't support it:
+ # it will just execute `bsr` and ignore the prefix.
+ # `bsr` and `lzcnt` work on the same register, and have the same instruction length, so the same target register will be modified, and the next instruction will be the same. Thus, only the target register and flags might be different.
+
+if you execute:
+{{{
+ecx = 35abc80eh (00110101101010111100100000001110b)
+
+f3 0f bdc1:
+}}}
+
+if `lzcnt` is supported by the CPU:
+{{{
+f3 0f bdc1: lzcnt eax, ecx
+
+=> eax = 2
+}}}
+
+if not:
+{{{
+f3         <== ignored prefix
+   0f bdc1: bsr eax, ecx
+
+=> eax = 1dh
+}}}
+
+It makes `lzcnt` an odd exception-less AMD detector (for now): besides, with a null source, `lzcnt` will return a null value, while `bsr` will leave the target unmodified.
+
+==sal==
+https://corkami.googlecode.com/svn/wiki/pics/x86_sal.gif
+
+
+Shift Arithmetic Left (the opcode with modRM 110) is identical to SHL (opcode with modRM 100), and is usually encoded directly as SHL: this means that assemblers always generates the SHL opcode, so SAL is sometimes totally ignored by disassemblers/emulators/...
+
+{{{
+al = 1010b
+
+c0f0 02: sal al, 2
+
+=> al = 101000b
+}}}
+
+It's informally called SAL, because it's technically a different opcode (in hex), but functionally, it's the same as SHL.
+
+|| modRM || 100 || 101 || 110 || 111 ||
+|| opcode || SHL || SHR || 'SAL' || SAR ||
+
+==salc==
+https://corkami.googlecode.com/svn/wiki/pics/x86_salc.gif
+
+
+ * `salc` is sometimes written `setalc`
+ * it stands for `Set AL on Carry`
+ * it's undocumented by Intel - but not by AMD, and it's unexpectedly supported by Intel's public tools.
+ * it's a one byte equivalent of `1ac0: sbb al, al`
+  * al = cf ? -1 : 0
+
+{{{
+f9: stc
+d6: salc
+
+=> al = -1
+}}}
+
+==lock==
+`lock:` works only on memory targets:
+ * `f0 0100: lock:add [eax], eax` is valid.
+ * `f0 01c0: lock:add eax, eax` and `f0 0300: lock:add eax, [eax]` trigger exceptions.
+
+and on the following opcodes:
+ * adc, add, and, or, sbb, sub, xor, dec, inc, neg, not
+ * cmpxchg, cmpxchg8b
+ * btr, bts, btc
+  * `f0 0fa300: lock:bt [eax], eax` *does* trigger an exception.
+ * xadd, xchg (even if they are already atomic, so `lock:` is superfluous)
+
+===XP bug===
+https://corkami.googlecode.com/svn/wiki/pics/x86_lockxp.gif
+
+`lock:` is wrongly parsed by Windows XP:
+ # Upon an exception, XP tries to determine whether it should be an INVALID LOCK SEQUENCE or just an ILLEGAL INSTRUCTION
+ # but it checks too briefly for a F0 byte: in the case of `fef0`, which is just undefined, an INVALID LOCK SEQUENCE is still triggered by XP even if, in this case, it has nothing to do with a `lock` prefix (For reference, `fec0` decodes as `inc al`)
+
+Windows 7 just avoids the problem altogether by triggering an ILLEGAL INSTRUCTION on all invalid opcodes, no matter what, including invalid use of LOCK: prefix. No parsing, no mistake !
+
+{{{
+fef0: ??
+
+=> INVALID LOCK SEQUENCE (XP, bug)
+   ILLEGAL INSTRUCTION (W7)
+}}}
+
+===Windows 7 bug===
+On the other hand, `lock:prefetch` is wrongly handled by Windows 7. It's an illegal instruction, and while it triggers correctly an INVALID LOCK SEQUENCE exception on XP, it doesn't trigger any exception under Windows 7. It's invalid, so can't be executed, yet triggers no exception, so it just hangs, like an infinite loop, but without crashing.
+
+even more exceptional, the OS patches the opcode: executing `f0:0f 0d 00` turns it into `f0:0f 1f 00`.
+==smsw==
+https://corkami.googlecode.com/svn/wiki/pics/x86_smsw.gif
+
+ * returns CR0 value (WORD or DWORD)
+ * unprivileged, unlike `mov eax, cr0`: it's an old 286 instructions, while `mov cr0` is only present in 386 and later.
+ * upper bits are officially undefined. but in reality, they're just `cr0` contents.
+{{{
+
+0f 01e0: smsw eax
+
+=> eax = 8001003b (XP)
+}}}
+ * since CR0 is influenced by other events (FPU) under XP, it makes it a tough anti-emulator.
+ * `smsw` is defined on DWORD or WORD on registers, but always on WORD in memory(see below).
+
+==str/sldt==
+Like `smsw`, they work on DWORD or WORD on registers, but only on WORD in memory.
+
+{{{
+   0f 00c8: str eax
+
+=> eax = 00000028h (XP)
+}}}
+
+{{{
+66 0f 00c8: str ax
+
+=> ax  =     0028h (XP)
+}}}
+
+{{{
+
+   0f 0008: str [eax]
+
+=> word ptr [eax] = 0028h (XP)
+}}}
+
+it's the same for `sldt`.
+
+==test==
+`test <r32>, <imm32>` has an alternate encoding that is sometimes forgotten, as it's never generated by compilers or assemblers.
+{{{
+f7c8 44332211: test eax, 11223344h
+}}}
+
+==IceBP==
+https://corkami.googlecode.com/svn/wiki/pics/x86_icebp.gif
+
+
+ * like `salc`, `IceBP` is undocumented by Intel, but not by AMD, and supported by Intel tools.
+ * it stands for [http://en.wikipedia.org/wiki/In-circuit_emulator In-Circuit Emulator] Breakpoint.
+ * it's unprivileged.
+ * it triggers a SINGLE STEP exception, *after* execution.
+ * it's sometimes written `Int1`, as it's the stepping interrupt, but executing `CD 01:Int 1` doesn't trigger SINGLE STEP.
+
+{{{
+f1: IceBp
+
+=> SINGLE STEP (80000004h) exception
+}}}
+
+==rdtscp==
+https://corkami.googlecode.com/svn/wiki/pics/x86_rdtscp.gif
+
+`rdtscp` is a recent opcode that just returns the usual `rdtsc` result to eax/edx, and also changes ECX: it's  _loaded with the low-order 32-bits of IA32_TSC_AUX MSR_ ... which means most of the time, 0.
+
+{{{
+0f 01f9: rdtscp
+
+=> edx:eax = <rdtsc>
+   ecx = 0
+}}}
+
+==hint nop==
+https://corkami.googlecode.com/svn/wiki/pics/x86_hintnopmem.gif
+
+ * `hint nop` is officially documented by Intel as opcode `0f 1f`, but it's actually available on range `0f 19-1f`.
+ * as one would expect from a `nop`, it never triggers an exception, even when referencing an invalid address.
+
+{{{
+0f1980 00000080: nop [eax + 8000000h]
+
+=> nothing
+}}}
+ * but, of course, if the operand is on an invalid page, it can still trigger an exception.
+
+==branch hints==
+ * branch hints are officially defined to give hints to the CPU whereas a branch is likely to be taken or not.
+ * they are supposedly generated by compilers, but there is no official way to assemble or disassemble them.
+ * they are re-using the 2e/3e bytes, which are mapped to `CS:` and `DS:` prefixes.
+
+==16b flow==
+https://corkami.googlecode.com/svn/wiki/pics/x86_pushret.gif
+
+ * call, jumps, return, loops can either jump to 32b or 16b via the `66:` prefix.
+ * there is no official way to disassemble a return to word : `small retn`, `retn word`, `retn.w`...
+
+{{{
+68 00104000: push 401000h
+66 c3:       retn
+
+=> eip = 00001000h
+   esp = esp - 2
+}}}
+
+==obsolete opcodes==
+There are many opcodes that are never (or in extreme cases) generated by compilers nowadays, that still fully work under modern CPUs. The list is long: xadd, aaa, daa, aas, das, aad, aam, l`*`s, bound, arpl, xlatb, lar, verr`*`, cmpxchg`*`, lsl...
+
+For example, Here is some code, fully working under a modern CPU, but obfuscated by its obsolescence:
+{{{
+into
+bound eax, [edx]
+verr cx
+lar eax, ecx
+str edx
+aaa
+lsl eax, ecx
+sfence
+arpl cx, ax
+aam
+bswap ecx
+lock cmpxchg8b [esi]
+lds ebx, [esi]
+xlatb
+daa
+xadd ecx, eax
+prefetch [eax]
+}}}
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_oldpath.gif
+
+==future opcodes==
+Intel Haswell will introduce very useful opcodes (on general registers) such as:
+ * `andn`:
+
+{{{
+andn eax, ebx, ecx
+
+=> eax = !ebx & ecx
+}}}
+
+which is functionally equivalent to 8086 instructions (from 1978):
+{{{
+89d8 mov eax, ebx
+f7d0 not eax
+21c8 and eax, ecx
+}}}
+
+ * `mulx`, `rorx`, `sarx`, `shlx`, `shrx` will do the same as their cousins from the late 70's, but without affecting the flags.
+
+=x64=
+
+==32 bits zero extending==
+In 64 bits, opcodes are zero-extending on 32 bits registers.
+
+thus, while
+{{{
+   fec0: inc al
+66 ffc0: inc ax
+   ffc0: inc rax
+}}}
+all do what you would expect.
+
+but on the other hand,
+{{{
+48 ffc0: inc eax
+}}}
+resets the upper 32 bits of RAX.
+
+==switching between 32b and 64b modes==
+On a 64 bits CPU, the cpu can just change from/to 32b mode by jumping to a properly defined selector. In short, changing the number of bits just mean jumping to a different value of CS.
+
+For example, in a 64b version of windows, selector 33h is for 64b. Jumping to it from a 32b process, then jumping back, will switch to 64b, then back to 32b. It's as simple as that.
+{{{
+    <32b>
+call far 33h:_64b
+    <32b>
+
+_64b:
+    <64b>
+    ...
+    retf
+}}}
+
+===32+64===
+Since there are some opcodes specific to 32 bits mode (arpl, ...), and others specific to 64 bits mode (movsxd, ...), the same hex data can lead to completely different disassembly, just because CS is different at the start.
+
+https://corkami.googlecode.com/svn/wiki/pics/x86_96b.gif
+
+=acknowledgements=
+ * Peter Ferrie
+
+ * BeatriX
+ * Czerno
+ * Eugeny Suslikov
+ * Fabian 'rygorous' Giesen
+ * Fiora Aeterna
+ * Fotis
+ * Gil Dabah
+ * Guillaume Delugré
+ * Igor Skochinsky
+ * Jean-Baptiste Bédrune
+ * Jim Leonard
+ * Jon Larimer
+ * Moritz Kroll
+ * Nguyen Anh Quynh
+ * Oleh Yuschuk
+ * Sebastian Biallas
+ * Yoann Guillot
+
+=Other resources=
+<wiki:gadget url="https://corkami.googlecode.com/svn/wiki/gadgets/berlinsides_slideshare.xml" width=595 height=497 border=0/>
+
+ * [http://feldmann.home.xs4all.nl/86bugs.htm Hamarsoft 86BUGS list]
+ * [http://www.rcollins.org/ddj/ddj.html Dr. Dobb's Undocumented Corner]
+
+====[http://code.google.com/p/corkami/ << index] ([http://opcodes.corkami.com opcodes tables]/[http://pdf.corkami.com pdf tricks]/[http://pe.corkami.com Portable Executable]/[http://x86.corkami.com x86 oddities])
