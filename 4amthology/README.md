@@ -1,3 +1,7 @@
+Support me: order [prints](http://prints.corkami.com/), check my [patreon](https://www.patreon.com/corkami).
+
+---
+
 # Write-ups from [4am's best of](https://archive.org/search.php?query=4am+crack&and%5B%5D=subject%3A%22bestof%22&sort=-publicdate)
 
 ## Examples
@@ -53,3 +57,7 @@ with .PDR Kindle annotations, for older models
 - 2017/04/05 [Tiny Troll](20170405%20Tiny%20Troll%201.2%20%284am%20crack%29.pdf)
 - 2017/04/24 [Muppet Slate](20170424%20Muppet%20Slate%20%284am%20crack%29.pdf)
 - 2017/06/17 [The Print Shop Companion](20170617%20The%20Print%20Shop%20Companion%20v1.2%20%284am%20crack%29.pdf)
+
+---
+
+Support me: order [prints](http://prints.corkami.com/), check my [patreon](https://www.patreon.com/corkami).
