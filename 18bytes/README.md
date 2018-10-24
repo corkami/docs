@@ -1,3 +1,5 @@
+[PDF version](18bytes.pdf) ([LaTeX template](template.tex))
+
 # \*bleed continues: 18 byte file, $14k bounty, for leaking private Yahoo! Mail images
 
 by ![](pics/exile.png)Chris Evans, Thursday, May 18, 2017
