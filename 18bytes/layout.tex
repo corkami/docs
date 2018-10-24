@@ -1,0 +1,89 @@
+% compile with xelatex layout.tex
+% Ange Albertini - CC BY 2018
+
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage{fontspec}
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{pagecolor}
+\usepackage{hyperref}
+%\usepackage{lipsum}
+
+\pagecolor{black}
+
+\geometry{
+	top=8pt,
+	right=8pt,
+	left=8pt,
+	bottom=8pt,
+}
+
+\geometry{
+%	paperwidth=400pt, % 39 cols only
+	paperheight=500pt,
+}
+
+\renewcommand{\baselinestretch}{1} % line spacing
+
+\title{title}
+\author{author}
+\date{\today}
+
+\begin{document}
+
+\hypersetup{
+   urlbordercolor = {0 .5 .5},
+}
+
+\setmainfont{Beeb} % Andy Armstrong's 
+\setmonofont{Beeb} % for verbatim
+\color{white}
+
+\definecolor{cyan}{rgb}{0,1,1} % orginal BBC cyan
+
+\fontdimen2\font=7pt % word spacing
+%\fontdimen3\font=0pt
+
+\maketitle
+
+\begin{center}
+%\includegraphics[width=30pt]{picture}
+\end{center}
+
+\color{yellow}\section{section} \color{white}
+
+
+~\\lorem ipsum...
+
+\color{cyan}
+
+\begin{verbatim}
+some verbatim code |!#@)_)%$%
+[...]
+\end{verbatim}
+\color{white}
+
+\newpage
+
+~\\lorem ipsum \href{https://archive.org}{some url}~:\\
+
+\color{cyan}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ll}
+row header  & row header\\
+content     & lorem ipsum lorem ipsum \\
+...         & ...\\
+\end{tabular}
+}
+\color{white}
+
+~\\\underline{paragraph}\\lorem ipsum...
+
+\vspace*{\fill}
+\begin{flushright}
+\tiny
+Original \href{https://corkami.com}{source}\\
+Layout by \href{http://twitter.com/angealbertini}{Ange Albertini} - CC BY
+\end{flushright}
+\end{document}
