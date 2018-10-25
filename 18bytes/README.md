@@ -1,4 +1,6 @@
-[PDF version](18bytes.pdf) ([LaTeX template](template.tex))
+<img src="preview.png" width="100">
+
+[PDF version](18bytes.pdf) (LaTeX [template](template.tex), CC BY)
 
 # \*bleed continues: 18 byte file, $14k bounty, for leaking private Yahoo! Mail images
 
