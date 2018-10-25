@@ -1,0 +1,29 @@
+% Big O complexity chart with emojis
+
+% original idea by Dr. Markku-Juhani O. Saarinen
+% https://twitter.com/mjos_crypto/status/1055426309919145984
+
+% compile with xelatex
+
+\documentclass[preview]{standalone}
+\usepackage{amsmath}
+\usepackage{fontspec}
+\usepackage{geometry}
+
+\geometry{right=400pt}
+
+\setmainfont{DejaVu Sans}
+\begin{document}
+\begin{align*}
+O(1)           &= O(😎) \\
+O(\log(n))     &= O(😁) \\
+O((\log(n))^c) &= O(😇) \\
+O(n)           &= O(😍) \\
+O(n \log(n))   &= O(☺️) \\
+O(n^{1.5})     &= O(😐) \\
+O(n^2)         &= O(☹️) \\
+O(n^c)         &= O(😡) \\
+O(c^n)         &= O(😭) \\
+O(n!)          &= O(😱) \\
+\end{align*}
+\end{document}
