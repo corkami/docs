@@ -6,24 +6,26 @@
 % compile with xelatex
 
 \documentclass[preview]{standalone}
-\usepackage{amsmath}
 \usepackage{fontspec}
-\usepackage{geometry}
 
-\geometry{right=400pt}
+% DejaVu fonts from https://dejavu-fonts.github.io/
+\newfontfamily\DejaVu{DejaVu Sans}
 
-\setmainfont{DejaVu Sans}
+\setlength{\tabcolsep}{0pt}
+
 \begin{document}
-\begin{align*}
-O(1)           &= O(😎) \\
-O(\log(n))     &= O(😁) \\
-O((\log(n))^c) &= O(😇) \\
-O(n)           &= O(😍) \\
-O(n \log(n))   &= O(☺️) \\
-O(n^{1.5})     &= O(😐) \\
-O(n^2)         &= O(☹️) \\
-O(n^c)         &= O(😡) \\
-O(c^n)         &= O(😭) \\
-O(n!)          &= O(😱) \\
-\end{align*}
+\begin{tabular}{r @{\hspace{2pt}} c @{\hspace{2pt}} c c c }
+% alternate: \Theta or O
+$ \mathcal{O}(1)          $ & = & $\mathcal{O}($ & {\DejaVu 😎} & $)$ \\
+$ \mathcal{O}(\log(n))    $ & = & $\mathcal{O}($ & {\DejaVu 😁} & $)$ \\
+$ \mathcal{O}((\log(n))^c)$ & = & $\mathcal{O}($ & {\DejaVu 😇} & $)$ \\
+$ \mathcal{O}(n)          $ & = & $\mathcal{O}($ & {\DejaVu 😍} & $)$ \\
+$ \mathcal{O}(n \log(n))  $ & = & $\mathcal{O}($ & {\DejaVu ☺️} & $)$ \\
+$ \mathcal{O}(n^{1.5})    $ & = & $\mathcal{O}($ & {\DejaVu 😐} & $)$ \\
+$ \mathcal{O}(n^2)        $ & = & $\mathcal{O}($ & {\DejaVu ☹️} & $)$ \\
+$ \mathcal{O}(n^c)        $ & = & $\mathcal{O}($ & {\DejaVu 😡} & $)$ \\
+$ \mathcal{O}(c^n)        $ & = & $\mathcal{O}($ & {\DejaVu 😭} & $)$ \\
+$ \mathcal{O}(n!)         $ & = & $\mathcal{O}($ & {\DejaVu 😱} & $)$ \\
+$ \mathcal{O}(n^n)        $ & = & $\mathcal{O}($ & {\DejaVu 😈} & $)$ \\% 💩🤡
+\end{tabular}
 \end{document}
