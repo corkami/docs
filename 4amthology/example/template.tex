@@ -1,0 +1,329 @@
+% a template of Apple 2 looking e-book - Ange Albertini CC BY
+
+% run with XeLaTeX twice (2nd pass for ToC and correct figure positions)
+% you'll need the right fonts but you can replace them as you wish
+
+\documentclass{article}
+\usepackage{fontspec} % enables us to use system fonts
+\usepackage{geometry} % custom margins
+\usepackage{graphicx} % include pictures
+\usepackage[
+  bookmarks=true
+  ]{hyperref}         % table of contents
+\usepackage{tikz}     % force pictures where we want
+
+\hypersetup{
+  hidelinks, % hiding links in ToC
+  pdfinfo={  % \pdfinfo doesn't work with XeLaTeX
+    Title    = {Template},
+    ModDate  = {D:20170505040000}, % CreationDate filled by the XeLaTeX
+    Author   = {Ange Albertini},
+    Creator  = {Ange Albertini},   % it's supposed to be a software name
+    Subject  = {template for Apple 2 e-book},
+    Keywords = {ebook, oldschool, Apple 2},
+  }
+}
+
+% used for the Table of Contents
+% selecting the font by filename avoid any style bug
+% (such as picking Bold instead of Roman...)
+\setmainfont{HelveticaLTStd-Roman.otf}[Scale=1.1] % 1.1 so to fill the page a bit more
+
+% the default font for \tt and verbatim
+% from http://www.kreativekorp.com/software/fonts/apple2.shtml
+\setmonofont{Print Char 21}
+
+% e-book format - no more margins
+\geometry{ 
+  top=0pt,
+  right=0pt,
+  left=0pt,
+  bottom=0pt,
+}
+
+\geometry{
+  paperwidth=342pt,   % 40 rows with the size we use
+  paperheight=500pt,  % ~41 lines
+}
+
+% a command to declare a section and increase the counter,
+% but not add any text
+\newcommand\chapter[1]{%
+  \refstepcounter{section}%
+  \addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}%
+  \sectionmark{#1}%
+}
+
+% chapters are 0-indexed
+\setcounter{section}{-1}
+
+\begin{document}
+
+\pdfbookmark{Cover}{Cover}
+
+% flexible vertical space
+\vspace*{\fill}
+
+% add a picture, centered
+\centerline{\includegraphics[width=.9\textwidth]{logo}}
+
+% fixed vertical space
+\vspace*{10pt}
+
+% no need to center if the whole width is taken and no indentation
+\noindent
+\includegraphics[width=\textwidth]{lines}
+
+\vspace*{\fill}
+
+\centerline{\includegraphics[width=.6\textwidth]{cover}}
+
+\vspace*{\fill}
+
+\centerline{\tt 20XX-XX-XX}
+
+\noindent
+\includegraphics[width=\textwidth]{footer}
+
+\newpage
+\pdfbookmark{Contents}{Contents}
+
+% forcing ToC to start higher
+\vspace*{-\baselineskip}
+
+\tableofcontents
+
+\vspace*{\fill}
+
+% a centered screenshot
+\centerline{\includegraphics[width=.9\textwidth]{title}}
+
+\vspace*{\fill}
+
+\newpage
+
+\pdfbookmark{Template}{Start}
+
+% verbatim will put everything in mono font,
+% and preserve whitespace, yet will span over pages,
+% which is very handy
+\begin{verbatim}
+----------------Template---------------
+Lorem ipsum dolor sit amet,
+consectetuer adipiscing elit.
+Etiam lobortis facilisis sem. Nullam
+nec mi et neque pharetra sollicitudin.
+Praesent imperdiet mi nec ante. Donec
+ullamcorper, felis non sodales commodo,
+lectus velit ultrices augue, a
+dignissim nibh lectus placerat pede.
+Vivamus nunc nunc, molestie ut,
+ultricies vel, semper in, velit.
+Ut porttitor. Praesent in sapien. Lorem
+ipsum dolor sit amet, consectetuer
+adipiscing elit. Duis fringilla tristique
+neque. Sed interdum libero ut me-
+tus. Pellentesque placerat.
+Nam rutrum augue a leo.
+\end{verbatim}
+
+% a small vertical spacing of 2 times a line size
+\vspace*{2\baselineskip}
+
+\centerline{\includegraphics[width=.9\textwidth]{level1}}
+
+\vspace*{\fill}
+
+% using tikz to force the picture in the corner no matter what
+\begin{tikzpicture}[remember picture, overlay]
+\node[shift={(-.9cm, 2\baselineskip)}] (marker) at (current page.south east)
+% marker for end of chapter
+    {\includegraphics[height=4\baselineskip]{marker}};
+\end{tikzpicture}
+
+\newpage
+
+\begin{verbatim}
+now let's try some extra long lines..................................
+[no word wrap]
+w h  i    te space is preserved
+special chars too $%#|%_/\
+and now some long text...
+06
+07
+08
+09
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41 <end of the page>
+42 the verbatim just goes on nicely...
+43
+44 ...
+\end{verbatim}
+
+\newpage
+
+\chapter{Lorem ipsum dolor sit amet}
+
+\vspace*{\fill}
+
+% yes, it's 40-centered by hand :)
+\begin{verbatim}
+               Chapter 0
+       Lorem ipsum dolor sit amet
+          
+\end{verbatim}
+
+\vspace*{\fill}
+
+\newpage
+
+\begin{verbatim}
+ITEM 1
+  text 1
+
+Item 2
+  just verbatim text....
+
+
+``'-.,_,.-'``'-.,_,.='``'-.,_,.-'``'-.,
+``'-.,_,.-'``'-.,_,.='``'-.,_,.-'``'-.,
+``                                   .,
+``  ASCII ART.... .................  .,
+``                                   .,
+``'-.,_,.-'``'-.,_,.='``'-.,_,.-'``'-.,
+``'-.,_,.-'``'-.,_,.='``'-.,_,.-'``'-.,
+
+
+now comes a whole screen dump
+\end{verbatim}
+
+\newpage
+
+\chapter{screen dump, marker}
+
+\vspace*{\fill}
+
+\begin{verbatim}
+              Chapter 1
+          screen dump, marker
+\end{verbatim}
+
+\vspace*{\fill}
+
+\newpage
+
+\begin{verbatim}
+For example, here is a screen dump:
+
+                 --v--
+
+------------- SCREEN DUMP -------------
+DATA/DATA/DATA/DATA/DATA/DATA/DATA/DATA
+---------------------------------------
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+CONTENT/CONTENT/CONTENT/CONTENT/CONTENT
+--------------------------------------
+DATA/DATA/DATA/DATA/DATA/DATA/DATA/DATA
+
+---------------------------------------
+FAKE PROMPT : _
+
+                 --^--
+\end{verbatim}
+
+\vspace*{\fill}
+
+\begin{tikzpicture}[remember picture, overlay]
+  \node[shift={(-.9cm, 2\baselineskip)}] (marker) at (current page.south east)
+  {\includegraphics[height=4\baselineskip]{marker}};
+\end{tikzpicture}
+
+\newpage
+
+\chapter{screen, signature}
+
+\vspace*{\fill}
+
+\begin{verbatim}
+               Chapter 2
+          screen, signature
+\end{verbatim}
+
+\vspace*{\fill}
+
+\newpage
+
+\begin{verbatim}
+here comes a screen:
+\end{verbatim}
+
+\vspace*{3\baselineskip}
+
+\centerline{\includegraphics[width=.9\textwidth]{level2}}
+
+\begin{verbatim}
+and a signature:
+\end{verbatim}
+
+% we need to force the picture on the right,
+% otherwise we'll take an extra page
+% so we leave the verbatim environment,
+% but use \tt instead
+% and put a horizontal space then a picture
+% the trimming is to make the picture vertically centered
+
+\noindent
+{\tt Lorem ipsum dolor...} \hspace*{\fill} \includegraphics[trim=0 400 0 0,width=.4\textwidth]{4am-clock}
+
+\vspace*{\fill}
+
+\begin{verbatim}
+---------------------------------------
+signature/signature/signature/signature
+------------------EOF------------------
+\end{verbatim}
+
+\end{document}
