@@ -256,19 +256,19 @@ Part 11: JPEG 2000 for Wireless
 
 # Markers table
 
- &nbsp;  | x0      | x1      | x2      | x3      | x4      | x5      | x6      | x7      | x8      | x9      | xA      | xB      | xC      | xD      | xE      | xF      
+ &nbsp;  | x0      | x1      | x2      | x3      | x4      | x5      | x6      | x7      | x8      | x9      | xA      | xB      | xC      | xD      | xE      | xF
 --------:|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:--------|:------
- **0x**  | nul     | TEM     | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  
-         |
- **5x**  | &nbsp;  | SIZ     | COD     | COC     | &nbsp;  | TLM     | &nbsp;  | PLM     | PLT     | &nbsp;  | &nbsp;  | &nbsp;  | QCD     | QCC     | RGN     | POC     
- **6x**  | PPM     | PPT     | &nbsp;  | CRG     | COM     | SEC     | EPB     | ESD     | EPC     | RED     | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  
-         |
- **9x**  | SOT     | SOP     | EPH     | SOD     | INSEC   | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  
-         |
- **Cx**  | SOF0    | SOF1    | SOF2    | SOF3    | DHT     | SOF5    | SOF6    | SOF7    | JPG     | SOF9    | SOF10   | SOF11   | DAC     | SOF13   | SOF14   | SOF15   
- **Dx**  | RST0    | RST1    | RST2    | RST3    | RST4    | RST5    | RST6    | RST7    | SOI     | EOI/EOC | SOS     | DQT     | DNL     | DRI     | DHP     | EXP     
- **Ex**  | APP0    | APP1    | APP2    | APP3    | APP4    | APP5    | APP6    | APP7    | APP8    | APP9    | APP10   | APP11   | APP12   | APP13   | APP14   | APP15   
- **Fx**  | JPG0    | JPG1    | JPG2    | JPG3    | JPG4    | JPG5    | JPG6    | SOF48   | LSE     | JPG9    | JPG10   | JPG11   | JPG12   | JPG13   | COM     | &nbsp;  
+ **0x**  | nul     | TEM     | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ **5x**  | &nbsp;  | SIZ     | COD     | COC     | &nbsp;  | TLM     | &nbsp;  | PLM     | PLT     | &nbsp;  | &nbsp;  | &nbsp;  | QCD     | QCC     | RGN     | POC
+ **6x**  | PPM     | PPT     | &nbsp;  | CRG     | COM     | SEC     | EPB     | ESD     | EPC     | RED     | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ **9x**  | SOT     | SOP     | EPH     | SOD     | INSEC   | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;  | &nbsp;
+ **Cx**  | SOF0    | SOF1    | SOF2    | SOF3    | DHT     | SOF5    | SOF6    | SOF7    | JPG     | SOF9    | SOF10   | SOF11   | DAC     | SOF13   | SOF14   | SOF15
+ **Dx**  | RST0    | RST1    | RST2    | RST3    | RST4    | RST5    | RST6    | RST7    | SOI     | EOI/EOC | SOS     | DQT     | DNL     | DRI     | DHP     | EXP
+ **Ex**  | APP0    | APP1    | APP2    | APP3    | APP4    | APP5    | APP6    | APP7    | APP8    | APP9    | APP10   | APP11   | APP12   | APP13   | APP14   | APP15
+ **Fx**  | JPG0    | JPG1    | JPG2    | JPG3    | JPG4    | JPG5    | JPG6    | SOF48   | LSE     | JPG9    | JPG10   | JPG11   | JPG12   | JPG13   | COM     | &nbsp;
 
 # tricks
 - `APPx` segments are not enforced at offset 0 despite the specifications. They're not even required.
