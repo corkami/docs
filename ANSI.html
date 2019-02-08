@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<style type="text/css">
+pre {
+  font-family:Consolas;
+  font-size:10pt;
+}
+
+.af_line {
+  color: gray;
+  text-decoration: none;
+}
+
+</style>
+<title>ANSI.html</title>
+</head>
+<body>
+<pre>Reset: ESC[0m
+
+colors
+ - 8 colors ESC[30-37m
+<span style="color:#000000;">Black</span> <span style="color:#cd0000;">Red</span> <span style="color:#00cd00;">Green</span> <span style="color:#cdcd00;">Yellow</span> <span style="color:#0000ee;">Blue</span> <span style="color:#cd00cd;">Magenta</span> <span style="color:#00cdcd;">Cyan</span> <span style="color:#e5e5e5;">White</span>
+
+ - brighter: ESC[{90-97}m
+<span style="color:#7f7f7f;"> Black</span> <span style="color:#ff0000;"> Red</span> <span style="color:#00ff00;"> Green</span> <span style="color:#ffff00;"> Yellow</span> <span style="color:#5c5cff;"> Blue</span> <span style="color:#ff00ff;"> Magenta</span> <span style="color:#00ffff;"> Cyan</span> <span style="color:#ffffff;"> White</span>
+
+ - variant: ESC[{30-37};1m
+<span style="font-weight:bold;color:#7f7f7f;"> Black</span> <span style="font-weight:bold;color:#7f7f7f;"> Red</span> <span style="font-weight:bold;color:#7f7f7f;"> Green</span> <span style="font-weight:bold;color:#7f7f7f;"> Yellow</span> <span style="font-weight:bold;color:#7f7f7f;"> Blue</span> <span style="font-weight:bold;color:#7f7f7f;"> Magenta</span> <span style="font-weight:bold;color:#7f7f7f;"> Cyan</span> <span style="font-weight:bold;color:#7f7f7f;"> White</span>
+
+Background:
+ - normal ESC[{40-47}m
+<span style="background-color:#000000;"> Black </span><span style="background-color:#cd0000;"> Red </span><span style="background-color:#00cd00;"> Green </span><span style="background-color:#cdcd00;"> Yellow </span><span style="background-color:#0000ee;"> Blue </span><span style="background-color:#cd00cd;"> Magenta </span><span style="background-color:#00cdcd;"> Cyan </span><span style="background-color:#e5e5e5;"> White </span>
+
+ - strong ESC[{100-107}m
+<span style="background-color:#7f7f7f;"> Black </span><span style="background-color:#ff0000;"> Red </span><span style="background-color:#00ff00;"> Green </span><span style="background-color:#ffff00;"> Yellow </span><span style="background-color:#5c5cff;"> Blue </span><span style="background-color:#ff00ff;"> Magenta </span><span style="background-color:#00ffff;"> Cyan </span><span style="background-color:#ffffff;"> White </span>
+
+Styles: <span style="font-weight:bold;color:#7f7f7f;"> 1:Bold </span><span style="font-weight:bold;color:#7f7f7f;"> 2:Faint </span><span style="font-style:italic;"> 3:Italic </span><span style="text-decoration:underline;"> 4:Underline </span><span style="text-decoration:blink;"> 5:Blink </span><span style="color:#ffffff;background-color:#000000;"> 7:Reversed </span>
+
+256 colors
+
+ESC[38;5;${ID}
+<span style="color:#000000;"> 0   </span><span style="color:#cd0000;"> 1   </span><span style="color:#00cd00;"> 2   </span><span style="color:#cdcd00;"> 3   </span><span style="color:#0000ee;"> 4   </span><span style="color:#cd00cd;"> 5   </span><span style="color:#00cdcd;"> 6   </span><span style="color:#e5e5e5;"> 7   </span>
+<span style="color:#7f7f7f;"> 8   </span><span style="color:#ff0000;"> 9   </span><span style="color:#00ff00;"> 10  </span><span style="color:#ffff00;"> 11  </span><span style="color:#5c5cff;"> 12  </span><span style="color:#ff00ff;"> 13  </span><span style="color:#00ffff;"> 14  </span><span style="color:#ffffff;"> 15  </span>
+
+<span style="color:#000000;"> 16  </span><span style="color:#00005f;"> 17  </span><span style="color:#000087;"> 18  </span><span style="color:#0000af;"> 19  </span><span style="color:#0000d7;"> 20  </span><span style="color:#0000ff;"> 21  </span>
+<span style="color:#005f00;"> 22  </span><span style="color:#005f5f;"> 23  </span><span style="color:#005f87;"> 24  </span><span style="color:#005faf;"> 25  </span><span style="color:#005fd7;"> 26  </span><span style="color:#005fff;"> 27  </span>
+<span style="color:#008700;"> 28  </span><span style="color:#00875f;"> 29  </span><span style="color:#008787;"> 30  </span><span style="color:#0087af;"> 31  </span><span style="color:#0087d7;"> 32  </span><span style="color:#0087ff;"> 33  </span>
+<span style="color:#00af00;"> 34  </span><span style="color:#00af5f;"> 35  </span><span style="color:#00af87;"> 36  </span><span style="color:#00afaf;"> 37  </span><span style="color:#00afd7;"> 38  </span><span style="color:#00afff;"> 39  </span>
+<span style="color:#00d700;"> 40  </span><span style="color:#00d75f;"> 41  </span><span style="color:#00d787;"> 42  </span><span style="color:#00d7af;"> 43  </span><span style="color:#00d7d7;"> 44  </span><span style="color:#00d7ff;"> 45  </span>
+<span style="color:#00ff00;"> 46  </span><span style="color:#00ff5f;"> 47  </span><span style="color:#00ff87;"> 48  </span><span style="color:#00ffaf;"> 49  </span><span style="color:#00ffd7;"> 50  </span><span style="color:#00ffff;"> 51  </span>
+
+<span style="color:#5f0000;"> 52  </span><span style="color:#5f005f;"> 53  </span><span style="color:#5f0087;"> 54  </span><span style="color:#5f00af;"> 55  </span><span style="color:#5f00d7;"> 56  </span><span style="color:#5f00ff;"> 57  </span>
+<span style="color:#5f5f00;"> 58  </span><span style="color:#5f5f5f;"> 59  </span><span style="color:#5f5f87;"> 60  </span><span style="color:#5f5faf;"> 61  </span><span style="color:#5f5fd7;"> 62  </span><span style="color:#5f5fff;"> 63  </span>
+<span style="color:#5f8700;"> 64  </span><span style="color:#5f875f;"> 65  </span><span style="color:#5f8787;"> 66  </span><span style="color:#5f87af;"> 67  </span><span style="color:#5f87d7;"> 68  </span><span style="color:#5f87ff;"> 69  </span>
+<span style="color:#5faf00;"> 70  </span><span style="color:#5faf5f;"> 71  </span><span style="color:#5faf87;"> 72  </span><span style="color:#5fafaf;"> 73  </span><span style="color:#5fafd7;"> 74  </span><span style="color:#5fafff;"> 75  </span>
+<span style="color:#5fd700;"> 76  </span><span style="color:#5fd75f;"> 77  </span><span style="color:#5fd787;"> 78  </span><span style="color:#5fd7af;"> 79  </span><span style="color:#5fd7d7;"> 80  </span><span style="color:#5fd7ff;"> 81  </span>
+<span style="color:#5fff00;"> 82  </span><span style="color:#5fff5f;"> 83  </span><span style="color:#5fff87;"> 84  </span><span style="color:#5fffaf;"> 85  </span><span style="color:#5fffd7;"> 86  </span><span style="color:#5fffff;"> 87  </span>
+
+<span style="color:#870000;"> 88  </span><span style="color:#87005f;"> 89  </span><span style="color:#870087;"> 90  </span><span style="color:#8700af;"> 91  </span><span style="color:#8700d7;"> 92  </span><span style="color:#8700ff;"> 93  </span>
+<span style="color:#875f00;"> 94  </span><span style="color:#875f5f;"> 95  </span><span style="color:#875f87;"> 96  </span><span style="color:#875faf;"> 97  </span><span style="color:#875fd7;"> 98  </span><span style="color:#875fff;"> 99  </span>
+<span style="color:#878700;"> 100 </span><span style="color:#87875f;"> 101 </span><span style="color:#878787;"> 102 </span><span style="color:#8787af;"> 103 </span><span style="color:#8787d7;"> 104 </span><span style="color:#8787ff;"> 105 </span>
+<span style="color:#87af00;"> 106 </span><span style="color:#87af5f;"> 107 </span><span style="color:#87af87;"> 108 </span><span style="color:#87afaf;"> 109 </span><span style="color:#87afd7;"> 110 </span><span style="color:#87afff;"> 111 </span>
+<span style="color:#87d700;"> 112 </span><span style="color:#87d75f;"> 113 </span><span style="color:#87d787;"> 114 </span><span style="color:#87d7af;"> 115 </span><span style="color:#87d7d7;"> 116 </span><span style="color:#87d7ff;"> 117 </span>
+<span style="color:#87ff00;"> 118 </span><span style="color:#87ff5f;"> 119 </span><span style="color:#87ff87;"> 120 </span><span style="color:#87ffaf;"> 121 </span><span style="color:#87ffd7;"> 122 </span><span style="color:#87ffff;"> 123 </span>
+
+<span style="color:#af0000;"> 124 </span><span style="color:#af005f;"> 125 </span><span style="color:#af0087;"> 126 </span><span style="color:#af00af;"> 127 </span><span style="color:#af00d7;"> 128 </span><span style="color:#af00ff;"> 129 </span>
+<span style="color:#af5f00;"> 130 </span><span style="color:#af5f5f;"> 131 </span><span style="color:#af5f87;"> 132 </span><span style="color:#af5faf;"> 133 </span><span style="color:#af5fd7;"> 134 </span><span style="color:#af5fff;"> 135 </span>
+<span style="color:#af8700;"> 136 </span><span style="color:#af875f;"> 137 </span><span style="color:#af8787;"> 138 </span><span style="color:#af87af;"> 139 </span><span style="color:#af87d7;"> 140 </span><span style="color:#af87ff;"> 141 </span>
+<span style="color:#afaf00;"> 142 </span><span style="color:#afaf5f;"> 143 </span><span style="color:#afaf87;"> 144 </span><span style="color:#afafaf;"> 145 </span><span style="color:#afafd7;"> 146 </span><span style="color:#afafff;"> 147 </span>
+<span style="color:#afd700;"> 148 </span><span style="color:#afd75f;"> 149 </span><span style="color:#afd787;"> 150 </span><span style="color:#afd7af;"> 151 </span><span style="color:#afd7d7;"> 152 </span><span style="color:#afd7ff;"> 153 </span>
+<span style="color:#afff00;"> 154 </span><span style="color:#afff5f;"> 155 </span><span style="color:#afff87;"> 156 </span><span style="color:#afffaf;"> 157 </span><span style="color:#afffd7;"> 158 </span><span style="color:#afffff;"> 159 </span>
+
+<span style="color:#d70000;"> 160 </span><span style="color:#d7005f;"> 161 </span><span style="color:#d70087;"> 162 </span><span style="color:#d700af;"> 163 </span><span style="color:#d700d7;"> 164 </span><span style="color:#d700ff;"> 165 </span>
+<span style="color:#d75f00;"> 166 </span><span style="color:#d75f5f;"> 167 </span><span style="color:#d75f87;"> 168 </span><span style="color:#d75faf;"> 169 </span><span style="color:#d75fd7;"> 170 </span><span style="color:#d75fff;"> 171 </span>
+<span style="color:#d78700;"> 172 </span><span style="color:#d7875f;"> 173 </span><span style="color:#d78787;"> 174 </span><span style="color:#d787af;"> 175 </span><span style="color:#d787d7;"> 176 </span><span style="color:#d787ff;"> 177 </span>
+<span style="color:#d7af00;"> 178 </span><span style="color:#d7af5f;"> 179 </span><span style="color:#d7af87;"> 180 </span><span style="color:#d7afaf;"> 181 </span><span style="color:#d7afd7;"> 182 </span><span style="color:#d7afff;"> 183 </span>
+<span style="color:#d7d700;"> 184 </span><span style="color:#d7d75f;"> 185 </span><span style="color:#d7d787;"> 186 </span><span style="color:#d7d7af;"> 187 </span><span style="color:#d7d7d7;"> 188 </span><span style="color:#d7d7ff;"> 189 </span>
+<span style="color:#d7ff00;"> 190 </span><span style="color:#d7ff5f;"> 191 </span><span style="color:#d7ff87;"> 192 </span><span style="color:#d7ffaf;"> 193 </span><span style="color:#d7ffd7;"> 194 </span><span style="color:#d7ffff;"> 195 </span>
+
+<span style="color:#ff0000;"> 196 </span><span style="color:#ff005f;"> 197 </span><span style="color:#ff0087;"> 198 </span><span style="color:#ff00af;"> 199 </span><span style="color:#ff00d7;"> 200 </span><span style="color:#ff00ff;"> 201 </span>
+<span style="color:#ff5f00;"> 202 </span><span style="color:#ff5f5f;"> 203 </span><span style="color:#ff5f87;"> 204 </span><span style="color:#ff5faf;"> 205 </span><span style="color:#ff5fd7;"> 206 </span><span style="color:#ff5fff;"> 207 </span>
+<span style="color:#ff8700;"> 208 </span><span style="color:#ff875f;"> 209 </span><span style="color:#ff8787;"> 210 </span><span style="color:#ff87af;"> 211 </span><span style="color:#ff87d7;"> 212 </span><span style="color:#ff87ff;"> 213 </span>
+<span style="color:#ffaf00;"> 214 </span><span style="color:#ffaf5f;"> 215 </span><span style="color:#ffaf87;"> 216 </span><span style="color:#ffafaf;"> 217 </span><span style="color:#ffafd7;"> 218 </span><span style="color:#ffafff;"> 219 </span>
+<span style="color:#ffd700;"> 220 </span><span style="color:#ffd75f;"> 221 </span><span style="color:#ffd787;"> 222 </span><span style="color:#ffd7af;"> 223 </span><span style="color:#ffd7d7;"> 224 </span><span style="color:#ffd7ff;"> 225 </span>
+<span style="color:#ffff00;"> 226 </span><span style="color:#ffff5f;"> 227 </span><span style="color:#ffff87;"> 228 </span><span style="color:#ffffaf;"> 229 </span><span style="color:#ffffd7;"> 230 </span><span style="color:#ffffff;"> 231 </span>
+
+<span style="color:#000000;"> 232 </span><span style="color:#121212;"> 233 </span><span style="color:#1c1c1c;"> 234 </span><span style="color:#262626;"> 235 </span><span style="color:#303030;"> 236 </span><span style="color:#3a3a3a;"> 237 </span><span style="color:#444444;"> 238 </span><span style="color:#4e4e4e;"> 239 </span><span style="color:#585858;"> 240 </span><span style="color:#626262;"> 241 </span><span style="color:#6c6c6c;"> 242 </span><span style="color:#767676;"> 243 </span><span style="color:#808080;"> 244 </span><span style="color:#8a8a8a;"> 245 </span><span style="color:#949494;"> 246 </span><span style="color:#9e9e9e;"> 247 </span><span style="color:#a8a8a8;"> 248 </span><span style="color:#b2b2b2;"> 249 </span><span style="color:#bcbcbc;"> 250 </span><span style="color:#c6c6c6;"> 251 </span><span style="color:#d0d0d0;"> 252 </span><span style="color:#dadada;"> 253 </span><span style="color:#e4e4e4;"> 254 </span><span style="color:#eeeeee;"> 255 </span>
+
+ESC[48;5;${ID}
+<span style="background-color:#000000;"> 0   </span><span style="background-color:#cd0000;"> 1   </span><span style="background-color:#00cd00;"> 2   </span><span style="background-color:#cdcd00;"> 3   </span><span style="background-color:#0000ee;"> 4   </span><span style="background-color:#cd00cd;"> 5   </span><span style="background-color:#00cdcd;"> 6   </span><span style="background-color:#e5e5e5;"> 7   </span>
+<span style="background-color:#7f7f7f;"> 8   </span><span style="background-color:#ff0000;"> 9   </span><span style="background-color:#00ff00;"> 10  </span><span style="background-color:#ffff00;"> 11  </span><span style="background-color:#5c5cff;"> 12  </span><span style="background-color:#ff00ff;"> 13  </span><span style="background-color:#00ffff;"> 14  </span><span style="background-color:#ffffff;"> 15  </span>
+
+<span style="background-color:#000000;"> 16  </span><span style="background-color:#00005f;"> 17  </span><span style="background-color:#000087;"> 18  </span><span style="background-color:#0000af;"> 19  </span><span style="background-color:#0000d7;"> 20  </span><span style="background-color:#0000ff;"> 21  </span>
+<span style="background-color:#005f00;"> 22  </span><span style="background-color:#005f5f;"> 23  </span><span style="background-color:#005f87;"> 24  </span><span style="background-color:#005faf;"> 25  </span><span style="background-color:#005fd7;"> 26  </span><span style="background-color:#005fff;"> 27  </span>
+<span style="background-color:#008700;"> 28  </span><span style="background-color:#00875f;"> 29  </span><span style="background-color:#008787;"> 30  </span><span style="background-color:#0087af;"> 31  </span><span style="background-color:#0087d7;"> 32  </span><span style="background-color:#0087ff;"> 33  </span>
+<span style="background-color:#00af00;"> 34  </span><span style="background-color:#00af5f;"> 35  </span><span style="background-color:#00af87;"> 36  </span><span style="background-color:#00afaf;"> 37  </span><span style="background-color:#00afd7;"> 38  </span><span style="background-color:#00afff;"> 39  </span>
+<span style="background-color:#00d700;"> 40  </span><span style="background-color:#00d75f;"> 41  </span><span style="background-color:#00d787;"> 42  </span><span style="background-color:#00d7af;"> 43  </span><span style="background-color:#00d7d7;"> 44  </span><span style="background-color:#00d7ff;"> 45  </span>
+<span style="background-color:#00ff00;"> 46  </span><span style="background-color:#00ff5f;"> 47  </span><span style="background-color:#00ff87;"> 48  </span><span style="background-color:#00ffaf;"> 49  </span><span style="background-color:#00ffd7;"> 50  </span><span style="background-color:#00ffff;"> 51  </span>
+
+<span style="background-color:#5f0000;"> 52  </span><span style="background-color:#5f005f;"> 53  </span><span style="background-color:#5f0087;"> 54  </span><span style="background-color:#5f00af;"> 55  </span><span style="background-color:#5f00d7;"> 56  </span><span style="background-color:#5f00ff;"> 57  </span>
+<span style="background-color:#5f5f00;"> 58  </span><span style="background-color:#5f5f5f;"> 59  </span><span style="background-color:#5f5f87;"> 60  </span><span style="background-color:#5f5faf;"> 61  </span><span style="background-color:#5f5fd7;"> 62  </span><span style="background-color:#5f5fff;"> 63  </span>
+<span style="background-color:#5f8700;"> 64  </span><span style="background-color:#5f875f;"> 65  </span><span style="background-color:#5f8787;"> 66  </span><span style="background-color:#5f87af;"> 67  </span><span style="background-color:#5f87d7;"> 68  </span><span style="background-color:#5f87ff;"> 69  </span>
+<span style="background-color:#5faf00;"> 70  </span><span style="background-color:#5faf5f;"> 71  </span><span style="background-color:#5faf87;"> 72  </span><span style="background-color:#5fafaf;"> 73  </span><span style="background-color:#5fafd7;"> 74  </span><span style="background-color:#5fafff;"> 75  </span>
+<span style="background-color:#5fd700;"> 76  </span><span style="background-color:#5fd75f;"> 77  </span><span style="background-color:#5fd787;"> 78  </span><span style="background-color:#5fd7af;"> 79  </span><span style="background-color:#5fd7d7;"> 80  </span><span style="background-color:#5fd7ff;"> 81  </span>
+<span style="background-color:#5fff00;"> 82  </span><span style="background-color:#5fff5f;"> 83  </span><span style="background-color:#5fff87;"> 84  </span><span style="background-color:#5fffaf;"> 85  </span><span style="background-color:#5fffd7;"> 86  </span><span style="background-color:#5fffff;"> 87  </span>
+
+<span style="background-color:#870000;"> 88  </span><span style="background-color:#87005f;"> 89  </span><span style="background-color:#870087;"> 90  </span><span style="background-color:#8700af;"> 91  </span><span style="background-color:#8700d7;"> 92  </span><span style="background-color:#8700ff;"> 93  </span>
+<span style="background-color:#875f00;"> 94  </span><span style="background-color:#875f5f;"> 95  </span><span style="background-color:#875f87;"> 96  </span><span style="background-color:#875faf;"> 97  </span><span style="background-color:#875fd7;"> 98  </span><span style="background-color:#875fff;"> 99  </span>
+<span style="background-color:#878700;"> 100 </span><span style="background-color:#87875f;"> 101 </span><span style="background-color:#878787;"> 102 </span><span style="background-color:#8787af;"> 103 </span><span style="background-color:#8787d7;"> 104 </span><span style="background-color:#8787ff;"> 105 </span>
+<span style="background-color:#87af00;"> 106 </span><span style="background-color:#87af5f;"> 107 </span><span style="background-color:#87af87;"> 108 </span><span style="background-color:#87afaf;"> 109 </span><span style="background-color:#87afd7;"> 110 </span><span style="background-color:#87afff;"> 111 </span>
+<span style="background-color:#87d700;"> 112 </span><span style="background-color:#87d75f;"> 113 </span><span style="background-color:#87d787;"> 114 </span><span style="background-color:#87d7af;"> 115 </span><span style="background-color:#87d7d7;"> 116 </span><span style="background-color:#87d7ff;"> 117 </span>
+<span style="background-color:#87ff00;"> 118 </span><span style="background-color:#87ff5f;"> 119 </span><span style="background-color:#87ff87;"> 120 </span><span style="background-color:#87ffaf;"> 121 </span><span style="background-color:#87ffd7;"> 122 </span><span style="background-color:#87ffff;"> 123 </span>
+
+<span style="background-color:#af0000;"> 124 </span><span style="background-color:#af005f;"> 125 </span><span style="background-color:#af0087;"> 126 </span><span style="background-color:#af00af;"> 127 </span><span style="background-color:#af00d7;"> 128 </span><span style="background-color:#af00ff;"> 129 </span>
+<span style="background-color:#af5f00;"> 130 </span><span style="background-color:#af5f5f;"> 131 </span><span style="background-color:#af5f87;"> 132 </span><span style="background-color:#af5faf;"> 133 </span><span style="background-color:#af5fd7;"> 134 </span><span style="background-color:#af5fff;"> 135 </span>
+<span style="background-color:#af8700;"> 136 </span><span style="background-color:#af875f;"> 137 </span><span style="background-color:#af8787;"> 138 </span><span style="background-color:#af87af;"> 139 </span><span style="background-color:#af87d7;"> 140 </span><span style="background-color:#af87ff;"> 141 </span>
+<span style="background-color:#afaf00;"> 142 </span><span style="background-color:#afaf5f;"> 143 </span><span style="background-color:#afaf87;"> 144 </span><span style="background-color:#afafaf;"> 145 </span><span style="background-color:#afafd7;"> 146 </span><span style="background-color:#afafff;"> 147 </span>
+<span style="background-color:#afd700;"> 148 </span><span style="background-color:#afd75f;"> 149 </span><span style="background-color:#afd787;"> 150 </span><span style="background-color:#afd7af;"> 151 </span><span style="background-color:#afd7d7;"> 152 </span><span style="background-color:#afd7ff;"> 153 </span>
+<span style="background-color:#afff00;"> 154 </span><span style="background-color:#afff5f;"> 155 </span><span style="background-color:#afff87;"> 156 </span><span style="background-color:#afffaf;"> 157 </span><span style="background-color:#afffd7;"> 158 </span><span style="background-color:#afffff;"> 159 </span>
+
+<span style="background-color:#d70000;"> 160 </span><span style="background-color:#d7005f;"> 161 </span><span style="background-color:#d70087;"> 162 </span><span style="background-color:#d700af;"> 163 </span><span style="background-color:#d700d7;"> 164 </span><span style="background-color:#d700ff;"> 165 </span>
+<span style="background-color:#d75f00;"> 166 </span><span style="background-color:#d75f5f;"> 167 </span><span style="background-color:#d75f87;"> 168 </span><span style="background-color:#d75faf;"> 169 </span><span style="background-color:#d75fd7;"> 170 </span><span style="background-color:#d75fff;"> 171 </span>
+<span style="background-color:#d78700;"> 172 </span><span style="background-color:#d7875f;"> 173 </span><span style="background-color:#d78787;"> 174 </span><span style="background-color:#d787af;"> 175 </span><span style="background-color:#d787d7;"> 176 </span><span style="background-color:#d787ff;"> 177 </span>
+<span style="background-color:#d7af00;"> 178 </span><span style="background-color:#d7af5f;"> 179 </span><span style="background-color:#d7af87;"> 180 </span><span style="background-color:#d7afaf;"> 181 </span><span style="background-color:#d7afd7;"> 182 </span><span style="background-color:#d7afff;"> 183 </span>
+<span style="background-color:#d7d700;"> 184 </span><span style="background-color:#d7d75f;"> 185 </span><span style="background-color:#d7d787;"> 186 </span><span style="background-color:#d7d7af;"> 187 </span><span style="background-color:#d7d7d7;"> 188 </span><span style="background-color:#d7d7ff;"> 189 </span>
+<span style="background-color:#d7ff00;"> 190 </span><span style="background-color:#d7ff5f;"> 191 </span><span style="background-color:#d7ff87;"> 192 </span><span style="background-color:#d7ffaf;"> 193 </span><span style="background-color:#d7ffd7;"> 194 </span><span style="background-color:#d7ffff;"> 195 </span>
+
+<span style="background-color:#ff0000;"> 196 </span><span style="background-color:#ff005f;"> 197 </span><span style="background-color:#ff0087;"> 198 </span><span style="background-color:#ff00af;"> 199 </span><span style="background-color:#ff00d7;"> 200 </span><span style="background-color:#ff00ff;"> 201 </span>
+<span style="background-color:#ff5f00;"> 202 </span><span style="background-color:#ff5f5f;"> 203 </span><span style="background-color:#ff5f87;"> 204 </span><span style="background-color:#ff5faf;"> 205 </span><span style="background-color:#ff5fd7;"> 206 </span><span style="background-color:#ff5fff;"> 207 </span>
+<span style="background-color:#ff8700;"> 208 </span><span style="background-color:#ff875f;"> 209 </span><span style="background-color:#ff8787;"> 210 </span><span style="background-color:#ff87af;"> 211 </span><span style="background-color:#ff87d7;"> 212 </span><span style="background-color:#ff87ff;"> 213 </span>
+<span style="background-color:#ffaf00;"> 214 </span><span style="background-color:#ffaf5f;"> 215 </span><span style="background-color:#ffaf87;"> 216 </span><span style="background-color:#ffafaf;"> 217 </span><span style="background-color:#ffafd7;"> 218 </span><span style="background-color:#ffafff;"> 219 </span>
+<span style="background-color:#ffd700;"> 220 </span><span style="background-color:#ffd75f;"> 221 </span><span style="background-color:#ffd787;"> 222 </span><span style="background-color:#ffd7af;"> 223 </span><span style="background-color:#ffd7d7;"> 224 </span><span style="background-color:#ffd7ff;"> 225 </span>
+<span style="background-color:#ffff00;"> 226 </span><span style="background-color:#ffff5f;"> 227 </span><span style="background-color:#ffff87;"> 228 </span><span style="background-color:#ffffaf;"> 229 </span><span style="background-color:#ffffd7;"> 230 </span><span style="background-color:#ffffff;"> 231 </span>
+
+<span style="background-color:#000000;"> 232 </span><span style="background-color:#121212;"> 233 </span><span style="background-color:#1c1c1c;"> 234 </span><span style="background-color:#262626;"> 235 </span><span style="background-color:#303030;"> 236 </span><span style="background-color:#3a3a3a;"> 237 </span><span style="background-color:#444444;"> 238 </span><span style="background-color:#4e4e4e;"> 239 </span><span style="background-color:#585858;"> 240 </span><span style="background-color:#626262;"> 241 </span><span style="background-color:#6c6c6c;"> 242 </span><span style="background-color:#767676;"> 243 </span><span style="background-color:#808080;"> 244 </span><span style="background-color:#8a8a8a;"> 245 </span><span style="background-color:#949494;"> 246 </span><span style="background-color:#9e9e9e;"> 247 </span><span style="background-color:#a8a8a8;"> 248 </span><span style="background-color:#b2b2b2;"> 249 </span><span style="background-color:#bcbcbc;"> 250 </span><span style="background-color:#c6c6c6;"> 251 </span><span style="background-color:#d0d0d0;"> 252 </span><span style="background-color:#dadada;"> 253 </span><span style="background-color:#e4e4e4;"> 254 </span><span style="background-color:#eeeeee;"> 255 </span>
+</pre>
+</body>
+</html>
+<!--HTML generated by ansifilter 2.13, http://www.andre-simon.de/-->
