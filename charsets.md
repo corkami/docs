@@ -173,7 +173,7 @@ ASA standard X3.4-1963
 
 - 00 `Ctrl-@`  `NUL` Null
 
-transmission:
+Transmission:
 - 01 `Ctrl-A` `SOH` Start of Heading
 - 02 `Ctrl-B` `STX` Start of Text
 - 03 `Ctrl-C` `ETX` End of Text
@@ -181,20 +181,19 @@ transmission:
 - 05 `Ctrl-E` `ENQ` Enquiry
 - 06 `Ctrl-F` `ACK` Acknowledge
 
+Format:
+- 08 `Ctrl-H` `BS` `\b` Backspace
+- 09 `Ctrl-I` `HT` `\t` Horizontal Tab
+- 0A `Ctrl-J` `LF` `\n` Line Feed
+- 0B `Ctrl-K` `VT` `\v` Vertical Tab
+- 0C `Ctrl-L` `FF` `\f` Form Feed / page break
+- 0D `Ctrl-M` `CR` `\r` Carriage Return
 
-format:
-- 08 `Ctrl-H` `BS` Backspace `\b`
-- 09 `Ctrl-I` `HT` Horizontal Tab `\t`
-- 0A `Ctrl-J` `LF` Line Feed `\n`
-- 0B `Ctrl-K` `VT` Vertical Tab `\v`
-- 0C `Ctrl-L` `FF` Form Feed / page break `\f`
-- 0D `Ctrl-M` `CR` Carriage Return `\r`
-
-code extension:
+Code extension:
 - 0E `Ctrl-N` `SI` Shift In
 - 0F `Ctrl-O` `SO` Shift Out
-- 1B `Ctrl-[` `ESC` Escape `\e`
 
+- 1B `Ctrl-[` `ESC` `\e` Escape
 
 Device Control:
 - 11 `Ctrl-Q` `DC1` Device Control 1
@@ -213,7 +212,7 @@ Separators:
 - 1E `Ctrl-^` `RS` Record Separator
 - 1F `Ctrl-_` `US` Unit Separator
 
-- 07 `Ctrl-G` `BEL` Bell / beep `\a`
+- 07 `Ctrl-G` `BEL` `\a` Bell / beep
 
 - 10 `Ctrl-P` `DLE` Data Link Escape
 
@@ -223,7 +222,7 @@ Separators:
 
 - 20 `SP` Space
 
-- `Ctrl-?` 7F `DEL` Delete
+- 7F `Ctrl-?` `DEL` Delete
 
 
 ## DOS control glyphs
