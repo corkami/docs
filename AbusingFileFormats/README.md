@@ -1127,6 +1127,58 @@ They give us mere warnings when the input is unclear,
 rather than rejecting what's against the rules.
 
 
+# Quirks, abuses and weirdnesses summary
+
+Magic signatures can:
+- be absent: MP4 files don't have any magic: they start with a chunk length!
+- be ignored: `%PDF-1.x` can be absent in PDFs with Firefox even if required in the specs.
+- be truncated: `%PDF-1\0` is officially invalid, but valid for Adobe Reader.
+- have obsolete forms: `%!PS-Adobe-N.n PDF-M.m` was a valid signature for PDFs in Adobe Reader until 2004.
+- be weird: `ZM` is a valid signature for DOS executables - while it's officially `MZ`.
+- be forgotten, but still supported: old Rar 1.4 (from 1993) files with `RE~^` are still supported by some WinRar and UnRar.
+- be enforced at a non null offset, such as `DICM` at offset 128 for DICOM or `ustar` at offset 257 for TAR.
+- be tolerated at a non null offset: `%PDF-1.x` signature is officially at offset 0, and is tolerated in the first kilobyte.
+- be in the footer, such as TGA's optional `TRUEVISION-XFILE.\0` at the end of the file.
+- be misunderstood: `JFIF` at offset 6 is not a magic for JPG files despite popular belief. `FF D8` at offset 0 is.
+- be short: Bzip's magic is `BZ`.
+- be misleading: `00 00` is the magic of ICO files.
+- define endianness, such as `II` or `MM` for TIFF.
+- define architecture, such as `FE ED FA CE` and `FE ED FA CF` for 32-bit and 64-bit Mach-O.
+- match different formats, such as `CA FE BA BE` for both Java Class and Fat Mach-O.
+
+Formats can:
+- have different versions: JP2 is defined as JFIF-like (starts like a JPG) and as JFIF in Atom/Box (starts similar to MP4, ends like JFIF).
+- define various subformats: RIFF for AVI/ANI/WAV, Atom/Box for MP4/HIEC/QT
+- define header-less transfer when headers are shared among a group of files to be transmitted.
+
+Archives can:
+- be valid when containing no files, such as Zip.
+- be bit-based with no alignment such as Bzip2.
+- have optional file names, such as Gzip.
+- encrypt file names, such as Rar.
+
+Compression can:
+- be used as expansion and fit any data with a restricted char set, like Ascii-Zip.
+- be manipulated by lowering entropy before a keyword to be forcibly compressed.
+- disabled on purpose by forcing data to be stored via some high entropy.
+
+Length-fixed strings can:
+- be used to store binary data after an early NULL character.
+
+Lengths can:
+- be stored as 32b or 64b in the same structures.
+- be absent and recovered: in PDF files.
+
+Algorithms can:
+- be never implemented despite the specs: no implementation of JPEG w/ arithmetic encoding.
+- be deprecated: some ZIP implementations only support Deflate and Store, and not Shrink and Implode.
+
+Encryption can:
+- be manipulated by setting IVs to encode a valid structure to get encrypted data ignored.
+
+Appended data can:
+- be ignored by triggering an infinite recursion in the parser just before.
+
 # Conclusion
 
 Let me know if I forgot anything.
