@@ -6,7 +6,7 @@
 * [the Portable Executable format](PE/PE.md)
 * [PDF tricks](PDF/PDF.md)
 * [x86 oddities](x86/x86.md)
-
+* [talks](talks.md)
 ---
 
 * [4amthology - best of 4am's write-ups](4amthology/README.md) - last updated 2017/07/20
