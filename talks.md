@@ -1,6 +1,8 @@
+# Talks & stuff
+
 Faster alone, further together.
 
-[Chronological Youtube playlist](https://www.youtube.com/playlist?list=PL2-EpKoPE60Uyi5X6NMeiROVi8hm33sW3). 
+[Chronological Youtube playlist](https://www.youtube.com/playlist?list=PL2-EpKoPE60Uyi5X6NMeiROVi8hm33sW3)<br/>
 [SpeakerDesk](https://speakerdeck.com/ange)
 
 # Brainteasers
@@ -13,6 +15,7 @@ Faster alone, further together.
 
 **How people can create better video games** Hack.lu 2015
 [slides](https://speakerdeck.com/ange/hacks-in-video-games)
+<br/>Hacking: spend time to understand how things really work (and get awesome results)
 
 # Tools assisted speedruns
 
@@ -27,6 +30,7 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/preserving-arcade-games-31c3) /
 [video](https://www.youtube.com/watch?v=vg7LPcFUxg8)
 [video (fr @ NDH 2014)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
+<br/>Exceptional games, exceptional security, exceptional hacking.
 
 # Drawing
 
@@ -57,13 +61,11 @@ Faster alone, further together.
 
 # File formats
 
-**Messing with binary formats**
-44Con 2013
+**Messing with binary formats** 44Con 2013
 [slides](https://speakerdeck.com/ange/messing-with-binary-formats) /
 [video](https://vimeo.com/channels/44con2013/109380801)
 
-**Schizophrenic files**
-Area41 2014
+**Schizophrenic files** Area41 2014
 [slides](https://speakerdeck.com/ange/schizophrenic-files) /
 [video](https://www.youtube.com/watch?v=9Hm0obaDC58)
 <br/>w/ Gynvael Coldwind
@@ -84,7 +86,7 @@ Area41 2014
 
 ## Portable Document Format
 
-**PDF secrets**, MRMCD 2014
+**PDF secrets** MRMCD 2014
 [slides](https://speakerdeck.com/ange/pdf-secrets-v2) /
 [video](https://media.ccc.de/v/MRMCD2014_-_6007_-_en_-_grossbaustelle_ber_-_201409051830_-_pdf_101_pdf_secrets_-_ange_albertini)
 
@@ -96,17 +98,16 @@ Area41 2014
 [video](https://www.youtube.com/watch?v=k9g9jZdjRcE)
 <br/>w/ Kurt Pfeifle
 
-**Let's write a PDF file** (tutorial) 2017?
+**Let's write a PDF file** (tutorial) 2017
 [slides](https://speakerdeck.com/ange/lets-write-a-pdf-file)
 
-## Portable executable
+## Portable Executable
 
 **x86 & PE** HashDays & BerlinSides 2011
 [slides](https://speakerdeck.com/ange/x86-and-p) /
 [video](https://www.youtube.com/watch?v=MJvsshovITE)
 
-**a bit more of PE**
-Hack in Paris 2012
+**a bit more of PE** Hack in Paris 2012
 [slides](https://speakerdeck.com/ange/a-bit-more-of-pe) /
 [video](https://www.youtube.com/watch?v=3duSgr5b1yc)
 
@@ -119,17 +120,17 @@ Hack in Paris 2012
 
 ## with cryptography
 
-**when AES(☢) = ☠: AngeCryption, a crypto-binary magic trick**
+**when AES(☢) = ☠: AngeCryption, a crypto-binary magic trick**, May 2014
 [slides](https://speakerdeck.com/ange/when-aes-equals-episode-v) /
 [video](http://www.youtube.com/watch?v=wbHkVZfCNuE)
 
-**Let's play with crypto** June 2014
+**Let's play with crypto**, June 2014
 [slides (en)](https://speakerdeck.com/ange/lets-play-with-crypto) /
 [slides (fr)](https://speakerdeck.com/ange/joue-a-la-crypto-french) /
 [video (fr)](https://www.youtube.com/watch?v=iIesDpv9F4s)
 <br/>AngeCryption, TrueCrypt polyglots
 
-**SHA-1 backdooring and exploitation**
+**SHA-1 backdooring and exploitation**, BSidesLV (Las Vegas) 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
 [video](https://www.youtube.com/watch?v=GHY3dv42dz4)
 <br/>w/ Maria Eichlseder, Florian Mendel, Martin Schäffler, Jean-Philippe Aumasson
@@ -147,13 +148,23 @@ Hack in Paris 2012
 [slides](https://speakerdeck.com/ange/pdf-myths-vs-facts)
 
 **the Challenges of file formats**
-July 2017
+[Nestor Praktikertag](http://www.langzeitarchivierung.de/Subsites/nestor/DE/Veranstaltungen/TermineNestor/praktikertag2017.html), Kiel, July 2017
 [slides](https://speakerdeck.com/ange/the-challenges-of-file-formats)
 
 ## visualisation & dissection
 
-**No more dumb hex! Rethinking binary tooling**
-Troopers 2019
+**No more dumb hex! Rethinking binary tooling** Troopers 2019
 [slides](https://speakerdeck.com/ange/no-more-dumb-hex) /
 [video](https://www.youtube.com/watch?v=264OmDG8m7M)
 <br/>w/ Rafał Hirsz
+
+# Papers
+
+[Malicious Hashing: Eve’s Variant of SHA-1](https://eprint.iacr.org/2014/694.pdf), Aug 2014<br/>
+Ange Albertini, Jean-Philippe Aumasson, Maria Eichlseder, Florian Mendel, and Martin Schlaeffer
+
+[Fillory of PHY: Toward a Periodic Table of Signal Corruption Exploits and Polyglots in Digital Radio](https://www.usenix.org/conference/woot16/workshop-program/presentation/bratus), WOOT 2016<br/>
+Sergey Bratus, Travis Goodspeed, Ange Albertini, Debanjum S. Solanky
+
+[The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
+Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov
