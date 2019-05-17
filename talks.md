@@ -21,11 +21,11 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/hacks-in-video-games)
 <br/>Hacking: spend time to understand how things really work (and get awesome results)
 
-# Tools assisted speedruns
+# Tools-assisted speedruns
 
 [<img width=100 src=slides/1608-TASbotThePerfectionist.png />](slides/1608-TASbotThePerfectionist.pdf)
 
-**TASBot - the perfectionist** 2016 DEF CON 24
+**TASBot - the perfectionist** 2016 DEF CON
 <br/>w/ dwangoAC
 [slides](https://speakerdeck.com/ange/tasbot-the-perfectionist) /
 [video](https://www.youtube.com/watch?v=2kj5ZmoTckI)
@@ -36,10 +36,11 @@ Faster alone, further together.
 [<img width=100 src=slides/1411-PreservingArcadeGames.png />](slides/1411-PreservingArcadeGames.pdf)
 [<img width=100 src=slides/1412-PreservingArcadeGames.png />](slides/1412-PreservingArcadeGames.pdf)
 
-**Preserving arcade games** 2013 Recon 2014 RaumZeitLabor, CCC
+**Preserving arcade games** 2013 Recon 2014 Nuit du Hack, RaumZeitLabor, CCC
 [slides](https://speakerdeck.com/ange/preserving-arcade-games-31c3) /
+[full prezo (1Gb)](https://archive.org/details/arcade31c3) /
 [video](https://www.youtube.com/watch?v=vg7LPcFUxg8) /
-[video (fr @ NDH 2014)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
+[video (fr)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
 <br/>Exceptional games, exceptional security, exceptional hacking.
 
 # Drawing
@@ -84,6 +85,8 @@ Faster alone, further together.
 [<img width=100 src=slides/1406-SchizophrenicFiles.png />](slides/1406-SchizophrenicFiles.pdf)
 [<img width=100 src=slides/1409-SchizophrenicFiles.png />](slides/1409-SchizophrenicFiles.pdf)
 [<img width=100 src=slides/1412-FunkyFileFormats.png />](slides/1412-FunkyFileFormats.pdf)
+[<img width=100 src=slides/1510-TrustingFilesAndTheirFormats.png />](slides/1510-TrustingFilesAndTheirFormats.pdf)
+[<img width=100 src=slides/1603-CaringForFileFormats.png />](slides/1603-CaringForFileFormats.pdf)
 
 **Messing with binary formats** 2013 44Con, SSTIC
 [slides](https://speakerdeck.com/ange/messing-with-binary-formats) /
@@ -98,12 +101,14 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/funky-file-formats-31c3) /
 [video](https://www.youtube.com/watch?v=hdCs6bPM4is)
 
+<!--
 **Trusting files (and their formats)** Hack.lu 2015
 [slides](https://speakerdeck.com/ange/trusting-files)
 
 **Caring for file formats** Troopers 2016
 [slides](https://speakerdeck.com/ange/caring-for-file-formats) /
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
+-->
 
 **Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
 [video](https://www.youtube.com/watch?v=-dyLxsr_f_w)
@@ -178,6 +183,7 @@ Faster alone, further together.
 
 **Hide Android Applications in Images** BlackHat Europe 2014
 [video](https://www.youtube.com/watch?v=hajOlvLhYJY)
+<br/>w/ Axelle Apvrille
 
 ### Collisions
 
@@ -198,8 +204,6 @@ Faster alone, further together.
 ## Digital preservation
 
 [<img width=100 src=slides/1507-PDFMythsVsFacts.png />](slides/1507-PDFMythsVsFacts.pdf)
-[<img width=100 src=slides/1510-TrustingFilesAndTheirFormats.png />](slides/1510-TrustingFilesAndTheirFormats.pdf)
-[<img width=100 src=slides/1603-CaringForFileFormats.png />](slides/1603-CaringForFileFormats.pdf)
 [<img width=100 src=slides/1707-TheChallengesOfFileFormats.png />](slides/1707-TheChallengesOfFileFormats.pdf)
 
 **PDF: myths vs facts**
