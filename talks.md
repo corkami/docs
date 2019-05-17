@@ -7,11 +7,15 @@ Faster alone, further together.
 
 # Brainteasers
 
+[<img width=100 src=slides/1301-AChallengeInYourPocket-AnIntroductionToBrainteasers.png />](slides/1301-AChallengeInYourPocket-AnIntroductionToBrainteasers.pdf)
+
 **A challenge in your pocket: an introduction to brainteasers** HackPra 2013
 [slides](https://speakerdeck.com/ange/a-challenge-in-your-pocket-an-introduction-to-brainteasers) /
 [video](http://www.youtube.com/watch?v=hg7A7YIEWbU)
 
 # For kids
+
+[<img width=100 src=slides/1510-HacksInVideoGames.png />](slides/1510-HacksInVideoGames.pdf)
 
 **How people can create better video games** Hack.lu 2015
 [slides](https://speakerdeck.com/ange/hacks-in-video-games)
@@ -19,25 +23,39 @@ Faster alone, further together.
 
 # Tools assisted speedruns
 
-**TASBot - the perfectionist** DEF CON 24, 2016
+[<img width=100 src=slides/1608-TASbotThePerfectionist.png />](slides/1608-TASbotThePerfectionist.pdf)
+
+**TASBot - the perfectionist** 2016 DEF CON 24
 <br/>w/ dwangoAC
 [slides](https://speakerdeck.com/ange/tasbot-the-perfectionist) /
 [video](https://www.youtube.com/watch?v=2kj5ZmoTckI)
 
 # Arcade games preservation (via hacking)
 
-**Preserving arcade games** CCC 2014
+[<img width=100 src=slides/1306-JustKeepTrying.png />](slides/1306-JustKeepTrying.pdf)
+[<img width=100 src=slides/1411-PreservingArcadeGames.png />](slides/1411-PreservingArcadeGames.pdf)
+[<img width=100 src=slides/1412-PreservingArcadeGames.png />](slides/1412-PreservingArcadeGames.pdf)
+
+**Preserving arcade games** 2013 Recon 2014 RaumZeitLabor, CCC
 [slides](https://speakerdeck.com/ange/preserving-arcade-games-31c3) /
-[video](https://www.youtube.com/watch?v=vg7LPcFUxg8)
+[video](https://www.youtube.com/watch?v=vg7LPcFUxg8) /
 [video (fr @ NDH 2014)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
 <br/>Exceptional games, exceptional security, exceptional hacking.
 
 # Drawing
 
-**an introduction to Inkscape** 2017 (workshop)
+[<img width=100 src=slides/1702-anIntroductionToInkscape.png />](slides/1702-anIntroductionToInkscape.pdf)
+
+**an introduction to Inkscape** 2017 (workshop) DEFCON Zürich
 [slides](https://speakerdeck.com/ange/an-introduction-to-inkscape)
 
 # Keynotes
+
+[<img width=100 src=slides/1306-OnHacking&Security.png >](slides/1306-OnHacking&Security.pdf)
+[<img width=100 src=slides/1807-BeyondYourStudies.png />](slides/1807-BeyondYourStudies.pdf)
+[<img width=100 src=slides/1710-Infosec&Failures.png />](slides/1710-Infosec&Failures.pdf)
+[<img width=100 src=slides/1607-ConnectingCommunities.png />](slides/1607-ConnectingCommunities.pdf)
+[<img width=100 src=slides/1810-Education&Communication.png />](slides/1810-Education&Communication.pdf)
 
 **Beyond your studies** HackPra 2018
 [slides](https://speakerdeck.com/ange/beyond-your-studies) /
@@ -61,11 +79,17 @@ Faster alone, further together.
 
 # File formats
 
-**Messing with binary formats** 44Con 2013
+[<img width=100 src=slides/1306-PolyglottesBinairesEtImplications.png />](slides/1306-PolyglottesBinairesEtImplications.pdf)
+[<img width=100 src=slides/1309-MessingWithBinaryFormats.png />](slides/1309-MessingWithBinaryFormats.pdf)
+[<img width=100 src=slides/1406-SchizophrenicFiles.png />](slides/1406-SchizophrenicFiles.pdf)
+[<img width=100 src=slides/1409-SchizophrenicFiles.png />](slides/1409-SchizophrenicFiles.pdf)
+[<img width=100 src=slides/1412-FunkyFileFormats.png />](slides/1412-FunkyFileFormats.pdf)
+
+**Messing with binary formats** 2013 44Con, SSTIC
 [slides](https://speakerdeck.com/ange/messing-with-binary-formats) /
 [video](https://vimeo.com/channels/44con2013/109380801)
 
-**Schizophrenic files** Area41 2014
+**Schizophrenic files** 2014 Area41, MRMCD
 [slides](https://speakerdeck.com/ange/schizophrenic-files) /
 [video](https://www.youtube.com/watch?v=9Hm0obaDC58)
 <br/>w/ Gynvael Coldwind
@@ -86,7 +110,13 @@ Faster alone, further together.
 
 ## Portable Document Format
 
-**PDF secrets** MRMCD 2014
+[<img width=100 src=slides/1405-PDFsecrets.png />](slides/1405-PDFsecrets.pdf)
+[<img width=100 src=slides/1409-PDFsecrets.png />](slides/1409-PDFsecrets.pdf)
+[<img width=100 src=slides/1503-AdvancedPDFTricks.png />](slides/1503-AdvancedPDFTricks.pdf)
+[<img width=100 src=slides/1504-AnOverviewOfPDFpotentialLeaks.png />](slides/1504-AnOverviewOfPDFpotentialLeaks.pdf)
+[<img width=100 src="slides/1507-LetsWriteAPDFFile.png" />](slides/1507-LetsWriteAPDFFile.pdf)
+
+**PDF secrets** 2014, RaumZeitLabor, MRMCD
 [slides](https://speakerdeck.com/ange/pdf-secrets-v2) /
 [video](https://media.ccc.de/v/MRMCD2014_-_6007_-_en_-_grossbaustelle_ber_-_201409051830_-_pdf_101_pdf_secrets_-_ange_albertini)
 
@@ -103,7 +133,13 @@ Faster alone, further together.
 
 ## Portable Executable
 
-**x86 & PE** HashDays & BerlinSides 2011
+[<img width=100 src=slides/1110-SuchAweirdProcessor.png />](slides/1110-SuchAweirdProcessor.pdf)
+[<img width=100 src=slides/1112-x86&PE.png />](slides/1112-x86&PE.pdf)
+[<img width=100 src=slides/1206-ABitMoreOfPE.png />](slides/1206-ABitMoreOfPE.pdf)
+[<img width=100 src=slides/1211-BinaryArtByteingThePEthatFailsYou.png />](slides/1211-BinaryArtByteingThePEthatFailsYou.pdf)
+[<img width=100 src=slides/1309-ExploringThePortableExecutableFormat.png />](slides/1309-ExploringThePortableExecutableFormat.pdf)
+
+**x86 & PE** 2011, HashDays, BerlinSides
 [slides](https://speakerdeck.com/ange/x86-and-p) /
 [video](https://www.youtube.com/watch?v=MJvsshovITE)
 
@@ -120,17 +156,35 @@ Faster alone, further together.
 
 ## with cryptography
 
-**when AES(☢) = ☠: AngeCryption, a crypto-binary magic trick**, May 2014
+[<img width=100 src='slides/1405-WhenAES(☢)=☠.png' />](slides/1405-WhenAES(☢)=☠.pdf)
+[<img width=100 src='slides/1406-JoueàLaCrypto.png' />](slides/1406-JoueàLaCrypto.pdf)
+[<img width=100 src=slides/1407-LetsPlayWithCrypto.png />](slides/1407-LetsPlayWithCrypto.pdf)
+[<img width=100 src=slides/1409-LetsPlayWithCrypto.png />](slides/1409-LetsPlayWithCrypto.pdf)
+[<img width=100 src=slides/1410-HideAndroidApplicationsInImages.png />](slides/1410-HideAndroidApplicationsInImages.pdf)
+
+### AngeCryption
+
+**when AES(☢) = ☠**, May 2014
 [slides](https://speakerdeck.com/ange/when-aes-equals-episode-v) /
 [video](http://www.youtube.com/watch?v=wbHkVZfCNuE)
 
-**Let's play with crypto**, June 2014
+**Let's play with crypto** June 2014 RaumZeitLabor, RMLL, MRMCD
 [slides (en)](https://speakerdeck.com/ange/lets-play-with-crypto) /
 [slides (fr)](https://speakerdeck.com/ange/joue-a-la-crypto-french) /
-[video (fr)](https://www.youtube.com/watch?v=iIesDpv9F4s)
+[video (fr)](https://www.youtube.com/watch?v=iIesDpv9F4s) /
+[video](https://media.ccc.de/v/MRMCD2014_-_6006_-_en_-_grossbaustelle_ber_-_201409052030_-_let_s_play_with_crypto_-_ange_albertini)
+
 <br/>AngeCryption, TrueCrypt polyglots
 
-**SHA-1 backdooring and exploitation**, BSidesLV (Las Vegas) 2014
+**Hide Android Applications in Images** BlackHat Europe 2014
+[video](https://www.youtube.com/watch?v=hajOlvLhYJY)
+
+### Collisions
+
+[<img width=100 src=slides/1408-SHA1backdooring&Exploitation.png />](slides/1408-SHA1backdooring&Exploitation.pdf)
+[<img width=100 src=slides/1711-ExploitingHashCollisions.png />](slides/1711-ExploitingHashCollisions.pdf)
+
+**SHA-1 backdooring and exploitation**, BSidesLV 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
 [video](https://www.youtube.com/watch?v=GHY3dv42dz4)
 <br/>w/ Maria Eichlseder, Florian Mendel, Martin Schäffler, Jean-Philippe Aumasson
@@ -141,7 +195,12 @@ Faster alone, further together.
 [videos](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
 
-## digital preservation
+## Digital preservation
+
+[<img width=100 src=slides/1507-PDFMythsVsFacts.png />](slides/1507-PDFMythsVsFacts.pdf)
+[<img width=100 src=slides/1510-TrustingFilesAndTheirFormats.png />](slides/1510-TrustingFilesAndTheirFormats.pdf)
+[<img width=100 src=slides/1603-CaringForFileFormats.png />](slides/1603-CaringForFileFormats.pdf)
+[<img width=100 src=slides/1707-TheChallengesOfFileFormats.png />](slides/1707-TheChallengesOfFileFormats.pdf)
 
 **PDF: myths vs facts**
 ["When is a PDF not a PDF?" DPC briefing](https://www.dpconline.org/events/past-events/preserving-documents-forever-when-is-a-pdf-not-a-pdf), Oxford university, July 2015
@@ -151,7 +210,10 @@ Faster alone, further together.
 [Nestor Praktikertag](http://www.langzeitarchivierung.de/Subsites/nestor/DE/Veranstaltungen/TermineNestor/praktikertag2017.html), Kiel, July 2017
 [slides](https://speakerdeck.com/ange/the-challenges-of-file-formats)
 
-## visualisation & dissection
+## Visualisation & dissection
+
+[<img width=100 src=slides/1403-BinaryArtFunkyPoCsAndVisualDocs.png />](slides/1403-BinaryArtFunkyPoCsAndVisualDocs.pdf)
+[<img width=100 src=slides/1903-NoMoreDumbHex.png />](slides/1903-NoMoreDumbHex.pdf)
 
 **No more dumb hex! Rethinking binary tooling** Troopers 2019
 [slides](https://speakerdeck.com/ange/no-more-dumb-hex) /
