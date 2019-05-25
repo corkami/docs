@@ -1,9 +1,27 @@
-# Talks & stuff
+# Talks, keynotes, tutorials, workshops...
 
 Faster alone, further together.
 
 [Chronological Youtube playlist](https://www.youtube.com/playlist?list=PL2-EpKoPE60Uyi5X6NMeiROVi8hm33sW3)<br/>
 [SpeakerDesk](https://speakerdeck.com/ange)
+
+# Contents
+
+- [Brainteasers](#brainteasers)
+- [For kids](#for-kids)
+- [Tools-assisted speedruns](#tools-assisted-speedruns)
+- [Arcade games preservation (via hacking)](#arcade-games-preservation-via-hacking)
+- [Drawing](#drawing)
+- [Keynotes](#keynotes)
+- [File formats](#file-formats)
+  - [Portable Document Format](#portable-document-format)
+  - [Portable Executable](#portable-executable)
+  - [with cryptography](#with-cryptography)
+    - [AngeCryption](#angecryption)
+    - [Collisions](#collisions)
+  - [Digital preservation](#digital-preservation)
+  - [Visualisation & dissection](#visualisation--dissection)
+- [Papers](#papers)
 
 # Brainteasers
 
@@ -234,3 +252,5 @@ Sergey Bratus, Travis Goodspeed, Ange Albertini, Debanjum S. Solanky
 
 [The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
 Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov
+
+<!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
