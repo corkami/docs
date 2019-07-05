@@ -207,6 +207,8 @@ Faster alone, further together.
 
 [<img width=100 src=slides/1408-SHA1backdooring&Exploitation.png />](slides/1408-SHA1backdooring&Exploitation.pdf)
 [<img width=100 src=slides/1711-ExploitingHashCollisions.png />](slides/1711-ExploitingHashCollisions.pdf)
+[<img width=100 src=slides/1907-KILL_MD5.png />](slides/1907-KILL_MD5.pdf)
+[<img width=100 src=slides/1907-CollTris.png />](https://speakerdeck.com/ange/colltris)
 
 **SHA-1 backdooring and exploitation**, BSidesLV 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
@@ -219,10 +221,18 @@ Faster alone, further together.
 [videos](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
 
+**KILL MD5** w/ Marc Stevens, Pass the Salt 2019
+[slides](https://speakerdeck.com/ange/kill-md5)
+
+**CollTris - Hash collisions exploitations** workshop
+[slides](https://speakerdeck.com/ange/colltris)
+ - Pass the Salt, July 2019
+
 ## Digital preservation
 
 [<img width=100 src=slides/1507-PDFMythsVsFacts.png />](slides/1507-PDFMythsVsFacts.pdf)
 [<img width=100 src=slides/1707-TheChallengesOfFileFormats.png />](slides/1707-TheChallengesOfFileFormats.pdf)
+[<img width=100 src=slides/1905-ImprovingFileFormats.png />](slides/1905-ImprovingFileFormats.pdf)
 
 **PDF: myths vs facts**
 ["When is a PDF not a PDF?" DPC briefing](https://www.dpconline.org/events/past-events/preserving-documents-forever-when-is-a-pdf-not-a-pdf), Oxford university, July 2015
@@ -231,6 +241,10 @@ Faster alone, further together.
 **the Challenges of file formats**
 [Nestor Praktikertag](http://www.langzeitarchivierung.de/Subsites/nestor/DE/Veranstaltungen/TermineNestor/praktikertag2017.html), Kiel, July 2017
 [slides](https://speakerdeck.com/ange/the-challenges-of-file-formats)
+
+**Improving file formats**
+Unpresented, May 2019
+[slides](https://speakerdeck.com/ange/improving-file-formats-from-to)
 
 ## Visualisation & dissection
 
