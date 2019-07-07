@@ -218,11 +218,12 @@ Faster alone, further together.
 
 **Exploiting hash collisions** w/ Marc Stevens, BlackAlps 2017
 [slides](https://speakerdeck.com/ange/exploiting-hash-collisions) /
-[videos](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
+[video](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
 
 **KILL MD5** w/ Marc Stevens, Pass the Salt 2019
-[slides](https://speakerdeck.com/ange/kill-md5)
+[slides](https://speakerdeck.com/ange/kill-md5) / 
+[video](https://passthesalt.ubicast.tv/videos/kill-md5-demystifying-hash-collisions/)
 
 **CollTris - Hash collisions exploitations** workshop
 [slides](https://speakerdeck.com/ange/colltris)
