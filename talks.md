@@ -1,3 +1,5 @@
+<!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
+
 # Talks, keynotes, tutorials, workshops...
 
 Faster alone, further together.
@@ -221,13 +223,20 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
 
-**KILL MD5** w/ Marc Stevens, Pass the Salt 2019
-[slides](https://speakerdeck.com/ange/kill-md5) / 
+**KILL MD5 - Demystifying hash collisions** w/ Marc Stevens:
+[slides](https://speakerdeck.com/ange/kill-md5)
+- Pass the Salt 2019
 [video](https://passthesalt.ubicast.tv/videos/kill-md5-demystifying-hash-collisions/)
+- Hack.lu 2019
+[video](https://www.youtube.com/watch?v=JXazRQ0APpI)
 
-**CollTris - Hash collisions exploitations** workshop
+**CollTris - Hash collisions exploitations** workshop w/ Marc Stevens:
 [slides](https://speakerdeck.com/ange/colltris)
- - Pass the Salt, July 2019
+
+- 2019/07/02 150p, Pass The Salt
+- 2019/07/24 199p, Google
+- 2019/08/19 208p, Google
+- 2019/10/23 222p, Hack.lu
 
 ## Digital preservation
 
@@ -267,5 +276,3 @@ Sergey Bratus, Travis Goodspeed, Ange Albertini, Debanjum S. Solanky
 
 [The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
 Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov
-
-<!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
