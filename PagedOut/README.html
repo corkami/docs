@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>README</title>
+  <style type="text/css">
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+  <style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<!-- pandoc -s -f gfm -t html README.md -o README.html -->
+
+<ul>
+<li><a href="#adding-any-external-data-to-any-pdf">Adding any external data to any PDF</a>
+<ul>
+<li><a href="#attaching">Attaching</a></li>
+<li><a href="#incremental-updates">Incremental updates</a></li>
+<li><a href="#incompatibilities-with-polyglots">Incompatibilities with polyglots</a>
+<ul>
+<li><a href="#absolute-offsets">Absolute offsets</a></li>
+<li><a href="#embedding-by-hand">Embedding by hand</a></li>
+<li><a href="#appended-data">Appended data</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#conclusion">Conclusion</a></li>
+<li><a href="#pocs">PoCs</a></li>
+</ul>
+<h1 id="adding-any-external-data-to-any-pdf">Adding any external data to any PDF</h1>
+<p>Goals:</p>
+<ul>
+<li>embed elegantly any data in a PDF.</li>
+<li>making a ZIP/PDF polyglot with maximum compatibility</li>
+</ul>
+<p>A shorter version of this article appeared in <a href="https://pagedout.institute">PagedOut!</a> #1, page 16.</p>
+<h2 id="attaching">Attaching</h2>
+<p>To attach a file to a PDF, you can rely on free tools out there:</p>
+<pre><code>pdftk doc.pdf attach_files myfile.bin output attached.pdf
+</code></pre>
+<p>Note that Adobe Reader forbids to download EXE, VBS or ZIP files, so you might want to rename their extensions.</p>
+<p>When attaching such files, the entire file is recreated, so you can't revert to the original doc.</p>
+<h2 id="incremental-updates">Incremental updates</h2>
+<p>A more elegant way to attach a file is to do it via an incremental update, so that you make it clear that the file was attached afterwards: the original file body is unmodified, only the updating or new elements will be appended to it: an XREF (cross reference table) update, a new catalog that references the attachment, the attachment declaration and its data stream.</p>
+<p>Example with PyMuPDF:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="im">import</span> fitz <span class="co"># from PyMuPDF</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">...</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">doc <span class="op">=</span> fitz.<span class="bu">open</span>(pdf)</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">...</a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co"># create an attachment</span></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># modify the extension to bypass blacklisting</span></a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">doc.embeddedFileAdd(name,</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">    data, name, name <span class="op">+</span> <span class="st">&quot;_&quot;</span>)</a>
+<a class="sourceLine" id="cb2-9" data-line-number="9"><span class="co"># save incrementally</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">doc.saveIncr()</a></code></pre></div>
+<p>This script may look really simple, but it will handle for you complex cases such as linearization, object streams or classic xrefs, will only append new or updated objects and leave the original file body intact, and will give back a perfectly valid PDF file.</p>
+<p>That said, if you attach a ZIP to a PDF, you could think of making it a ZIP/PDF polyglot.</p>
+<h2 id="incompatibilities-with-polyglots">Incompatibilities with polyglots</h2>
+<p>But these are mutually exclusive: even if you store the incremental update with no compression via</p>
+<p><code>doc.save(doc.name, incremental=True, expand=255)</code>,</p>
+<p>some incompatibilities will remain.</p>
+<h3 id="absolute-offsets">Absolute offsets</h3>
+<p>To be perfectly compatible (for example with <em>7z</em> or <em>Windows Explorer</em>) a ZIP archive needs its offset to be re-adjusted so that they are absolute to the <em>file</em>, not relative to the start of the <em>archive</em> (where the ZIP structure start).</p>
+<p>If it's the case, you will get such warnings with these files:</p>
+<pre><code>$ unzip -v test.pdf
+...
+warning [test.pdf]:  533 extra bytes at beginning or within zipfile
+  (attempting to process anyway)
+...
+</code></pre>
+<pre><code>$ zip -T test.pdf
+        zip warning: unexpected signature on disk 0 at 533
+
+        zip warning: archive not in correct format: test.pdf
+        zip warning: (try -F to attempt recovery)
+</code></pre>
+<p>This can be fixed in place with the Info-ZIP <code>zip -F</code> command.</p>
+<p>But then when you extract the Zip as a PDF attachment, its offsets will be incorrect again, as only the attachment will be copied out of the file.</p>
+<h3 id="embedding-by-hand">Embedding by hand</h3>
+<p>So you may want to drop the attachment functionality altogether, and just embed the file as a single data stream instead.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># create a dummy object entry</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">objNb <span class="op">=</span> doc._getNewXref()</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">doc._updateObject(objNb, <span class="st">&#39;&lt;&lt;&gt;&gt;&#39;</span>)</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co"># add contents of the archive</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">doc._updateStream(objNb, zipdata, new<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
+<h3 id="appended-data">Appended data</h3>
+<p>Some tools will still complain that there is appended data after the archive when you read it inside from the polyglot.</p>
+<pre><code>$ 7za t test.pdf
+
+[...]
+Testing archive: test.pdf
+
+WARNINGS:
+There are data after the end of archive
+
+--
+Path = test.pdf
+Type = zip
+WARNINGS:
+There are data after the end of archive
+Offset = 387031
+Physical Size = 392734
+Tail Size = 231
+[...]
+
+</code></pre>
+<p>A workaround is to extend the archive comment to the end of the file once it's in the polyglot:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># locating the comment length in the ZIP&#39;s EoCD</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co"># 4:Sig  2:NbDisk 2: NbCD 2:TotalDisk 2:TotalCD</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="co">#   4:CDSize 4:Offset 2:ComLen</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">offset <span class="op">=</span> filedata.rfind(<span class="st">&quot;PK</span><span class="ch">\5\6</span><span class="st">&quot;</span>) <span class="op">+</span> <span class="dv">20</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb7-6" data-line-number="6"><span class="co"># new comment length</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">length <span class="op">=</span> <span class="bu">len</span>(filedata) <span class="op">-</span> offset <span class="op">-</span> <span class="dv">2</span></a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="cf">with</span> <span class="bu">open</span>(pdf, <span class="st">&quot;wb&quot;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">    f.write(filedata[:offset])</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">    f.write(struct.pack(<span class="st">&quot;&lt;H&quot;</span>, length))</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">    f.write(filedata[offset<span class="op">+</span><span class="dv">2</span>:])</a></code></pre></div>
+<p>To avoid that archive viewers show an archive comment that is now full of PDF keywords, a working trick is to start the comment with a null byte, which will truncate early the null-terminated comment.</p>
+<p>Just append such a byte to the ZIP when reading it, before adding it to the PDF document:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co"># appending one null byte to terminate the archive comment</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="cf">with</span> <span class="bu">open</span>(zip_, <span class="st">&#39;rb&#39;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">    zipdata <span class="op">=</span> f.read() <span class="op">+</span> <span class="st">&quot;</span><span class="ch">\0</span><span class="st">&quot;</span></a></code></pre></div>
+<p>If you don't, some operations on the archive will unexpectedly list PDF contents because the tools just dump the comments contents.</p>
+<pre><code>$ unzip -v test.pdf
+Archive:  test.pdf
+
+endstream
+endobj
+
+xref
+891 1
+0000386995 00000 n
+
+trailer
+&lt;&lt;/Size 892/Info 889 0 R/Root 888 0 R/ID[(\031\314G\265*U\255,\021\261\360\)\255\357&quot;q)(\031\314G\265*U\255,\021\261\360\)\255\357&quot;q)]/Prev 369018&gt;&gt;
+startxref
+779784
+%%EOF
+ Length   Method    Size  Cmpr    Date    Time   CRC-32   Name
+--------  ------  ------- ---- ---------- ----- --------  ----
+      12  Defl:X       14 -17% 07/28/2019 23:31 1c291ca3  hello.txt
+--------          -------  ---                            -------
+      12               14 -17%                            1 file
+</code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>Attaching a file via an incremental update is an elegant way to extend a document while preserving its original structure. But a ZIP file can't be at the same time attached to a PDF doc and referenced externally as a ZIP/PDF polyglot, while keeping maximum compatibility.</p>
+<p>Ange Albertini with Nicolas Grégoire, Gynvael Coldwind and Philippe Teuwen for their help,</p>
+<h1 id="pocs">PoCs</h1>
+<p>A <a href="make_pdf.py">script</a> to rely on PyMuPDF to do an incremental update to any kind of PDF.</p>
+<p>PoCs</p>
+<ul>
+<li><a href="standard.pdf">standard</a></li>
+<li><a href="linearized.pdf">linearized</a></li>
+<li><a href="objectstreams.pdf">object streams</a></li>
+</ul>
+</body>
+</html>
