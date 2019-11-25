@@ -65,7 +65,7 @@ This sequence is often wrongly identified,
 as it's typically followed by `FF E0` for standard header or `FF E1` for metadata in an EXIF segment.
 
 BZip2's magic signature is only sixteen bits long, `B Z`.
-However it is followed by the version, which is only supposed to be `h`,
+However, it is followed by the version, which is only supposed to be `h`,
 which stands for Huffman coding.
 So, in practice, BZ2 files always start with the three-byte sequence `.B .Z .h`.
 
