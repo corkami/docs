@@ -63,6 +63,8 @@ Faster alone, further together.
 [video (fr)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
 <br/>Exceptional games, exceptional security, exceptional hacking.
 
+<!-- [REcon 2013](https://www.youtube.com/watch?v=R9iQGTOco0M) -->
+
 # Drawing
 
 [<img width=100 src=slides/1702-anIntroductionToInkscape.png />](slides/1702-anIntroductionToInkscape.pdf)
@@ -78,7 +80,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1607-ConnectingCommunities.png />](slides/1607-ConnectingCommunities.pdf)
 [<img width=100 src=slides/1810-Education&Communication.png />](slides/1810-Education&Communication.pdf)
 
-**Beyond your studies** HackPra 2018
+**Beyond your studies** HackPra 2018, ESIEA 2019
 [slides](https://speakerdeck.com/ange/beyond-your-studies) /
 [video](https://www.youtube.com/watch?v=Prgv9pNvy24)
 <br/>about your future - as a student or young professional.
@@ -132,6 +134,8 @@ Faster alone, further together.
 
 **Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
 [video](https://www.youtube.com/watch?v=-dyLxsr_f_w)
+
+<!-- ESIEA 2019 -->
 
 ## Portable Document Format
 
