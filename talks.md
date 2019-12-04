@@ -242,6 +242,7 @@ Faster alone, further together.
 - 2019/08/19 208p, Google
 - 2019/10/23 222p, Hack.lu
 - 2019/11/07 225p, Black Alps
+- 2019/12/03 229p, Google
 
 ## Digital preservation
 
