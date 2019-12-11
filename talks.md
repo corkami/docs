@@ -1,6 +1,6 @@
 <!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
 
-# Talks, keynotes, tutorials, workshops...
+# Talks, keynotes, tutorials, workshops, articles, podcasts...
 
 Faster alone, further together.
 
@@ -121,7 +121,10 @@ Faster alone, further together.
 
 **Funky file formats** CCC 2014
 [slides](https://speakerdeck.com/ange/funky-file-formats-31c3) /
-[video](https://www.youtube.com/watch?v=hdCs6bPM4is)
+[video](https://www.youtube.com/watch?v=hdCs6bPM4is) /
+
+**Funky file formats** NoLimitSecu, March 2015
+[podcast (fr)](https://www.nolimitsecu.fr/ange-albertini-funky-file-formats/)
 
 <!--
 **Trusting files (and their formats)** Hack.lu 2015
@@ -235,7 +238,8 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=JXazRQ0APpI)
 
 **CollTris - Hash collisions exploitations** workshop w/ Marc Stevens:
-[slides](https://speakerdeck.com/ange/colltris) / [video](https://www.youtube.com/watch?v=BcwrMnGVyBI)
+[slides](https://speakerdeck.com/ange/colltris) /
+[video](https://www.youtube.com/watch?v=BcwrMnGVyBI)
 
 - 2019/07/02 150p, Pass The Salt
 - 2019/07/24 199p, Google
@@ -243,6 +247,9 @@ Faster alone, further together.
 - 2019/10/23 222p, Hack.lu
 - 2019/11/07 225p, Black Alps
 - 2019/12/03 229p, Google
+
+**Collisions de hash** NoLimitSecu #249, December 2019
+[podcast (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
 
 ## Digital preservation
 
