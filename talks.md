@@ -235,7 +235,7 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=JXazRQ0APpI)
 
 **CollTris - Hash collisions exploitations** workshop w/ Marc Stevens:
-[slides](https://speakerdeck.com/ange/colltris)
+[slides](https://speakerdeck.com/ange/colltris) / [video](https://www.youtube.com/watch?v=BcwrMnGVyBI)
 
 - 2019/07/02 150p, Pass The Salt
 - 2019/07/24 199p, Google
