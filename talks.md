@@ -24,6 +24,9 @@ Faster alone, further together.
   - [Digital preservation](#digital-preservation)
   - [Visualisation & dissection](#visualisation--dissection)
 - [Papers](#papers)
+- [Articles](#articles)
+  - [Appearances](#appearances)
+  - [PoC or GTFO](#poc-or-gtfo)
 
 # Brainteasers
 
@@ -289,3 +292,54 @@ Sergey Bratus, Travis Goodspeed, Ange Albertini, Debanjum S. Solanky
 
 [The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
 Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov
+
+
+# Articles
+
+<img width=100 src=slides/1908-PagedOut1.png />
+<img width=100 src=slides/2007-misc-hs-21.jpg />
+
+2019/08 [Adding any external data to any PDF](https://pagedout.institute/download/PagedOut_001_beta1.pdf#page=16), [Paged Out!](https://pagedout.institute/) p17 (-> [extended version](PagedOut/README.md))
+
+2020/07 Exploitations de collisions MD5, [Misc Hors série 21](https://boutique.ed-diamond.com/les-hors-series/1518-misc-hs-21.html) p118
+
+
+## Appearances
+
+<img width=100 src=slides/1311-Programista.jpg />
+
+[Programista 2013/11](https://programistamag.pl/programista-112013-18-spis-tresci/), p102-103
+
+
+## PoC or GTFO
+
+In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/blob/master/README.md)
+
+2013/10
+- 01:04 [Making a Multi-Windows PE](https://archive.org/stream/Pocorgtfo01#page/n8/mode/1up)
+
+2013/12
+- 02:08 [This OS is also a PDF](https://archive.org/stream/Pocorgtfo02#page/n20/mode/1up)
+
+2014/03
+- 03:03 [This PDF is a JPEG; or, This Proof of Concept is a Picture of Cats](https://archive.org/stream/pocorgtfo03#page/n7/mode/1up)
+- 03:11 [A Binary Magic Trick, Angecryption](https://archive.org/stream/pocorgtfo03#page/n36/mode/1up), w/ Jean-Philippe Aumasson
+
+2014/06
+- 04:11 [This Encrypted Volume is also a PDF; or, A Polyglot Trick for Bypassing TrueCrypt Volume Detection](https://archive.org/stream/pocorgtfo04#page/n41/mode/1up)
+- 04:12 [How to Manually Attach a File to a PDF](https://archive.org/stream/pocorgtfo04#page/n43/mode/1up)
+
+2014/08
+- 05:12 [A cryptographer and a binarista walk into a bar](https://archive.org/stream/pocorgtfo05#page/n47/mode/1up), w/ Maria Eichlseder
+
+2014/11
+- 06:04 [This TAR archive is a PDF! (as well as a ZIP, but you are probably used to it by now)](https://archive.org/stream/pocorgtfo06#page/n14/mode/1up)
+
+2015/03
+- 07:06 [Funky Files, the Novella!](https://archive.org/stream/pocorgtfo07#page/n17/mode/1up)
+
+2018/06
+- 18:10 [Easy SHA-1 Colliding PDFs with PDFLaTeX](https://archive.org/stream/pocorgtfo18#page/n62/mode/1up)
+
+2019/03
+- 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ Marc Stevens
