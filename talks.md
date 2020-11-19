@@ -49,7 +49,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1608-TASbotThePerfectionist.png />](slides/1608-TASbotThePerfectionist.pdf)
 
 **TASBot - the perfectionist** 2016 DEF CON
-<br/>w/ dwangoAC
+<br/>w/ [dwangoAC](https://twitter.com/mrtasbot),
 [slides](https://speakerdeck.com/ange/tasbot-the-perfectionist) /
 [video](https://www.youtube.com/watch?v=2kj5ZmoTckI)
 
@@ -59,7 +59,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1411-PreservingArcadeGames.png />](slides/1411-PreservingArcadeGames.pdf)
 [<img width=100 src=slides/1412-PreservingArcadeGames.png />](slides/1412-PreservingArcadeGames.pdf)
 
-**Preserving arcade games** 2013 Recon 2014 Nuit du Hack, RaumZeitLabor, CCC
+**Preserving arcade games** 2013 Recon 2014 Nuit du Hack/RaumZeitLabor/CCC, 
 [slides](https://speakerdeck.com/ange/preserving-arcade-games-31c3) /
 [full prezo (1Gb)](https://archive.org/details/arcade31c3) /
 [video](https://www.youtube.com/watch?v=vg7LPcFUxg8) /
@@ -120,7 +120,7 @@ Faster alone, further together.
 **Schizophrenic files** 2014 Area41, MRMCD
 [slides](https://speakerdeck.com/ange/schizophrenic-files) /
 [video](https://www.youtube.com/watch?v=9Hm0obaDC58)
-<br/>w/ Gynvael Coldwind
+<br/>w/ [Gynvael Coldwind](https://twitter.com/gynvael)
 
 **Funky file formats** CCC 2014
 [slides](https://speakerdeck.com/ange/funky-file-formats-31c3) /
@@ -161,7 +161,7 @@ Faster alone, further together.
 **Advanced PDF tricks** (workshop) Troopers 2015
 [slides](https://speakerdeck.com/ange/advanced-pdf-tricks) /
 [video](https://www.youtube.com/watch?v=k9g9jZdjRcE)
-<br/>w/ Kurt Pfeifle
+<br/>w/ [Kurt Pfeifle](https://twitter.com/pdfkungfoo)
 
 **Let's write a PDF file** (tutorial) 2017
 [slides](https://speakerdeck.com/ange/lets-write-a-pdf-file)
@@ -213,7 +213,7 @@ Faster alone, further together.
 
 **Hide Android Applications in Images** BlackHat Europe 2014
 [video](https://www.youtube.com/watch?v=hajOlvLhYJY)
-<br/>w/ Axelle Apvrille
+<br/>w/ [Axelle Apvrille](https://twitter.com/cryptax)
 
 ### Collisions
 
@@ -225,22 +225,22 @@ Faster alone, further together.
 **SHA-1 backdooring and exploitation**, BSidesLV 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
 [video](https://www.youtube.com/watch?v=GHY3dv42dz4)
-<br/>w/ Maria Eichlseder, Florian Mendel, Martin Schäffler, Jean-Philippe Aumasson
+<br/>w/ [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, Martin Schäffler, [Jean-Philippe Aumasson](https://twitter.com/veorq)
 <br/>MalSHA1 collisions
 
-**Exploiting hash collisions** w/ Marc Stevens, BlackAlps 2017
+**Exploiting hash collisions** w/ [Marc Stevens]((https://twitter.com/realhashbreaker), BlackAlps 2017
 [slides](https://speakerdeck.com/ange/exploiting-hash-collisions) /
 [video](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
 
-**KILL MD5 - Demystifying hash collisions** w/ Marc Stevens:
+**KILL MD5 - Demystifying hash collisions** w/ [Marc Stevens](https://twitter.com/realhashbreaker),
 [slides](https://speakerdeck.com/ange/kill-md5)
 - Pass the Salt 2019
 [video](https://passthesalt.ubicast.tv/videos/kill-md5-demystifying-hash-collisions/)
 - Hack.lu 2019
 [video](https://www.youtube.com/watch?v=JXazRQ0APpI)
 
-**CollTris - Hash collisions exploitations** workshop w/ Marc Stevens:
+**CollTris - Hash collisions exploitations** workshop w/ [Marc Stevens](https://twitter.com/realhashbreaker), 
 [slides](https://speakerdeck.com/ange/colltris) /
 [video](https://www.youtube.com/watch?v=BcwrMnGVyBI)
 
@@ -280,19 +280,22 @@ Unpresented, May 2019
 **No more dumb hex! Rethinking binary tooling** Troopers 2019
 [slides](https://speakerdeck.com/ange/no-more-dumb-hex) /
 [video](https://www.youtube.com/watch?v=264OmDG8m7M)
-<br/>w/ Rafał Hirsz
+<br/>w/ [Rafał Hirsz](https://twitter.com/HDevo)
 
 # Papers
 
-[Malicious Hashing: Eve’s Variant of SHA-1](https://eprint.iacr.org/2014/694.pdf), Aug 2014<br/>
-Ange Albertini, Jean-Philippe Aumasson, Maria Eichlseder, Florian Mendel, and Martin Schlaeffer
+[Malicious Hashing: Eve’s Variant of SHA-1](https://eprint.iacr.org/2014/694), Aug 2014<br/>
+Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, and Martin Schlaeffer
 
 [Fillory of PHY: Toward a Periodic Table of Signal Corruption Exploits and Polyglots in Digital Radio](https://www.usenix.org/conference/woot16/workshop-program/presentation/bratus), WOOT 2016<br/>
-Sergey Bratus, Travis Goodspeed, Ange Albertini, Debanjum S. Solanky
+[Sergey Bratus](https://twitter.com/sergeybratus), [Travis Goodspeed](https://twitter.com/travisgoodspeed), Ange Albertini, Debanjum S. Solanky
 
 [The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
-Marc Stevens, Elie Bursztein, Pierre Karpman, Ange Albertini, Yarik Markov
+[Marc Stevens](https://twitter.com/realhashbreaker), Elie Bursztein, [Pierre Karpman](https://twitter.com/shab0y), Ange Albertini, Yarik Markov
 
+
+[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020<br />
+Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)
 
 # Articles
 
@@ -323,14 +326,14 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 
 2014/03
 - 03:03 [This PDF is a JPEG; or, This Proof of Concept is a Picture of Cats](https://archive.org/stream/pocorgtfo03#page/n7/mode/1up)
-- 03:11 [A Binary Magic Trick, Angecryption](https://archive.org/stream/pocorgtfo03#page/n36/mode/1up), w/ Jean-Philippe Aumasson
+- 03:11 [A Binary Magic Trick, Angecryption](https://archive.org/stream/pocorgtfo03#page/n36/mode/1up), w/ [Jean-Philippe Aumasson](https://twitter.com/veorq)
 
 2014/06
 - 04:11 [This Encrypted Volume is also a PDF; or, A Polyglot Trick for Bypassing TrueCrypt Volume Detection](https://archive.org/stream/pocorgtfo04#page/n41/mode/1up)
 - 04:12 [How to Manually Attach a File to a PDF](https://archive.org/stream/pocorgtfo04#page/n43/mode/1up)
 
 2014/08
-- 05:12 [A cryptographer and a binarista walk into a bar](https://archive.org/stream/pocorgtfo05#page/n47/mode/1up), w/ Maria Eichlseder
+- 05:12 [A cryptographer and a binarista walk into a bar](https://archive.org/stream/pocorgtfo05#page/n47/mode/1up), w/ [Maria Eichlseder](https://twitter.com/MariaEichlseder)
 
 2014/11
 - 06:04 [This TAR archive is a PDF! (as well as a ZIP, but you are probably used to it by now)](https://archive.org/stream/pocorgtfo06#page/n14/mode/1up)
@@ -342,4 +345,4 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 - 18:10 [Easy SHA-1 Colliding PDFs with PDFLaTeX](https://archive.org/stream/pocorgtfo18#page/n62/mode/1up)
 
 2019/03
-- 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ Marc Stevens
+- 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ [Marc Stevens](https://twitter.com/realhashbreaker)
