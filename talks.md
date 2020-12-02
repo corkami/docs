@@ -127,7 +127,7 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=hdCs6bPM4is) /
 
 **Funky file formats** NoLimitSecu, March 2015
-[podcast (fr)](https://www.nolimitsecu.fr/ange-albertini-funky-file-formats/)
+[\[podcast\] (fr)](https://www.nolimitsecu.fr/ange-albertini-funky-file-formats/)
 
 <!--
 **Trusting files (and their formats)** Hack.lu 2015
@@ -207,9 +207,8 @@ Faster alone, further together.
 [slides (en)](https://speakerdeck.com/ange/lets-play-with-crypto) /
 [slides (fr)](https://speakerdeck.com/ange/joue-a-la-crypto-french) /
 [video (fr)](https://www.youtube.com/watch?v=iIesDpv9F4s) /
-[video](https://media.ccc.de/v/MRMCD2014_-_6006_-_en_-_grossbaustelle_ber_-_201409052030_-_let_s_play_with_crypto_-_ange_albertini)
-
-<br/>AngeCryption, TrueCrypt polyglots
+[video](https://media.ccc.de/v/MRMCD2014_-_6006_-_en_-_grossbaustelle_ber_-_201409052030_-_let_s_play_with_crypto_-_ange_albertini)<br/>
+*AngeCryption* / *TrueCrypt* / *polyglots*
 
 **Hide Android Applications in Images** BlackHat Europe 2014
 [video](https://www.youtube.com/watch?v=hajOlvLhYJY)
@@ -252,7 +251,7 @@ Faster alone, further together.
 - 2019/12/03 229p, Google
 
 **Collisions de hash** NoLimitSecu #249, December 2019
-[podcast (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
+[\[podcast\] (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
 
 ## Digital preservation
 
@@ -269,7 +268,7 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/the-challenges-of-file-formats)
 
 **Improving file formats**
-Unpresented, May 2019
+-, May 2019
 [slides](https://speakerdeck.com/ange/improving-file-formats-from-to)
 
 ## Visualisation & dissection
@@ -285,17 +284,25 @@ Unpresented, May 2019
 # Papers
 
 [Malicious Hashing: Eve’s Variant of SHA-1](https://eprint.iacr.org/2014/694), Aug 2014<br/>
-Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, and Martin Schlaeffer
+Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, and Martin Schlaeffer<br/>
+*hash collisions*
+
 
 [Fillory of PHY: Toward a Periodic Table of Signal Corruption Exploits and Polyglots in Digital Radio](https://www.usenix.org/conference/woot16/workshop-program/presentation/bratus), WOOT 2016<br/>
-[Sergey Bratus](https://twitter.com/sergeybratus), [Travis Goodspeed](https://twitter.com/travisgoodspeed), Ange Albertini, Debanjum S. Solanky
+[Sergey Bratus](https://twitter.com/sergeybratus), [Travis Goodspeed](https://twitter.com/travisgoodspeed), Ange Albertini, Debanjum S. Solanky<br/>
+*polyglots*
+
 
 [The first collision for full SHA-1](https://eprint.iacr.org/2017/190), Feb 2017<br/>
-[Marc Stevens](https://twitter.com/realhashbreaker), Elie Bursztein, [Pierre Karpman](https://twitter.com/shab0y), Ange Albertini, Yarik Markov
+[Marc Stevens](https://twitter.com/realhashbreaker), Elie Bursztein, [Pierre Karpman](https://twitter.com/shab0y), Ange Albertini, Yarik Markov<br/>
+*hash collisions*
 
 
 [How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020<br />
-Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)
+Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)<br/>
+*key commitments*
+
+ - Cryptography FM - Episode 10 \[podcast\]: [Exploiting Authenticated Encryption](https://www.cryptography.fm/10), Nov 2020, w/ [Stefan Kölbl](https://twitter.com/kste_)
 
 # Articles
 
@@ -304,7 +311,8 @@ Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan
 
 2019/08 [Adding any external data to any PDF](https://pagedout.institute/download/PagedOut_001_beta1.pdf#page=16), [Paged Out!](https://pagedout.institute/) p17 (-> [extended version](PagedOut/README.md))
 
-2020/07 Exploitations de collisions MD5, [Misc Hors série 21](https://boutique.ed-diamond.com/les-hors-series/1518-misc-hs-21.html) p118
+2020/07 Exploitations de collisions MD5, [Misc Hors série 21](https://boutique.ed-diamond.com/les-hors-series/1518-misc-hs-21.html) p118<br/>
+*hash collisions*
 
 
 ## Appearances
@@ -333,7 +341,7 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 - 04:12 [How to Manually Attach a File to a PDF](https://archive.org/stream/pocorgtfo04#page/n43/mode/1up)
 
 2014/08
-- 05:12 [A cryptographer and a binarista walk into a bar](https://archive.org/stream/pocorgtfo05#page/n47/mode/1up), w/ [Maria Eichlseder](https://twitter.com/MariaEichlseder)
+- 05:12 [A cryptographer and a binarista walk into a bar](https://archive.org/stream/pocorgtfo05#page/n47/mode/1up), w/ [Maria Eichlseder](https://twitter.com/MariaEichlseder) *hash collisions*
 
 2014/11
 - 06:04 [This TAR archive is a PDF! (as well as a ZIP, but you are probably used to it by now)](https://archive.org/stream/pocorgtfo06#page/n14/mode/1up)
@@ -342,7 +350,7 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 - 07:06 [Funky Files, the Novella!](https://archive.org/stream/pocorgtfo07#page/n17/mode/1up)
 
 2018/06
-- 18:10 [Easy SHA-1 Colliding PDFs with PDFLaTeX](https://archive.org/stream/pocorgtfo18#page/n62/mode/1up)
+- 18:10 [Easy SHA-1 Colliding PDFs with PDFLaTeX](https://archive.org/stream/pocorgtfo18#page/n62/mode/1up) *hash collisions*
 
 2019/03
-- 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ [Marc Stevens](https://twitter.com/realhashbreaker)
+- 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ [Marc Stevens](https://twitter.com/realhashbreaker) *hash collisions*
