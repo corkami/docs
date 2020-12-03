@@ -349,6 +349,30 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 2015/03
 - 07:06 [Funky Files, the Novella!](https://archive.org/stream/pocorgtfo07#page/n17/mode/1up)
 
+2016/01
+- 10:03 [Exploiting Pokémon in a Super GameBoy](https://archive.org/stream/pocorgtfo10#page/n6/mode/1up) by [dwangoAC](https://twitter.com/@MrTASBot), Ilari, [p4plus2](https://twitter.com/@p4plus2) *contribution*
+- 10:04 [Pokéglot!](https://archive.org/stream/pocorgtfo10#page/n23/mode/1up) by [dwangoAC](https://twitter.com/@MrTASBot), Ilari, [p4plus2](https://twitter.com/@p4plus2) *contribution*
+- 10:07 [Apple II Copy Protections](https://archive.org/stream/pocorgtfo10#page/n75/mode/1up) by [Peter Ferrie](https://twitter.com/@a2_qkumba) *contribution*
+
+2016/03
+- 11:05 [Defeating E7 Protection on the Apple II Platform](https://archive.org/stream/pocorgtfo11#page/n14/mode/1up) by [Peter Ferrie](https://twitter.com/@a2_qkumba) *contribution*
+- 11:10 [Ben "bushing" Byer Memorial](https://archive.org/stream/pocorgtfo11#page/n37/mode/1up) by [fail0verflow](https://twitter.com/fail0verflow) *contribution*
+
+2016/10
+- 13:02 [Reverse Engineering Star Raiders](https://archive.org/stream/pocorgtfo13#page/n4/mode/1up) by Lorenz Wiest *contribution*
+
+2017/03
+- 14:09 [Postscript that shows its own MD5](https://archive.org/stream/pocorgtfo14#page/n45/mode/1up) by [Gregor "Greg" Kopf](https://twitter.com/@teh_gerg) *contribution*
+- 14:10 [A PDF That Shows Its Own MD5](https://archive.org/stream/pocorgtfo14#page/n49/mode/1up) by [Mako](https://twitter.com/@makomk) *contribution*
+- 14:11 [This GIF shows its own MD5!](https://archive.org/stream/pocorgtfo14#page/n52/mode/1up) by [Kristoffer "spq" Janke](https://twitter.com/@__spq__) *contribution*
+- 14:12 [This PDF is an NES ROM that prints its own MD5 hash!](https://archive.org/stream/pocorgtfo14#page/n55/mode/1up) by [Evan Sultanik](https://twitter.com/@ESultanik), [Evan Teran](https://twitter.com/@evan_teran) *contribution*
+
+2017/06
+- 15:02 [Pier Solar and the Great Reverser](https://archive.org/stream/pocorgtfo15#page/n4/mode/1up) by [Brandon L. Wilson](https://twitter.com/@brandonlwilson) *contribution*
+- 15:04 [Text2COM Silver Jubilee Edition](https://archive.org/stream/pocorgtfo15#page/n15/mode/1up) by [Saumil Shah](https://twitter.com/@therealsaumil), Udayan Shah *contribution*
+- 15:06 [Gumball](https://archive.org/stream/pocorgtfo15#page/n24/mode/1up) by [4am](https://twitter.com/@a2_4am), [Peter Ferrie](https://twitter.com/@a2_qkumba) *contribution*
+- 15:12 [Nail in the Java Key Store Coffin](https://archive.org/stream/pocorgtfo15#page/n88/mode/1up) by [Tobias "Floyd" Ospelt](https://twitter.com/@floyd_ch) *contribution*
+
 2018/06
 - 18:10 [Easy SHA-1 Colliding PDFs with PDFLaTeX](https://archive.org/stream/pocorgtfo18#page/n62/mode/1up) *hash collisions*
 
