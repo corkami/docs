@@ -7,8 +7,10 @@ Faster alone, further together.
 [Chronological Youtube playlist](https://www.youtube.com/playlist?list=PL2-EpKoPE60Uyi5X6NMeiROVi8hm33sW3)<br/>
 [SpeakerDesk](https://speakerdeck.com/ange)
 
+
 # Contents
 
+- [Contents](#contents)
 - [Brainteasers](#brainteasers)
 - [For kids](#for-kids)
 - [Tools-assisted speedruns](#tools-assisted-speedruns)
@@ -20,14 +22,15 @@ Faster alone, further together.
   - [Portable Executable](#portable-executable)
   - [with cryptography](#with-cryptography)
     - [AngeCryption](#angecryption)
-    - [Collisions](#collisions)
+    - [Hash collisions](#hash-collisions)
     - [TimeCryption](#timecryption)
   - [Digital preservation](#digital-preservation)
   - [Visualisation & dissection](#visualisation--dissection)
 - [Papers](#papers)
 - [Articles](#articles)
-  - [Appearances](#appearances)
+  - [Notable appearances](#notable-appearances)
   - [PoC or GTFO](#poc-or-gtfo)
+
 
 # Brainteasers
 
@@ -37,6 +40,7 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/a-challenge-in-your-pocket-an-introduction-to-brainteasers) /
 [video](http://www.youtube.com/watch?v=hg7A7YIEWbU)
 
+
 # For kids
 
 [<img width=100 src=slides/1510-HacksInVideoGames.png />](slides/1510-HacksInVideoGames.pdf)
@@ -44,6 +48,7 @@ Faster alone, further together.
 **How people can create better video games** Hack.lu 2015
 [slides](https://speakerdeck.com/ange/hacks-in-video-games)
 <br/>Hacking: spend time to understand how things really work (and get awesome results)
+
 
 # Tools-assisted speedruns
 
@@ -53,6 +58,7 @@ Faster alone, further together.
 <br/>w/ [dwangoAC](https://twitter.com/mrtasbot),
 [slides](https://speakerdeck.com/ange/tasbot-the-perfectionist) /
 [video](https://www.youtube.com/watch?v=2kj5ZmoTckI)
+
 
 # Arcade games preservation (via hacking)
 
@@ -69,12 +75,14 @@ Faster alone, further together.
 
 <!-- [REcon 2013](https://www.youtube.com/watch?v=R9iQGTOco0M) -->
 
+
 # Drawing
 
 [<img width=100 src=slides/1702-anIntroductionToInkscape.png />](slides/1702-anIntroductionToInkscape.pdf)
 
 **an introduction to Inkscape** 2017 (workshop) DEFCON Zürich
 [slides](https://speakerdeck.com/ange/an-introduction-to-inkscape)
+
 
 # Keynotes
 
@@ -104,6 +112,7 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=Y_BBQlR-SUo)
 <br/>about your surroundings.
 
+
 # File formats
 
 [<img width=100 src=slides/1306-PolyglottesBinairesEtImplications.png />](slides/1306-PolyglottesBinairesEtImplications.pdf)
@@ -130,25 +139,23 @@ Faster alone, further together.
 **Funky file formats** NoLimitSecu, March 2015
 [\[podcast\] (fr)](https://www.nolimitsecu.fr/ange-albertini-funky-file-formats/)
 
-<!--
 **Trusting files (and their formats)** Hack.lu 2015
 [slides](https://speakerdeck.com/ange/trusting-files)
 
 **Caring for file formats** Troopers 2016
 [slides](https://speakerdeck.com/ange/caring-for-file-formats) /
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
--->
 
 <img width=100 src=slides/1712-BinaryStuff.jpg />
 
 **Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
 [video](https://www.youtube.com/watch?v=-dyLxsr_f_w?t=862s)
 
-<!--
-**Formats de fichiers: structures et conséquences**
-Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux", ESIEA, November 2019
-https://gtsslr19.sciencesconf.org/
+**Formats de fichiers: structures et conséquences** ESIEA, November 2019
+[Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux"](https://gtsslr19.sciencesconf.org/),
+[slides](https://speakerdeck.com/ange/formats-de-fichiers-decisions-et-consequences)
 -->
+
 
 ## Portable Document Format
 
@@ -173,6 +180,7 @@ https://gtsslr19.sciencesconf.org/
 **Let's write a PDF file** (tutorial) 2017
 [slides](https://speakerdeck.com/ange/lets-write-a-pdf-file)
 
+
 ## Portable Executable
 
 [<img width=100 src=slides/1110-SuchAweirdProcessor.png />](slides/1110-SuchAweirdProcessor.pdf)
@@ -196,6 +204,7 @@ https://gtsslr19.sciencesconf.org/
 **Exploring the PE format** (workshop) 44con 2013
 [slides](https://speakerdeck.com/ange/workshop-exploring-the-portable-executable-format)
 
+
 ## with cryptography
 
 [<img width=100 src='slides/1405-WhenAES(☢)=☠.png' />](slides/1405-WhenAES(☢)=☠.pdf)
@@ -203,6 +212,7 @@ https://gtsslr19.sciencesconf.org/
 [<img width=100 src=slides/1407-LetsPlayWithCrypto.png />](slides/1407-LetsPlayWithCrypto.pdf)
 [<img width=100 src=slides/1409-LetsPlayWithCrypto.png />](slides/1409-LetsPlayWithCrypto.pdf)
 [<img width=100 src=slides/1410-HideAndroidApplicationsInImages.png />](slides/1410-HideAndroidApplicationsInImages.pdf)
+
 
 ### AngeCryption
 
@@ -217,11 +227,12 @@ https://gtsslr19.sciencesconf.org/
 [video](https://media.ccc.de/v/MRMCD2014_-_6006_-_en_-_grossbaustelle_ber_-_201409052030_-_let_s_play_with_crypto_-_ange_albertini)<br/>
 *AngeCryption* / *TrueCrypt* / *polyglots*
 
-**Hide Android Applications in Images** BlackHat Europe 2014
-[video](https://www.youtube.com/watch?v=hajOlvLhYJY)
+**Hide Android Applications in Images** BlackHat Europe 2014,
+[slides](https://www.blackhat.com/docs/eu-14/materials/eu-14-Apvrille-Hide-Android-Applications-In-Images.pdf) / [video](https://www.youtube.com/watch?v=hajOlvLhYJY)
 <br/>w/ [Axelle Apvrille](https://twitter.com/cryptax)
 
-### Collisions
+
+### Hash collisions
 
 [<img width=100 src=slides/1408-SHA1backdooring&Exploitation.png />](slides/1408-SHA1backdooring&Exploitation.pdf)
 [<img width=100 src=slides/1711-ExploitingHashCollisions.png />](slides/1711-ExploitingHashCollisions.pdf)
@@ -234,7 +245,7 @@ https://gtsslr19.sciencesconf.org/
 <br/>w/ [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, Martin Schäffler, [Jean-Philippe Aumasson](https://twitter.com/veorq)
 <br/>MalSHA1 collisions
 
-**Exploiting hash collisions** w/ [Marc Stevens]((https://twitter.com/realhashbreaker), BlackAlps 2017
+**Exploiting hash collisions** w/ [Marc Stevens](https://twitter.com/realhashbreaker), BlackAlps 2017
 [slides](https://speakerdeck.com/ange/exploiting-hash-collisions) /
 [video](https://www.youtube.com/watch?v=Y-oJWEYKVLA)
 <br/>MalSHA1, Shattered, MD5 collisions & hashquines
@@ -260,6 +271,7 @@ https://gtsslr19.sciencesconf.org/
 **Collisions de hash** NoLimitSecu #249, December 2019
 [\[podcast\] (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
 
+
 ### TimeCryption
 
 [<img width=100 src=slides/2104-Timecryption.png />](slides/2104-Timecryption.pdf)
@@ -268,6 +280,7 @@ https://gtsslr19.sciencesconf.org/
 Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](https://twitter.com/kste_),
 [slides](https://speakerdeck.com/ange/timecryption) /
 [video](https://www.youtube.com/watch?v=liancIA1m9w)
+
 
 ## Digital preservation
 
@@ -287,6 +300,7 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 -, May 2019
 [slides](https://speakerdeck.com/ange/improving-file-formats-from-to)
 
+
 ## Visualisation & dissection
 
 [<img width=100 src=slides/1403-BinaryArtFunkyPoCsAndVisualDocs.png />](slides/1403-BinaryArtFunkyPoCsAndVisualDocs.pdf)
@@ -296,6 +310,7 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 [slides](https://speakerdeck.com/ange/no-more-dumb-hex) /
 [video](https://www.youtube.com/watch?v=264OmDG8m7M)
 <br/>w/ [Rafał Hirsz](https://twitter.com/HDevo)
+
 
 # Papers
 
@@ -316,9 +331,10 @@ Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eich
 
 [How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020<br />
 Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)<br/>
-*key commitments*
+*key commitment, timecryption*
 
  - Cryptography FM - Episode 10 \[podcast\]: [Exploiting Authenticated Encryption](https://www.cryptography.fm/10), Nov 2020, w/ [Stefan Kölbl](https://twitter.com/kste_)
+
 
 # Articles
 
@@ -331,7 +347,7 @@ Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan
 *hash collisions*
 
 
-## Appearances
+## Notable appearances
 
 <img width=100 src=slides/1311-Programista.jpg />
 
