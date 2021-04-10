@@ -306,7 +306,10 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 [<img width=100 src=slides/1403-BinaryArtFunkyPoCsAndVisualDocs.png />](slides/1403-BinaryArtFunkyPoCsAndVisualDocs.pdf)
 [<img width=100 src=slides/1903-NoMoreDumbHex.png />](slides/1903-NoMoreDumbHex.pdf)
 
-**No more dumb hex! Rethinking binary tooling** Troopers 2019
+**Binary art - funky PoCs & visual docs** Insomni'hack, Geneva,  March 2014,
+[slides](slides/1403-BinaryArtFunkyPoCsAndVisualDocs.pdf#page=44)
+
+**No more dumb hex! Rethinking binary tooling** Troopers 2019,
 [slides](https://speakerdeck.com/ange/no-more-dumb-hex) /
 [video](https://www.youtube.com/watch?v=264OmDG8m7M)
 <br/>w/ [Rafał Hirsz](https://twitter.com/HDevo)
