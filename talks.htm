@@ -37,6 +37,7 @@
 <ul>
 <li><a href="#angecryption">AngeCryption</a></li>
 <li><a href="#collisions">Collisions</a></li>
+<li><a href="#timecryption">TimeCryption</a></li>
 </ul></li>
 <li><a href="#digital-preservation">Digital preservation</a></li>
 <li><a href="#visualisation--dissection">Visualisation &amp; dissection</a></li>
@@ -86,8 +87,14 @@
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
 -->
 
-<p><strong>Binary stuff</strong> Gynvael ColdWind livestream, 13 Dec. 2017 <a href="https://www.youtube.com/watch?v=-dyLxsr_f_w">video</a></p>
-<!-- ESIEA 2019 -->
+<img width=100 src=slides/1712-BinaryStuff.jpg />
+
+<p><strong>Binary stuff</strong> Gynvael ColdWind livestream, 13 Dec. 2017 <a href="https://www.youtube.com/watch?v=-dyLxsr_f_w?t=862s">video</a></p>
+<!--
+**Formats de fichiers: structures et conséquences**
+Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux", ESIEA, November 2019
+https://gtsslr19.sciencesconf.org/
+-->
 
 <h2 id="portable-document-format">Portable Document Format</h2>
 <p><a href="slides/1405-PDFsecrets.pdf"><img width=100 src=slides/1405-PDFsecrets.png /></a> <a href="slides/1409-PDFsecrets.pdf"><img width=100 src=slides/1409-PDFsecrets.png /></a> <a href="slides/1503-AdvancedPDFTricks.pdf"><img width=100 src=slides/1503-AdvancedPDFTricks.png /></a> <a href="slides/1504-AnOverviewOfPDFpotentialLeaks.pdf"><img width=100 src=slides/1504-AnOverviewOfPDFpotentialLeaks.png /></a> <a href="slides/1507-LetsWriteAPDFFile.pdf"><img width=100 src="slides/1507-LetsWriteAPDFFile.png" /></a></p>
@@ -108,7 +115,7 @@
 <p><strong>Let's play with crypto</strong> June 2014 RaumZeitLabor, RMLL, MRMCD <a href="https://speakerdeck.com/ange/lets-play-with-crypto">slides (en)</a> / <a href="https://speakerdeck.com/ange/joue-a-la-crypto-french">slides (fr)</a> / <a href="https://www.youtube.com/watch?v=iIesDpv9F4s">video (fr)</a> / <a href="https://media.ccc.de/v/MRMCD2014_-_6006_-_en_-_grossbaustelle_ber_-_201409052030_-_let_s_play_with_crypto_-_ange_albertini">video</a><br/> <em>AngeCryption</em> / <em>TrueCrypt</em> / <em>polyglots</em></p>
 <p><strong>Hide Android Applications in Images</strong> BlackHat Europe 2014 <a href="https://www.youtube.com/watch?v=hajOlvLhYJY">video</a> <br/>w/ <a href="https://twitter.com/cryptax">Axelle Apvrille</a></p>
 <h3 id="collisions">Collisions</h3>
-<p><a href="slides/1408-SHA1backdooring&amp;Exploitation.pdf"><img width=100 src=slides/1408-SHA1backdooring&Exploitation.png /></a> <a href="slides/1711-ExploitingHashCollisions.pdf"><img width=100 src=slides/1711-ExploitingHashCollisions.png /></a> <a href="slides/1907-KILL_MD5.pdf"><img width=100 src=slides/1907-KILL_MD5.png /></a> <a href="https://speakerdeck.com/ange/colltris"><img width=100 src=slides/1907-CollTris.png /></a></p>
+<p><a href="slides/1408-SHA1backdooring&amp;Exploitation.pdf"><img width=100 src=slides/1408-SHA1backdooring&Exploitation.png /></a> <a href="slides/1711-ExploitingHashCollisions.pdf"><img width=100 src=slides/1711-ExploitingHashCollisions.png /></a> <a href="slides/1907-KILL_MD5.pdf"><img width=100 src=slides/1907-KILL_MD5.png /></a> <a href="slides/1912-CollTris.pdf"><img width=100 src=slides/1907-CollTris.png /></a></p>
 <p><strong>SHA-1 backdooring and exploitation</strong>, BSidesLV 2014 <a href="https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation">slides</a> / <a href="https://www.youtube.com/watch?v=GHY3dv42dz4">video</a> <br/>w/ <a href="https://twitter.com/MariaEichlseder">Maria Eichlseder</a>, Florian Mendel, Martin Schäffler, <a href="https://twitter.com/veorq">Jean-Philippe Aumasson</a> <br/>MalSHA1 collisions</p>
 <p><strong>Exploiting hash collisions</strong> w/ [Marc Stevens]((<a href="https://twitter.com/realhashbreaker" class="uri">https://twitter.com/realhashbreaker</a>), BlackAlps 2017 <a href="https://speakerdeck.com/ange/exploiting-hash-collisions">slides</a> / <a href="https://www.youtube.com/watch?v=Y-oJWEYKVLA">video</a> <br/>MalSHA1, Shattered, MD5 collisions &amp; hashquines</p>
 <p><strong>KILL MD5 - Demystifying hash collisions</strong> w/ <a href="https://twitter.com/realhashbreaker">Marc Stevens</a>, <a href="https://speakerdeck.com/ange/kill-md5">slides</a></p>
@@ -126,6 +133,9 @@
 <li>2019/12/03 229p, Google</li>
 </ul>
 <p><strong>Collisions de hash</strong> NoLimitSecu #249, December 2019 <a href="https://www.nolimitsecu.fr/collisions-de-hash/">[podcast] (fr)</a></p>
+<h3 id="timecryption">TimeCryption</h3>
+<p><a href="slides/2104-Timecryption.pdf"><img width=100 src=slides/2104-Timecryption.png /></a></p>
+<p><strong>TimeCryption - clean now, malicious later</strong>. Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ <a href="https://twitter.com/kste_">Stefan Kölbl</a>, <a href="https://speakerdeck.com/ange/timecryption">slides</a> / <a href="https://www.youtube.com/watch?v=liancIA1m9w">video</a></p>
 <h2 id="digital-preservation">Digital preservation</h2>
 <p><a href="slides/1507-PDFMythsVsFacts.pdf"><img width=100 src=slides/1507-PDFMythsVsFacts.png /></a> <a href="slides/1707-TheChallengesOfFileFormats.pdf"><img width=100 src=slides/1707-TheChallengesOfFileFormats.png /></a> <a href="slides/1905-ImprovingFileFormats.pdf"><img width=100 src=slides/1905-ImprovingFileFormats.png /></a></p>
 <p><strong>PDF: myths vs facts</strong> <a href="https://www.dpconline.org/events/past-events/preserving-documents-forever-when-is-a-pdf-not-a-pdf">&quot;When is a PDF not a PDF?&quot; DPC briefing</a>, Oxford university, July 2015 <a href="https://speakerdeck.com/ange/pdf-myths-vs-facts">slides</a></p>

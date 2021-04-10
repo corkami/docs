@@ -21,6 +21,7 @@ Faster alone, further together.
   - [with cryptography](#with-cryptography)
     - [AngeCryption](#angecryption)
     - [Collisions](#collisions)
+    - [TimeCryption](#timecryption)
   - [Digital preservation](#digital-preservation)
   - [Visualisation & dissection](#visualisation--dissection)
 - [Papers](#papers)
@@ -138,10 +139,16 @@ Faster alone, further together.
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
 -->
 
-**Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
-[video](https://www.youtube.com/watch?v=-dyLxsr_f_w)
+<img width=100 src=slides/1712-BinaryStuff.jpg />
 
-<!-- ESIEA 2019 -->
+**Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
+[video](https://www.youtube.com/watch?v=-dyLxsr_f_w?t=862s)
+
+<!--
+**Formats de fichiers: structures et conséquences**
+Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux", ESIEA, November 2019
+https://gtsslr19.sciencesconf.org/
+-->
 
 ## Portable Document Format
 
@@ -219,7 +226,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1408-SHA1backdooring&Exploitation.png />](slides/1408-SHA1backdooring&Exploitation.pdf)
 [<img width=100 src=slides/1711-ExploitingHashCollisions.png />](slides/1711-ExploitingHashCollisions.pdf)
 [<img width=100 src=slides/1907-KILL_MD5.png />](slides/1907-KILL_MD5.pdf)
-[<img width=100 src=slides/1907-CollTris.png />](https://speakerdeck.com/ange/colltris)
+[<img width=100 src=slides/1907-CollTris.png />](slides/1912-CollTris.pdf)
 
 **SHA-1 backdooring and exploitation**, BSidesLV 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
@@ -252,6 +259,15 @@ Faster alone, further together.
 
 **Collisions de hash** NoLimitSecu #249, December 2019
 [\[podcast\] (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
+
+### TimeCryption
+
+[<img width=100 src=slides/2104-Timecryption.png />](slides/2104-Timecryption.pdf)
+
+**TimeCryption - clean now, malicious later**.
+Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](https://twitter.com/kste_),
+[slides](https://speakerdeck.com/ange/timecryption) /
+[video](https://www.youtube.com/watch?v=liancIA1m9w)
 
 ## Digital preservation
 
