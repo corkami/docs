@@ -1,5 +1,3 @@
-<!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
-
 # Talks, keynotes, tutorials, workshops, articles, podcasts...
 
 Faster alone, further together.
@@ -154,7 +152,6 @@ Faster alone, further together.
 **Formats de fichiers: structures et conséquences** ESIEA, November 2019
 [Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux"](https://gtsslr19.sciencesconf.org/),
 [slides](https://speakerdeck.com/ange/formats-de-fichiers-decisions-et-consequences)
--->
 
 
 ## Portable Document Format
@@ -413,3 +410,5 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 
 2019/03
 - 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ [Marc Stevens](https://twitter.com/realhashbreaker) *hash collisions*
+
+<!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
