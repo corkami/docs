@@ -89,6 +89,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1710-Infosec&Failures.png />](slides/1710-Infosec&Failures.pdf)
 [<img width=100 src=slides/1607-ConnectingCommunities.png />](slides/1607-ConnectingCommunities.pdf)
 [<img width=100 src=slides/1810-Education&Communication.png />](slides/1810-Education&Communication.pdf)
+[<img width=100 src=slides/2105-YouAreNotAnIdiot.png />](slides/2105-YouAreNotAnIdiot.pdf)
 
 **Beyond your studies** HackPra 2018, ESIEA 2019
 [slides](https://speakerdeck.com/ange/beyond-your-studies) /
@@ -109,6 +110,11 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/education-and-communication) /
 [video](https://www.youtube.com/watch?v=Y_BBQlR-SUo)
 <br/>about your surroundings.
+
+**You are *not* an idiot** NorthSec 2021
+[slides](https://speakerdeck.com/ange/you-are-not-an-idiot) /
+[video](https://www.youtube.com/watch?v=Iu70J49bPlE)
+<br/>about things you could get wrong in general.
 
 
 # File formats
