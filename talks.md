@@ -113,7 +113,7 @@ Faster alone, further together.
 
 **You are *not* an idiot** NorthSec 2021
 [slides](https://speakerdeck.com/ange/you-are-not-an-idiot) /
-[video](https://www.youtube.com/watch?v=Iu70J49bPlE)
+[video](https://www.youtube.com/watch?v=Iu70J49bPlE&t=20869s)
 <br/>about things you could get wrong in general.
 
 
