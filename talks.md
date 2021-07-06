@@ -126,6 +126,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1412-FunkyFileFormats.png />](slides/1412-FunkyFileFormats.pdf)
 [<img width=100 src=slides/1510-TrustingFilesAndTheirFormats.png />](slides/1510-TrustingFilesAndTheirFormats.pdf)
 [<img width=100 src=slides/1603-CaringForFileFormats.png />](slides/1603-CaringForFileFormats.pdf)
+[<img width=100 src=slides/2107-GeneratingWeirdFiles.png />](slides/2107-GeneratingWeirdFiles.pdf)
 
 **Messing with binary formats** 2013 44Con, SSTIC
 [slides](https://speakerdeck.com/ange/messing-with-binary-formats) /
@@ -149,6 +150,11 @@ Faster alone, further together.
 **Caring for file formats** Troopers 2016
 [slides](https://speakerdeck.com/ange/caring-for-file-formats) /
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
+
+**Generating weird files - an introduction to Mitra** Pass the Salt 2021
+[slides](https://speakerdeck.com/ange/generating-weird-files) /
+[video](https://www.youtube.com/watch?v=96FiTaAiUk8&t=7877s)
+<br/>polymocks, polyglots, near polyglots
 
 <img width=100 src=slides/1712-BinaryStuff.jpg />
 
@@ -335,7 +341,7 @@ Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eich
 *hash collisions*
 
 
-[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020<br />
+[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020, Jun 2021<br />
 Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)<br/>
 *key commitment, timecryption*
 
