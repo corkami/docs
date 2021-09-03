@@ -126,7 +126,9 @@ Faster alone, further together.
 [<img width=100 src=slides/1412-FunkyFileFormats.png />](slides/1412-FunkyFileFormats.pdf)
 [<img width=100 src=slides/1510-TrustingFilesAndTheirFormats.png />](slides/1510-TrustingFilesAndTheirFormats.pdf)
 [<img width=100 src=slides/1603-CaringForFileFormats.png />](slides/1603-CaringForFileFormats.pdf)
+<img width=100 src=slides/1712-BinaryStuff.jpg />
 [<img width=100 src=slides/2107-GeneratingWeirdFiles.png />](slides/2107-GeneratingWeirdFiles.pdf)
+<img width=100 src=slides/2108-TalkingFileFormats.jpg />
 
 **Messing with binary formats** 2013 44Con, SSTIC
 [slides](https://speakerdeck.com/ange/messing-with-binary-formats) /
@@ -151,19 +153,20 @@ Faster alone, further together.
 [slides](https://speakerdeck.com/ange/caring-for-file-formats) /
 [video](https://www.youtube.com/watch?v=mqioXYpyYhM)
 
-**Generating weird files - an introduction to Mitra** Pass the Salt 2021
-[slides](https://speakerdeck.com/ange/generating-weird-files) /
-[video](https://www.youtube.com/watch?v=96FiTaAiUk8&t=7877s)
-<br/>polymocks, polyglots, near polyglots
-
-<img width=100 src=slides/1712-BinaryStuff.jpg />
-
 **Binary stuff** Gynvael ColdWind livestream, 13 Dec. 2017
 [video](https://www.youtube.com/watch?v=-dyLxsr_f_w?t=862s)
 
 **Formats de fichiers: structures et conséquences** ESIEA, November 2019
 [Groupe de Travail "Sécurité des Systèmes, des Logiciels et des Réseaux"](https://gtsslr19.sciencesconf.org/),
 [slides](https://speakerdeck.com/ange/formats-de-fichiers-decisions-et-consequences)
+
+**Generating weird files - an introduction to Mitra** Pass the Salt 2021
+[slides](https://speakerdeck.com/ange/generating-weird-files) /
+[video](https://www.youtube.com/watch?v=96FiTaAiUk8&t=7877s)
+<br/>polymocks, polyglots, near polyglots
+
+**Talking file formats** LiveOverFlow livestream, 26th Aug. 2021
+[video](https://www.twitch.tv/videos/1130169550)
 
 
 ## Portable Document Format
