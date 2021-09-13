@@ -166,7 +166,7 @@ Faster alone, further together.
 <br/>polymocks, polyglots, near polyglots
 
 **Talking file formats** LiveOverFlow livestream, 26th Aug. 2021
-[video](https://www.twitch.tv/videos/1130169550)
+[YouTube](https://www.youtube.com/watch?v=CB_WIjxq1To) / [Twitch](https://www.twitch.tv/videos/1130169550)
 
 
 ## Portable Document Format
