@@ -344,7 +344,7 @@ Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eich
 *hash collisions*
 
 
-[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020, Jun 2021<br />
+[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), [Nov 2020](slides/2011-AbuseAE.pdf) / [Jun 2021](slides/2106-AbuseAE.pdf) / [Oct 2021](slides/2110-AbuseAE.pdf)<br />
 Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)<br/>
 *key commitment, timecryption*
 
