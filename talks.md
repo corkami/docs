@@ -24,7 +24,7 @@ Faster alone, further together.
     - [TimeCryption](#timecryption)
   - [Digital preservation](#digital-preservation)
   - [Visualisation & dissection](#visualisation--dissection)
-- [Papers](#papers)
+- [Academic papers](#academic-papers)
 - [Articles](#articles)
   - [Notable appearances](#notable-appearances)
   - [PoC or GTFO](#poc-or-gtfo)
@@ -327,7 +327,7 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 <br/>w/ [Rafał Hirsz](https://twitter.com/HDevo)
 
 
-# Papers
+# Academic papers
 
 [Malicious Hashing: Eve’s Variant of SHA-1](https://eprint.iacr.org/2014/694), Aug 2014<br/>
 Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eichlseder](https://twitter.com/MariaEichlseder), Florian Mendel, and Martin Schlaeffer<br/>
@@ -344,7 +344,7 @@ Ange Albertini, [Jean-Philippe Aumasson](https://twitter.com/veorq), [Maria Eich
 *hash collisions*
 
 
-[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), [Nov 2020](slides/2011-AbuseAE.pdf) / [Jun 2021](slides/2106-AbuseAE.pdf) / [Oct 2021](slides/2110-AbuseAE.pdf)<br />
+[How to Abuse and Fix Authenticated Encryption Without Key Commitment](https://eprint.iacr.org/2020/1456), Nov 2020 - [Dec 2021](slides/2112-AbuseAE.pdf)<!-- [Nov 2020](slides/2011-AbuseAE.pdf) / [Jun 2021](slides/2106-AbuseAE.pdf) / [Oct 2021](slides/2110-AbuseAE.pdf) --><br />
 Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan Kölbl](https://twitter.com/kste_), Atul Luykx, [Sophie Schmieg](https://twitter.com/SchmiegSophie)<br/>
 *key commitment, timecryption*
 
@@ -356,7 +356,7 @@ Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan
 <img width=100 src=slides/1908-PagedOut1.png />
 <img width=100 src=slides/2007-misc-hs-21.jpg />
 
-2019/08 [Adding any external data to any PDF](https://pagedout.institute/download/PagedOut_001_beta1.pdf#page=16), [Paged Out!](https://pagedout.institute/) p17 (-> [extended version](PagedOut/README.md))
+2019/08 [Adding any external data to any PDF](https://pagedout.institute/download/PagedOut_001_beta1.pdf#page=16), [Paged Out!](https://pagedout.institute/) p17 (=> [extended version](PagedOut/README.md))
 
 2020/07 Exploitations de collisions MD5, [Misc Hors série 21](https://boutique.ed-diamond.com/les-hors-series/1518-misc-hs-21.html) p118<br/>
 *hash collisions*
