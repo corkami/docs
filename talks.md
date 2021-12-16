@@ -84,16 +84,16 @@ Faster alone, further together.
 
 # Keynotes
 
-[<img width=100 src=slides/1306-OnHacking&Security.png >](slides/1306-OnHacking&Security.pdf)
-[<img width=100 src=slides/1807-BeyondYourStudies.png />](slides/1807-BeyondYourStudies.pdf)
+[<img width=100 src=slides/1306-OnHacking&Security.png >](slides/1306-OnHacking&Security.pdf)<!-- [<img width=100 src=slides/1807-BeyondYourStudies.png />](slides/1807-BeyondYourStudies.pdf)-->
+[<img width=100 src=slides/2112-BeyondYourStudiesV2.png />](slides/2112-BeyondYourStudiesV2.pdf)
 [<img width=100 src=slides/1710-Infosec&Failures.png />](slides/1710-Infosec&Failures.pdf)
 [<img width=100 src=slides/1607-ConnectingCommunities.png />](slides/1607-ConnectingCommunities.pdf)
 [<img width=100 src=slides/1810-Education&Communication.png />](slides/1810-Education&Communication.pdf)
 [<img width=100 src=slides/2105-YouAreNotAnIdiot.png />](slides/2105-YouAreNotAnIdiot.pdf)
 
-**Beyond your studies** HackPra 2018, ESIEA 2019
-[slides](https://speakerdeck.com/ange/beyond-your-studies) /
-[video](https://www.youtube.com/watch?v=Prgv9pNvy24)
+**Beyond your studies** HackPra 2018, ESIEA 2019, University of Warwick 2021
+[slides](https://speakerdeck.com/ange/beyond-your-studies-v2) /
+[video](https://www.youtube.com/watch?v=a0V7bAzw5sE)<!-- / [video v1](https://www.youtube.com/watch?v=Prgv9pNvy24) -->
 <br/>about your future - as a student or young professional.
 
 **Infosec & Failures** Hack.lu 2017
