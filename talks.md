@@ -60,19 +60,23 @@ Faster alone, further together.
 
 # Arcade games preservation (via hacking)
 
-[<img width=100 src=slides/1306-JustKeepTrying.png />](slides/1306-JustKeepTrying.pdf)
-[<img width=100 src=slides/1411-PreservingArcadeGames.png />](slides/1411-PreservingArcadeGames.pdf)
 [<img width=100 src=slides/1412-PreservingArcadeGames.png />](slides/1412-PreservingArcadeGames.pdf)
 
-**Preserving arcade games** 2013 Recon 2014 Nuit du Hack/RaumZeitLabor/CCC, 
+**Preserving arcade games** Exceptional games, exceptional security, exceptional hacking</br>
 [slides](https://speakerdeck.com/ange/preserving-arcade-games-31c3) /
-[full prezo (1Gb)](https://archive.org/details/arcade31c3) /
+[live animated prezo (1Gb)](https://archive.org/details/arcade31c3) /
 [video](https://www.youtube.com/watch?v=vg7LPcFUxg8) /
 [video (fr)](https://www.youtube.com/watch?v=d2X0YyxHg5Q)
-<br/>Exceptional games, exceptional security, exceptional hacking.
 
-<!-- [REcon 2013](https://www.youtube.com/watch?v=R9iQGTOco0M) -->
+<!--
+[REcon 2013](https://www.youtube.com/watch?v=R9iQGTOco0M)
+[<img width=100 src=slides/1306-JustKeepTrying.png />](slides/1306-JustKeepTrying.pdf)
+[<img width=100 src=slides/1411-PreservingArcadeGames.png />](slides/1411-PreservingArcadeGames.pdf)
+-->
 
+- 2013: Recon, T2
+- 2014: Nuit du Hack, RaumZeitLabor , CCC
+- 2015: HackPra All Stars
 
 # Drawing
 
