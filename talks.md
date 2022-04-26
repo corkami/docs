@@ -409,6 +409,9 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 - 11:05 [Defeating E7 Protection on the Apple II Platform](https://archive.org/stream/pocorgtfo11#page/n14/mode/1up) by [Peter Ferrie](https://twitter.com/@a2_qkumba) *contribution*
 - 11:10 [Ben "bushing" Byer Memorial](https://archive.org/stream/pocorgtfo11#page/n37/mode/1up) by [fail0verflow](https://twitter.com/fail0verflow) *contribution*
 
+2016/06
+- 12:04 [Comma Chameleon](https://archive.org/stream/pocorgtfo12#page/n13/mode/1up) by [Krzysztof Kotowicz](https://twitter.com/@kkotowicz), [Gábor Molnár](https://twitter.com/@molnar_g) *contribution*
+
 2016/10
 - 13:02 [Reverse Engineering Star Raiders](https://archive.org/stream/pocorgtfo13#page/n4/mode/1up) by Lorenz Wiest *contribution*
 
