@@ -254,6 +254,7 @@ Faster alone, further together.
 [<img width=100 src=slides/1711-ExploitingHashCollisions.png />](slides/1711-ExploitingHashCollisions.pdf)
 [<img width=100 src=slides/1907-KILL_MD5.png />](slides/1907-KILL_MD5.pdf)
 [<img width=100 src=slides/1907-CollTris.png />](slides/1912-CollTris.pdf)
+[<img width=100 src=slides/2207-InsideOut.png />](slides/2207-InsideOut.pdf)
 
 **SHA-1 backdooring and exploitation**, BSidesLV 2014
 [slides](https://speakerdeck.com/ange/sha-1-backdooring-and-exploitation) /
@@ -288,14 +289,26 @@ Faster alone, further together.
 [\[podcast\] (fr)](https://www.nolimitsecu.fr/collisions-de-hash/)
 
 
+**Inside Out - Abusing archive file formats**
+Generic and reusable hash collisions of Gzip and ZIP(XML) archives. Pass The Salt 2022
+[slides](https://speakerdeck.com/ange/inside-out-abusing-archive-file-formats) /
+[video](https://www.youtube.com/watch?v=VPQHMNUxm8c)
+
+
 ### TimeCryption
 
 [<img width=100 src=slides/2104-Timecryption.png />](slides/2104-Timecryption.pdf)
+[<img width=100 src=slides/2208-Usenix22.png />](https://www.usenix.org/system/files/sec22_slides-albertini.pdf)
 
 **TimeCryption - clean now, malicious later**.
 Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](https://twitter.com/kste_),
 [slides](https://speakerdeck.com/ange/timecryption) /
 [video](https://www.youtube.com/watch?v=liancIA1m9w)
+
+**How to Abuse and Fix Authenticated Encryption Without Key Commitment**.
+USENIX Security 2022, presented by [Stefan Kölbl](https://twitter.com/kste_),
+[slides](https://www.usenix.org/system/files/sec22_slides-albertini.pdf) /
+[video](https://www.youtube.com/watch?v=VazqgsBwzOY)
 
 
 ## Digital preservation
@@ -303,6 +316,7 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 [<img width=100 src=slides/1507-PDFMythsVsFacts.png />](slides/1507-PDFMythsVsFacts.pdf)
 [<img width=100 src=slides/1707-TheChallengesOfFileFormats.png />](slides/1707-TheChallengesOfFileFormats.pdf)
 [<img width=100 src=slides/1905-ImprovingFileFormats.png />](slides/1905-ImprovingFileFormats.pdf)
+[<img width=100 src=slides/2212-TechnicalChallengesWithFileFormats.jpg />](slides/2212-TechnicalChallengesWithFileFormats.pdf)
 
 **PDF: myths vs facts**
 ["When is a PDF not a PDF?" DPC briefing](https://www.dpconline.org/events/past-events/preserving-documents-forever-when-is-a-pdf-not-a-pdf), Oxford university, July 2015
@@ -316,6 +330,10 @@ Abusing one-time pads with binary polyglots. DEFCON CH 2021 w/ [Stefan Kölbl](h
 -, May 2019
 [slides](https://speakerdeck.com/ange/improving-file-formats-from-to)
 
+
+**Technical challenges with file formats**
+DPC CyberSec & DigiPres event, Dec 2022
+[slides](https://speakerdeck.com/ange/technical-challenges-with-file-formats)
 
 ## Visualisation & dissection
 
