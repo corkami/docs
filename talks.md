@@ -383,6 +383,9 @@ Ange Albertini, [Thai Duong](https://twitter.com/XorNinja), Shay Gueron, [Stefan
 2020/07 Exploitations de collisions MD5, [Misc Hors série 21](https://boutique.ed-diamond.com/les-hors-series/1518-misc-hs-21.html) p118<br/>
 *hash collisions*
 
+2023/11 Classification et création de fichiers bizarres, [Misc 130](https://boutique.ed-diamond.com/home/1669-misc-130.html) p72<br/>
+
+2024/01 Abus des modes de chiffrement via des fichiers bizarres, [Misc 131](https://boutique.ed-diamond.com/home/1674-misc-131.html) p72<br/>
 
 ## Notable appearances
 
