@@ -348,6 +348,7 @@ DPC CyberSec & DigiPres event, Dec 2022
 [video](https://www.youtube.com/watch?v=264OmDG8m7M)
 <br/>w/ [Rafał Hirsz](https://twitter.com/HDevo)
 
+**Sbud: Infovis in Infosec** CTI Summit 2023 [slides](https://speakerdeck.com/ange/sbud-infovis-in-infosec) / [video](https://www.youtube.com/watch?v=O_7x2qhayDQ)
 
 # Academic papers
 
