@@ -451,4 +451,9 @@ In [Proof of Concept or Get the F\*ck Out](https://github.com/angea/pocorgtfo/bl
 2019/03
 - 19:05 [An MD5 Pileup](https://archive.org/stream/pocorgtfo19#page/n20/mode/1up), w/ [Marc Stevens](https://twitter.com/realhashbreaker) *hash collisions*
 
+2024/02
+- 22:03 [Mitra and Mocky: Near-polyglots and Mocks](https://archive.org/details/pocorgtfo22/page/n10/mode/1up)
+- 22:05 [Inside out; or, Abusing archive file formats](https://archive.org/details/pocorgtfo22/page/n18/mode/1up) *hash collisions*
+- 22:07 [Timecryption, OTP with Near-polyglots](https://archive.org/details/pocorgtfo22/page/n29/mode/1up), w/ [Stefan Kölbl](https://twitter.com/@kste_)
+
 <!-- pandoc -s -f gfm -t html talks.md -o talks.htm -->
